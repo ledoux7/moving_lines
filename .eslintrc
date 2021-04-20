@@ -1,0 +1,145 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true
+  },
+
+  "rules": {
+    "no-underscore-dangle": [
+      "warn",
+      { "allow": ["_id", "_sid", "_maxage", "__INITIAL_STATE__"] }
+    ],
+    "import/no-extraneous-dependencies": [
+      "off",
+      {
+        "devDependencies": false,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+
+    ],
+      "react/jsx-filename-extension": [
+        "off"
+      ],
+      "react/jsx-wrap-multilines": [
+        "off"
+      ],
+      "react/jsx-one-expression-per-line":[
+        "off"
+      ],
+      "react/jsx-curly-brace-presence":[
+        "off"
+      ],
+      "react/forbid-prop-types":[
+        "off"
+      ],
+      "arrow-parens": [
+        "warn","as-needed"     
+      ],
+      "import/named":[
+        "off"
+      ],
+      "no-else-return":[
+        "off"
+      ],
+      "react/destructuring-assignment": [
+        "off"
+      ],
+      "jsx-quotes": [
+        "error","prefer-single"
+      ],
+      "no-nested-ternary": [
+        "off"
+      ],
+      // for json strings in stories
+      "quote-props": [
+        "off"
+      ],
+      "react/jsx-props-no-spreading": [
+        "off"
+      ],
+      "no-plusplus": [
+        "off"
+      ],
+      "func-names": [
+        "error", "always",
+        {
+           "generators": "never"
+        }
+      ],
+      "prefer-template": [
+        "off"
+      ],
+      "max-len" : [
+        "error",
+        {
+          "code": 100,
+          "ignoreTrailingComments": true,
+          "ignoreUrls": true,
+          "ignoreComments": false,
+          "ignoreRegExpLiterals": true,
+          "ignoreStrings": true,
+          "ignoreTemplateLiterals": true
+        }
+      ],
+      "react/default-props-match-prop-types": ["error", { "allowRequiredDefaults": true}],
+      "react/require-default-props": ["error", { "forbidDefaultForRequired": false }],
+      "template-curly-spacing" : "off",
+      // copied from https://github.com/airbnb/javascript/blob/master/packages/eslint-config-airbnb-base/rules/style.js#L125
+      // added TemplateLiteral to ignoredNodes, rest was already used
+      "indent": ["error", 2, {
+        "SwitchCase": 1,
+        "VariableDeclarator": 1,
+        "outerIIFEBody": 1,
+        // MemberExpression: null,
+        "FunctionDeclaration": {
+          "parameters": 1,
+          "body": 1
+        },
+        "FunctionExpression": {
+          "parameters": 1,
+          "body": 1
+        },
+        "CallExpression": {
+          "arguments": 1
+        },
+        "ArrayExpression": 1,
+        "ObjectExpression": 1,
+        "ImportDeclaration": 1,
+        "flatTernaryExpressions": false,
+        // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
+        "ignoredNodes": ["TemplateLiteral", "JSXElement", "JSXElement > *", "JSXAttribute", "JSXIdentifier", "JSXNamespacedName", "JSXMemberExpression", "JSXSpreadAttribute", "JSXExpressionContainer", "JSXOpeningElement", "JSXClosingElement", "JSXText", "JSXEmptyExpression", "JSXSpreadChild"],
+        "ignoreComments": false
+      }]
+  },
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "airbnb/hooks"
+  ],
+  "plugins": ["testing-library","jest"],
+  "overrides": [
+    {
+      // 3) Now we enable eslint-plugin-testing-library rules or preset only for matching files!
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react", "plugin:jest/recommended"]
+    }
+  ],
+  "settings": {
+    // Used for no-unresolved issues
+  },
+  "globals": {
+    "window": true,
+    "document": true,
+    "__DEBUG__": true,
+    "btoa": true,
+    "fetch": true,
+    "Blob": true,
+    "URL": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest/globals": true
+  }
+}

@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {
+  Suspense, lazy, useEffect, useState,
+} from 'react';
+import Amplify, { Auth } from 'aws-amplify';
+import { AuthProvider, useAuthDispatch, useAuthState } from './context/context';
+import { useDarkMode, useKeyCount, useTwoKeyCount } from './hooks';
+import StoreProvider, { StoreContext } from './store';
+import Routes from './components/Routes';
+import { checkCreds, getUnAuthCreds } from './lib/simple';
+import { configureAmplify } from './lib/amplify';
+import AuthHandler from './components/AuthHandler';
 
-function App() {
+const App = () => {
+  const keyCount = useTwoKeyCount('ctrl', 'q');
+
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Games?
-        </p>
-        <a
-          className='App-link'
-          href='https://www.youtube.com/watch?v=RNZt5P_32_U'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn CSGO
-        </a>
-      </header>
-    </div>
+    <StoreProvider>
+      <AuthProvider>
+        <AuthHandler>
+          <Routes buster={keyCount} />
+        </AuthHandler>
+      </AuthProvider>
+    </StoreProvider>
+
   );
-}
+};
 
 export default App;

@@ -5,6 +5,9 @@
   },
 
   "rules": {
+    "no-undef": "warn",
+    "no-unused-vars": "off",
+    "react/prop-types": "warn",
     "no-underscore-dangle": [
       "warn",
       { "allow": ["_id", "_sid", "_maxage", "__INITIAL_STATE__"] }
@@ -70,6 +73,7 @@
       "prefer-template": [
         "off"
       ],
+      "no-console": "off",
       "max-len" : [
         "error",
         {

@@ -12,22 +12,16 @@ import {
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ErrorBoundary from '../utils/ErrorBoundary';
 import { AuthProvider, useAuthDispatch, useAuthState } from '../context/context';
-import Dashboard from './Dashboard/Dashboard';
-import Album from './Album/Album';
-import AppNew from './My/DarkMode';
 import { useDarkMode, useKeyCount, useTwoKeyCount } from '../hooks';
 import MiniDrawer from '../layouts';
 import LoginLayout from '../layouts/LoginLayout';
 import StoreProvider, { StoreContext } from '../store';
 import themeObject from '../themes';
-import cognitoId from '../lib/cognitoId';
-import { checkCreds, getUnAuthCreds } from '../lib/simple';
 import { configureAmplify } from '../lib/amplify';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
 const AuthCmp = lazy(() => import('./AuthStatus'));
-const Confirm = lazy(() => import('./ConfirmUser'));
 const Signup = lazy(() => import('./SignUp'));
 const Chat = lazy(() => import('./Chat'));
 const Upload = lazy(() => import('./Upload'));
@@ -106,9 +100,6 @@ const Routes = ({ buster }) => {
                   <LoginLayout>
                     <Signup />
                   </LoginLayout>
-                </Route>
-                <Route path='/confirm'>
-                  <Confirm />
                 </Route>
                 <Route path='/auth'>
                   <MiniDrawer>

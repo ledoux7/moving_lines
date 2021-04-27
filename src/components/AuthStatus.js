@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import { loginUser, useAuthState, useAuthDispatch } from '../context/context';
-import UserPool from '../UserPool';
-import cognitoId from '../lib/cognitoId';
 
 const AuthStatus = () => {
   const [email, setEmail] = useState('');

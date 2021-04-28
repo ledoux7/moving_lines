@@ -86,7 +86,7 @@ export function useKey(key) {
         return key.toLowerCase() === event.key.toLowerCase();
         //
       } else {
-        //
+        return false;
       }
     };
 

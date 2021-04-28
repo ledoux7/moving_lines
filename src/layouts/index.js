@@ -14,6 +14,7 @@ import Modal from '@material-ui/core/Modal';
 import useStyles from '../styles';
 import { StoreContext } from '../store';
 import MyDrawer from './DrawerLayout';
+import { useAuthState } from '../context/context';
 
 const MyLink = ({ to, children }) => (
   <Link
@@ -29,7 +30,7 @@ const MyLink = ({ to, children }) => (
 
 function rand() {
   return 0;
-  return Math.round(Math.random() * 20) - 10;
+  // return Math.round(Math.random() * 20) - 10;
 }
 
 function getModalStyle() {
@@ -43,7 +44,7 @@ function getModalStyle() {
   };
 }
 
-const drawerWidth = 240;
+// const drawerWidth = 180;
 
 export default function MiniDrawer({ children }) {
   const classes = useStyles();
@@ -53,9 +54,7 @@ export default function MiniDrawer({ children }) {
   const history = useHistory();
 
   const [modalStyle] = React.useState(getModalStyle);
-
-  // const [tt, darkModeState, toggleDarkMode] = useDarkMode();
-
+  const auth = useAuthState();
   const { darkModeState, toggleDarkMode } = React.useContext(StoreContext);
 
   const handleOpen = () => {
@@ -128,12 +127,37 @@ export default function MiniDrawer({ children }) {
           <Typography component='h1' variant='h5' noWrap className={classes.title}>
             Moving Lines
           </Typography>
-          <Button className={classes.loginButton} onClick={() => history.push('/login')} color='inherit'>
-            Login
-          </Button>
-          <Button className={classes.loginButton} onClick={() => history.push('/signup')} color='inherit'>
-            Sign Up
-          </Button>
+          {!auth.auth && (
+            <Button
+              className={classes.loginButton}
+            // variant='contained'
+              onClick={() => history.push('/login')}
+              style={{
+                minWidth: 80,
+              }}
+            // color='#424242'
+            // secondary='#424242'
+              primary='#424242'
+              color='inherit'
+            >
+              Login
+            </Button>
+          )}
+          {!auth.auth && (
+            <Button
+              className={classes.loginButton}
+            // variant='contained'
+              onClick={() => history.push('/signup')}
+              primary='#424242'
+              color='inherit'
+              style={{
+                minWidth: 80,
+              }}
+            >
+              Sign Up
+            </Button>
+          )}
+
         </Toolbar>
       </AppBar>
       {/* {d} */}

@@ -30,7 +30,7 @@ function getModalStyle() {
   };
 }
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 export default function LoginLayout({ children }) {
   const classes = useStyles();

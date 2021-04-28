@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,6 +16,7 @@ import PhotoIcon from '@material-ui/icons/Photo';
 import ChatIcon from '@material-ui/icons/Chat';
 import ClearIcon from '@material-ui/icons/Clear';
 import Auth from '@aws-amplify/auth';
+import { SwipeableDrawer } from '@material-ui/core';
 import useStyles from '../styles';
 import ListItemLink from '../components/ListItemLink';
 import { loginUser, useAuthState, useAuthDispatch } from '../context/context';
@@ -48,7 +48,7 @@ function getModalStyle() {
   };
 }
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 const MyComponent = React.memo(props => {
   /* render using props */
@@ -127,7 +127,7 @@ export default function MyDrawer({
   );
 
   return (
-    <Drawer
+    <SwipeableDrawer
       variant='permanent'
       className={clsx(classes.drawer, {
         [classes.drawerOpen]: open,
@@ -155,6 +155,6 @@ export default function MyDrawer({
         <ListItemLink to={'/'} icon={<SettingsIcon />} name={'Settings'} button onClick={handleOpen} />
         <ListItemLink to={'/'} icon={<ClearIcon />} name={'Sign Out'} button onClick={signOut} />
       </List>
-    </Drawer>
+    </SwipeableDrawer>
   );
 }

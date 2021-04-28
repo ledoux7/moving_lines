@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,11 +33,15 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   loginButton: {
-    background: theme.palette.secondary.main,
+    // background: theme.palette.secondary.main
+    // background: theme.palette.primary.main,
+
     margin: 10,
     fontSize: 16,
     '&:hover': {
-      backgroundColor: theme.palette.secondary.main,
+      // backgroundColor: theme.palette.secondary.main,
+      // background: theme.palette.primary.main,
+
     },
   },
   drawer: {
@@ -61,9 +65,14 @@ const useStyles = makeStyles(theme => ({
     }),
     overflow: 'hidden',
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: theme.spacing(8) + 1,
     },
+    [theme.breakpoints.down('sm')]: {
+      width: 0,
+      display: 'none',
+    },
+
   },
   toolbar: {
     display: 'flex',

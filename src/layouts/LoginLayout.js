@@ -85,7 +85,7 @@ export default function LoginLayout({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position='fixed'
+        position='sticky'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -102,12 +102,6 @@ export default function LoginLayout({ children }) {
           <Typography component='h1' variant='h5' noWrap className={classes.title}>
             Moving Lines
           </Typography>
-          <Button className={classes.loginButton} onClick={() => history.push('/login')} color='inherit'>
-            Login
-          </Button>
-          <Button className={classes.loginButton} onClick={() => history.push('/signup')} color='inherit'>
-            Sign Up
-          </Button>
         </Toolbar>
       </AppBar>
 

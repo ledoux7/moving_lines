@@ -9,3 +9,7 @@
 .env.aws
 npm-debug.log*
 .eslintcache
+slnx.sqlite
+ProjectSettings.json
+VSWorkspaceState.json
+.suo

@@ -22,7 +22,9 @@ const LoginTab = props => {
 
   const onSubmit = useCallback(
     event => {
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
 
       const user = Auth.signIn(username, password)
         .then(data => {
@@ -49,7 +51,15 @@ const LoginTab = props => {
 
   const a = (
     <div>
-      <Typography component='h1' variant='h4' noWrap align='center'>
+      <Typography
+        component='h1'
+        variant='h4'
+        noWrap
+        align='center'
+        style={{
+          paddingBottom: 10,
+        }}
+      >
         Login
       </Typography>
       <Grid container spacing={4} alignItems='flex-end'>
@@ -85,6 +95,12 @@ const LoginTab = props => {
             required
             InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
             InputProps={{ style: { fontSize: 22 } }}
+            onKeyPress={ev => {
+              console.log(`Pressed keyCode ${ev.key}`);
+              if (ev.key === 'Enter') {
+                onSubmit();
+              }
+            }}
           />
         </Grid>
       </Grid>
@@ -103,7 +119,7 @@ const LoginTab = props => {
           <Button disableFocusRipple disableRipple style={{ textTransform: 'none' }} variant='text' color='primary'>Forgot password ?</Button>
         </Grid>
       </Grid>
-      <Grid container justify='flex-start' style={{ marginTop: '10px' }}>
+      <Grid container justify='flex-start' style={{ marginTop: '35px' }}>
         <Button
           variant='contained'
           style={{

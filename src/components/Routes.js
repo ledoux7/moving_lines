@@ -10,6 +10,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { CircularProgress } from '@material-ui/core';
 import ErrorBoundary from '../utils/ErrorBoundary';
 import { AuthProvider, useAuthDispatch, useAuthState } from '../context/context';
 import { useDarkMode, useKeyCount, useTwoKeyCount } from '../hooks';
@@ -71,6 +72,37 @@ function ProtectedRoute({ auth, children, ...rest }) {
   );
 }
 
+function NonLoggedInRoute({ auth, children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => (
+        (!auth.auth)
+          ? children
+          : <Redirect to={{
+            pathname: '/',
+            state: { from: location },
+          }}
+          />)}
+    />
+  );
+}
+
+const Loading = () => (
+  <div style={{
+    height: '100vh',
+    width: ' 100vw',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  }}
+  >
+    <CircularProgress />
+  </div>
+);
+
 const themeConfig = createMuiTheme(themeObject);
 
 const Routes = ({ buster }) => {
@@ -83,24 +115,27 @@ const Routes = ({ buster }) => {
 
   return (
     <MuiThemeProvider theme={store ? store.theme : themeConfig}>
-      <Suspense fallback={<div>Loading...</div>} key={buster}>
+      <Suspense fallback={<Loading />} key={buster}>
         <Router forceRefresh={false}>
           <div style={{
             height: '100vh',
             width: ' 100vw',
-            maxHeight: '100%',
-            maxWidth: ' 100%',
+            // maxHeight: '100%',
+            // maxWidth: ' 100%',
             display: 'flex',
             flexDirection: 'column',
+            maxWidth: '100%',
+            overflowWrap: 'break-word',
+            wordBreak: 'break-word',
           }}
           >
             <ErrorBoundary fallback={<div>aaaa</div>}>
               <Switch>
-                <Route path='/signup'>
+                <NonLoggedInRoute path='/signup' auth={auth}>
                   <LoginLayout>
                     <Signup />
                   </LoginLayout>
-                </Route>
+                </NonLoggedInRoute>
                 <Route path='/auth'>
                   <MiniDrawer>
                     <AuthCmp />
@@ -117,11 +152,11 @@ const Routes = ({ buster }) => {
                   </MiniDrawer>
                 </Route>
 
-                <Route path='/login'>
+                <NonLoggedInRoute path='/login' auth={auth}>
                   <LoginLayout>
                     <Login />
                   </LoginLayout>
-                </Route>
+                </NonLoggedInRoute>
                 <PrivateRoute path='/dash' auth={auth}>
                   <MiniDrawer>
                     <AuthCmp />

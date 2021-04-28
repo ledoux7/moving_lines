@@ -42,7 +42,9 @@ const SignUp = () => {
 
   const onSubmit = useCallback(
     event => {
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
 
       Auth.signUp({
         username,
@@ -153,13 +155,19 @@ const SignUp = () => {
             required
             InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
             InputProps={{ style: { fontSize: 22 } }}
+            onKeyPress={ev => {
+              console.log(`Pressed keyCode ${ev.key}`);
+              if (ev.key === 'Enter') {
+                onSubmit();
+              }
+            }}
           />
         </Grid>
       </Grid>
 
       <Grid
         container
-        style={{ marginTop: '16px', width: '100%' }}
+        style={{ marginTop: '35px', width: '100%' }}
         justify='flex-end'
       >
         <Button

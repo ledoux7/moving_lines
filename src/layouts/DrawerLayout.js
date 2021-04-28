@@ -9,14 +9,16 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import PhotoIcon from '@material-ui/icons/Photo';
 import ChatIcon from '@material-ui/icons/Chat';
 import ClearIcon from '@material-ui/icons/Clear';
 import Auth from '@aws-amplify/auth';
-import { SwipeableDrawer } from '@material-ui/core';
+import { Button, SwipeableDrawer } from '@material-ui/core';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonIcon from '@material-ui/icons/Person';
 import useStyles from '../styles';
 import ListItemLink from '../components/ListItemLink';
 import { loginUser, useAuthState, useAuthDispatch } from '../context/context';
@@ -87,12 +89,12 @@ const arr = createArr.map(l => (
 ));
 
 export default function MyDrawer({
-  setOpenModal, openModal, setOpen, open,
+  setOpenModal, openModal, setOpen, open, scrollTrigger,
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  const userDetails = useAuthState();
-
+  const auth = useAuthState();
+  const history = useHistory;
   const dispatch = useAuthDispatch();
 
   const handleOpen = () => {
@@ -113,14 +115,15 @@ export default function MyDrawer({
 
   const signOut = useCallback(
     () => {
-      Auth.signOut();
-      dispatch({ type: 'LOGOUT' });
-      Auth.currentUserCredentials().then(userCred => {
-        console.log('login cred', userCred);
-        dispatch({ type: 'CREDENTIALS', payload: { data: userCred } });
-      }).catch(e => {
-        console.log('err unauth');
-        dispatch({ type: 'CREDENTIALS', payload: null });
+      Auth.signOut().then(signout => {
+        dispatch({ type: 'LOGOUT' });
+        Auth.currentUserCredentials().then(userCred => {
+          console.log('login cred', userCred);
+          dispatch({ type: 'CREDENTIALS', payload: { data: userCred } });
+        }).catch(e => {
+          console.log('err unauth');
+          dispatch({ type: 'CREDENTIALS', payload: null });
+        });
       });
     },
     [dispatch],
@@ -129,6 +132,8 @@ export default function MyDrawer({
   return (
     <SwipeableDrawer
       variant='permanent'
+      onClose={handleDrawerClose}
+      onOpen={handleDrawerOpen}
       className={clsx(classes.drawer, {
         [classes.drawerOpen]: open,
         [classes.drawerClose]: !open,
@@ -142,8 +147,8 @@ export default function MyDrawer({
       open={open}
     >
       <div className={classes.toolbar}>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        <IconButton onClick={() => setOpen(o => !o)}>
+          {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
       <Divider />
@@ -152,8 +157,11 @@ export default function MyDrawer({
       </List>
       <Divider />
       <List style={{ flexDirection: 'column', display: 'flex', backgroundClip: undefined }}>
-        <ListItemLink to={'/'} icon={<SettingsIcon />} name={'Settings'} button onClick={handleOpen} />
-        <ListItemLink to={'/'} icon={<ClearIcon />} name={'Sign Out'} button onClick={signOut} />
+        {!auth.auth && <ListItemLink to={'/login'} icon={<PersonIcon />} name={'Sign In'} onClick1={() => history.push('/lgoin')} />}
+        {!auth.auth && <ListItemLink to={'/signup'} icon={<PersonAddIcon />} name={'Sign Up'} onClick1={() => history.push('/signup')} />}
+
+        <ListItemLink to={''} icon={<SettingsIcon />} name={'Settings'} button onClick={handleOpen} />
+        {auth.auth && <ListItemLink to={''} icon={<ClearIcon />} name={'Sign Out'} button onClick={signOut} />}
       </List>
     </SwipeableDrawer>
   );

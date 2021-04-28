@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { IconButton } from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
+import useStyles from '../styles';
 
 const ListItemLink = ({
   to, name, icon, button = false, onClick = () => null,
 }) => {
+  const classes = useStyles();
+
   const CustomLink = useMemo(
     () => forwardRef((linkProps, ref) => (
       <Link
@@ -26,20 +29,14 @@ const ListItemLink = ({
 
   if (button) {
     return (
-      <ListItem button key={'Home'}>
-        <ListItemIcon>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={onClick}
-            edge='start'
-          >
+      <ButtonBase onClick={onClick}>
+        <ListItem button key={'Home'}>
+          <ListItemIcon>
             {icon}
-          </IconButton>
-
-        </ListItemIcon>
-        <ListItemText primary={name} />
-      </ListItem>
+          </ListItemIcon>
+          <ListItemText primary={name} />
+        </ListItem>
+      </ButtonBase>
     );
   }
 
@@ -49,7 +46,7 @@ const ListItemLink = ({
         <ListItemIcon>
           {icon}
         </ListItemIcon>
-        <ListItemText primary={name} />
+        <ListItemText primary={name} className={classes.listItem} />
       </ListItem>
     </CustomLink>
   );

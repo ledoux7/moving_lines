@@ -11,6 +11,8 @@ import {
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
+// import Slide from '@material-ui/core/Slide';
+// import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import useStyles from '../styles';
 import { StoreContext } from '../store';
 import MyDrawer from './DrawerLayout';
@@ -27,6 +29,20 @@ const MyLink = ({ to, children }) => (
     {children}
   </Link>
 );
+
+// function HideOnScroll(props) {
+//   const { children, window } = props;
+//   // Note that you normally won't need to set the window ref as useScrollTrigger
+//   // will default to window.
+//   // This is only being set here because the demo is in an iframe.
+//   const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+//   return (
+//     <Slide appear={false} direction='down' in={!trigger}>
+//       {children}
+//     </Slide>
+//   );
+// }
 
 function rand() {
   return 0;
@@ -107,7 +123,10 @@ export default function MiniDrawer({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position='fixed'
+        position='sticky'
+        style={{
+          height: 64,
+        }}
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -127,40 +146,9 @@ export default function MiniDrawer({ children }) {
           <Typography component='h1' variant='h5' noWrap className={classes.title}>
             Moving Lines
           </Typography>
-          {!auth.auth && (
-            <Button
-              className={classes.loginButton}
-            // variant='contained'
-              onClick={() => history.push('/login')}
-              style={{
-                minWidth: 80,
-              }}
-            // color='#424242'
-            // secondary='#424242'
-              primary='#424242'
-              color='inherit'
-            >
-              Login
-            </Button>
-          )}
-          {!auth.auth && (
-            <Button
-              className={classes.loginButton}
-            // variant='contained'
-              onClick={() => history.push('/signup')}
-              primary='#424242'
-              color='inherit'
-              style={{
-                minWidth: 80,
-              }}
-            >
-              Sign Up
-            </Button>
-          )}
 
         </Toolbar>
       </AppBar>
-      {/* {d} */}
       <MyDrawer
         setOpenModal={setOpenModal}
         setOpen={setOpen}

@@ -82,10 +82,12 @@ export function useKey(key) {
     const match = event => {
       if (key === 'ctrl' && event.ctrlKey) {
         return true;
-      } else if (key && event.key) {
+      }
+      else if (key && event.key) {
         return key.toLowerCase() === event.key.toLowerCase();
         //
-      } else {
+      }
+      else {
         return false;
       }
     };

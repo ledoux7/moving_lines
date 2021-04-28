@@ -47,7 +47,8 @@ export const AuthReducer = (state, action) => {
           auth: authenticated,
           unauth: !authenticated,
         };
-      } else {
+      }
+      else {
         return {
           ...state,
           loading: false,

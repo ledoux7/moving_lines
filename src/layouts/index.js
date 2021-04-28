@@ -121,7 +121,7 @@ export default function MiniDrawer({ children }) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AppBar
         position='sticky'
         style={{

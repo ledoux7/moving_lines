@@ -118,7 +118,7 @@ const useStyles = makeStyles(theme => {
       // padding: theme.spacing(3),
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
+      // alignItems: 'center',
       marginLeft: 65,
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0,

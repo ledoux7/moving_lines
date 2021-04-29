@@ -1,13 +1,14 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect, useCallback } from 'react';
 import { AmplifyS3Image } from '@aws-amplify/ui-react';
-import { Hub, Storage } from 'aws-amplify';
+import { a, Hub, Storage } from 'aws-amplify';
 import { Button, TextField } from '@material-ui/core';
 import CachedIcon from '@material-ui/icons/Cached';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import ChatUI from './ChatUI';
 
 function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -52,6 +53,8 @@ const Chat = () => {
       for (let i = 0; i < messages.length; i++) {
         Storage.remove(messages[i], { level: 'public' });
       }
+
+      setMessages([]);
     },
     [messages],
   );
@@ -61,7 +64,7 @@ const Chat = () => {
       Storage.list('', { level: 'public' }) // for listing ALL files without prefix, pass '' instead
         .then(result => {
           console.log(result);
-          const mappedRes = result.map(r => r.key).filter(k => k.includes('.txt'));
+          const mappedRes = result.map(r => r.key).filter(k => k.includes('.json'));
           setMessages(mappedRes);
         })
         .catch(err => console.log(err));
@@ -70,23 +73,71 @@ const Chat = () => {
     [],
   );
 
-  const sendMsg = useCallback(
+  // const sendMsg = useCallback(
+  //   msg => {
+  //     const dd = new Date(Date.now());
+
+  //     const fileD = dd.toLocaleString('nb-no')
+  //       .replace('.', '-')
+  //       .replace(',', '_')
+  //       .replace(' ', '');
+
+  //     const file = fileD + '.txt';
+
+  //     const formatMsg = dd.toLocaleString('nb-no').replace(',', '') + ': ' + msg;
+  //     const result = Storage.put(file, formatMsg, {
+  //       level: 'public',
+  //       contentType: 'text/plain',
+  //     }).then(d => {
+  //       console.log('Uploaded:', file, d);
+  //     });
+
+  //     setTimeout(() => {
+  //       getMessages();
+  //     }, 1000);
+  //     // setNewMsg('');
+  //   },
+  //   [getMessages],
+  // );
+
+  const sendMsgJson = useCallback(
     msg => {
-      const dd = new Date(Date.now());
+      const uts = Date.now();
+      const d = new Date(uts);
+      const curDate = d.getDate();
+      const curMonth = d.getMonth() + 1; // Months are zero based
+      const curYear = d.getFullYear();
 
-      const fileD = dd.toLocaleString('nb-no')
-        .replace('.', '-')
-        .replace(',', '_')
-        .replace(' ', '');
+      const startStr = d.toISOString().split('T')[0];
+      // const tStr = d.toISOString().split('T')[1];
 
-      const file = fileD + '.txt';
+      const strr = startStr + '_' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '_' + randomNum(0, 9) + '.json';
+      // + console.log(curDate + '-' + curr_month + '-' + curr_year);
+      const pretty = startStr + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
-      const formatMsg = dd.toLocaleString('nb-no').replace(',', '') + ': ' + msg;
-      const result = Storage.put(file, formatMsg, {
+      // const fileD = dd.toLocaleString('nb-no')
+      //   .replace('.', '-')
+      //   .replace(',', '_')
+      //   .replace(' ', '');
+
+      const obj = {
+        uts,
+        pretty,
+        fileName: strr,
+        time: d.toLocaleTimeString('nb-NO'),
+        message: msg,
+      };
+
+      // const file = fileD + '.txt';
+
+      // const formatMsg = dd.toLocaleString('nb-no').replace(',', '') + ': ' + msg;
+
+      console.log('msg', obj);
+      const result = Storage.put(strr, JSON.stringify(obj, null, 2), {
         level: 'public',
-        contentType: 'text/plain',
-      }).then(d => {
-        console.log('Uploaded:', file, d);
+        contentType: 'application/json',
+      }).then(putData => {
+        console.log('Uploaded:', putData);
       });
 
       setTimeout(() => {
@@ -108,7 +159,7 @@ const Chat = () => {
         // level: '',
         download: true,
 
-        contentType: 'text/plain',
+        contentType: 'application/json',
       }).then(data => {
         console.log('Get:', newFiles[i], data);
         setCachedMsgs(set => set.add(newFiles[i]));
@@ -116,70 +167,125 @@ const Chat = () => {
           // handle the String data return String
           console.log('str:', str);
 
+          const deser = JSON.parse(str);
+
           // setText(str);
           setText(o => ({
             ...o,
-            [newFiles[i]]: str,
+            [newFiles[i]]: deser,
           }));
         });
       });
     }
   }, [cachedMsgs, messages]);
 
+  // console.log(text);
+
+  useEffect(() => {
+    console.log(text);
+    // return () => {
+    //   cleanup
+    // }
+  }, [text]);
+
   return (
     <div style={{
       // height: '100vh',
-      // width: '100vw',
+      // maxHeight: 'calc(100% -199px)',
+      width: '100%',
+      height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
+      margin: '0px 20px',
+      overflow: 'hidden',
+      position: 'relative',
+      // justifyContent: 'center',
+      // alignItems: 'center',
     }}
     >
-      <div>
-        Delete All Messages
-        <IconButton
-          aria-label='delete'
-          color='primary'
-          onClick={removeAllMsgs}
-          style={{
-            textTransform: 'none', height: 55, fontSize: 26, marginBottom: 20,
-          }}
-        >
+      {/* <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        // 'height': '70px',
 
-          <ClearAllIcon />
-        </IconButton>
+      }}
+      > */}
+      {/* <div>
+          Clear
 
-      </div>
+        </div> */}
+      <IconButton
+        aria-label='delete'
+        color='primary'
+        onClick={removeAllMsgs}
+        style={{
+          textTransform: 'none', fontSize: 26,
+        }}
+      >
+
+        <ClearAllIcon />
+      </IconButton>
+
+      {/* </div> */}
       <IconButton
         aria-label='delete'
         color='primary'
         onClick={getMessages}
         style={{
-          textTransform: 'none', height: 55, fontSize: 26, marginBottom: 20,
+          textTransform: 'none', height: 30, fontSize: 26, display: 'flex', justifyContent: 'flex-end',
         }}
       >
         <CachedIcon />
       </IconButton>
 
       {/* <div style={{ fontSize: 18 }}> */}
-      <pre s>
-        {/* {JSON.stringify(text, null, 2)} */}
+      {/* <pre style={{
+        whiteSpace: 'pre-wrap',
+        width: '100%',
+      }}
+      >
         {JSON.stringify(Object.values(text), null, 2)}
 
-      </pre>
+      </pre> */}
+      <div style={{
+        overflow: 'hidden',
+        height: '75%',
+        position: 'relative',
+        display: 'flex',
+        // height: 'calc(60vh - 70px)',
+        // minHeight: '100%',
+      }}
+      >
+        {/* <div style={{
+          marginTop: 80,
+        }}
+        >
+          abc
+        </div> */}
+        <ChatUI messagesObj={text} />
+      </div>
 
-      <div>
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        width: '85%',
+        // marginLeft: 20,
+      }}
+      >
         <TextField
+          style={{
+            width: '80%',
+          }}
           label='Message'
           value={newMsg}
           onChange={event => setNewMsg(event.target.value)}
           InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
           InputProps={{ style: { fontSize: 22 } }}
           onKeyPress={ev => {
-            console.log(`Pressed keyCode ${ev.key}`);
+            // console.log(`Pressed keyCode ${ev.key}`);
             if (ev.key === 'Enter') {
-              sendMsg(newMsg);
+              sendMsgJson(newMsg);
               setNewMsg('');
             }
           }}
@@ -188,7 +294,7 @@ const Chat = () => {
           aria-label='delete'
           color='primary'
           onClick={() => {
-            sendMsg(newMsg);
+            sendMsgJson(newMsg);
             setNewMsg('');
             // getMessages();
           }}

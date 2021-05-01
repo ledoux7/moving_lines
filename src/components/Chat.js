@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import ClearIcon from '@material-ui/icons/Clear';
 import ChatUI from './ChatUI';
 
 function randomNum(min, max) {
@@ -55,6 +56,21 @@ const Chat = () => {
       }
 
       setMessages([]);
+      setText({});
+    },
+    [messages],
+  );
+
+  const removeOneMsgs = useCallback(
+    () => {
+      for (let i = 0; i < messages.length && i < 1; i++) {
+        Storage.remove(messages[i], { level: 'public' });
+
+        setText(o => ({
+          ...o,
+          [messages[i]]: undefined,
+        }));
+      }
     },
     [messages],
   );
@@ -72,33 +88,6 @@ const Chat = () => {
 
     [],
   );
-
-  // const sendMsg = useCallback(
-  //   msg => {
-  //     const dd = new Date(Date.now());
-
-  //     const fileD = dd.toLocaleString('nb-no')
-  //       .replace('.', '-')
-  //       .replace(',', '_')
-  //       .replace(' ', '');
-
-  //     const file = fileD + '.txt';
-
-  //     const formatMsg = dd.toLocaleString('nb-no').replace(',', '') + ': ' + msg;
-  //     const result = Storage.put(file, formatMsg, {
-  //       level: 'public',
-  //       contentType: 'text/plain',
-  //     }).then(d => {
-  //       console.log('Uploaded:', file, d);
-  //     });
-
-  //     setTimeout(() => {
-  //       getMessages();
-  //     }, 1000);
-  //     // setNewMsg('');
-  //   },
-  //   [getMessages],
-  // );
 
   const sendMsgJson = useCallback(
     msg => {
@@ -190,10 +179,8 @@ const Chat = () => {
 
   return (
     <div style={{
-      // height: '100vh',
-      // maxHeight: 'calc(100% -199px)',
+      maxHeight: '100%',
       width: '100%',
-      height: '100%',
       display: 'flex',
       flexDirection: 'column',
       margin: '0px 20px',
@@ -203,31 +190,38 @@ const Chat = () => {
       // alignItems: 'center',
     }}
     >
-      {/* <div style={{
+      <div style={{
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
         // 'height': '70px',
 
       }}
-      > */}
-      {/* <div>
-          Clear
-
-        </div> */}
-      <IconButton
-        aria-label='delete'
-        color='primary'
-        onClick={removeAllMsgs}
-        style={{
-          textTransform: 'none', fontSize: 26,
-        }}
       >
+        <IconButton
+          aria-label='delete'
+          color='primary'
+          onClick={removeAllMsgs}
+          style={{
+            textTransform: 'none', fontSize: 26,
+          }}
+        >
 
-        <ClearAllIcon />
-      </IconButton>
+          <ClearAllIcon />
+        </IconButton>
+        <IconButton
+          aria-label='delete'
+          color='primary'
+          onClick={removeOneMsgs}
+          style={{
+            textTransform: 'none', fontSize: 26,
+          }}
+        >
 
-      {/* </div> */}
+          <ClearIcon />
+        </IconButton>
+
+      </div>
       <IconButton
         aria-label='delete'
         color='primary'
@@ -239,44 +233,34 @@ const Chat = () => {
         <CachedIcon />
       </IconButton>
 
-      {/* <div style={{ fontSize: 18 }}> */}
-      {/* <pre style={{
-        whiteSpace: 'pre-wrap',
-        width: '100%',
-      }}
-      >
-        {JSON.stringify(Object.values(text), null, 2)}
-
-      </pre> */}
       <div style={{
         overflow: 'hidden',
-        height: '75%',
         position: 'relative',
         display: 'flex',
-        // height: 'calc(60vh - 70px)',
-        // minHeight: '100%',
+        flex: 1,
+        verticalAlign: 'top',
       }}
       >
-        {/* <div style={{
-          marginTop: 80,
+        <div style={{
+          flex: 1,
+          overflowY: 'scroll',
         }}
         >
-          abc
-        </div> */}
-        <ChatUI messagesObj={text} />
+          <ChatUI messagesObj={text} />
+        </div>
       </div>
 
       <div style={{
-        position: 'absolute',
-        bottom: 0,
         width: '85%',
-        // marginLeft: 20,
       }}
       >
         <TextField
           style={{
             width: '80%',
           }}
+          // type='text'
+          autoComplete='off'
+          type=''
           label='Message'
           value={newMsg}
           onChange={event => setNewMsg(event.target.value)}

@@ -10,7 +10,19 @@ const useStyles = makeStyles(theme => {
     root: {
       display: 'flex',
       height: '100%',
+      width: '100%',
       flexDirection: 'column',
+    },
+    content: {
+      flex: 1,
+      display: 'flex',
+      overflow: 'hidden',
+      position: 'relative',
+      justifyContent: 'center',
+      marginLeft: 65,
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 0,
+      },
     },
     appBar: {
       // maxHeight: '8%',
@@ -112,17 +124,6 @@ const useStyles = makeStyles(theme => {
       justifyContent: 'flex-end',
       // padding: '0 8px',
       ...theme.mixins.toolbar,
-    },
-    content: {
-      flexGrow: 1,
-      // padding: theme.spacing(3),
-      display: 'flex',
-      justifyContent: 'center',
-      // alignItems: 'center',
-      marginLeft: 65,
-      [theme.breakpoints.down('sm')]: {
-        marginLeft: 0,
-      },
     },
 
     // ///////////////////////

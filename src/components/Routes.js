@@ -30,8 +30,8 @@ const Upload = lazy(() => import('./Upload'));
 
 const Loading = () => (
   <div style={{
-    height: '100vh',
-    width: ' 100vw',
+    height: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -58,8 +58,9 @@ const NavRoute = ({ exact, path, component: Component }) => (
 
 const WaitALittle = (auth, location) => {
   const [waitOver, setWaitOver] = useState(false);
+
   useEffect(() => {
-    const timeout = setTimeout(() => setWaitOver(true), 1000);
+    const timeout = setTimeout(() => setWaitOver(true), 2000);
     return () => {
       clearTimeout(timeout);
     };
@@ -133,8 +134,8 @@ const Routes = ({ buster }) => {
       <Suspense fallback={<Loading />} key={buster}>
         <Router forceRefresh={false}>
           <div style={{
-            height: '100vh',
-            width: ' 100vw',
+            height: '100%',
+            width: ' 100%',
             // maxHeight: '100%',
             // maxWidth: ' 100%',
             display: 'flex',
@@ -173,7 +174,6 @@ const Routes = ({ buster }) => {
                 </PrivateRoute>
                 <Route path='/'>
                   <MiniDrawer>
-                    <div />
                     <Home />
                   </MiniDrawer>
                 </Route>

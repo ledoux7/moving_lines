@@ -5,25 +5,30 @@ function App() {
   return (
     <div style={{
       fontSize: 60,
-      height: 1600,
-      position: 'relative',
+      height: '100%',
       display: 'flex',
-      justifyContent: 'center',
       width: '100%',
-
+      overflow: 'scroll',
+      flexDirection: 'column',
+      overflowY: 'scoll',
+      marginRight: 100,
+      position: 'relative',
     }}
     >
-      Home
+      <div>
+        Home
+      </div>
       <div style={{
-        position: 'absolute',
-        top: '30%',
+        height: 600,
+        paddingTop: 200,
+        margin: 'auto',
       }}
       >
         scroll down
       </div>
       <div style={{
-        position: 'absolute',
-        bottom: 0,
+        marginTop: 1600,
+        height: 50,
       }}
       >
         bottom and no toolbar

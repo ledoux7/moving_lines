@@ -251,12 +251,15 @@ const Chat = () => {
       </div>
 
       <div style={{
-        width: '85%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 10,
       }}
       >
         <TextField
           style={{
-            width: '80%',
+            width: '92%',
           }}
           // type='text'
           autoComplete='off'
@@ -283,7 +286,7 @@ const Chat = () => {
             // getMessages();
           }}
           style={{
-            textTransform: 'none', height: 55, fontSize: 26, marginBottom: 20,
+            textTransform: 'none', height: 55, fontSize: 26, marginTop: 10,
           }}
         >
           <SendIcon />

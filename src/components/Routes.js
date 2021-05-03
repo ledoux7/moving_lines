@@ -26,6 +26,7 @@ const Login = lazy(() => import('./Login'));
 const AuthCmp = lazy(() => import('./AuthStatus'));
 const Signup = lazy(() => import('./SignUp'));
 const Chat = lazy(() => import('./Chat'));
+const RealTimeChat = lazy(() => import('./RealTimeChat'));
 const Upload = lazy(() => import('./Upload'));
 
 const Loading = () => (
@@ -155,6 +156,11 @@ const Routes = ({ buster }) => {
                 <ProtectedRoute path='/chat' auth={auth}>
                   <MiniDrawer>
                     <Chat />
+                  </MiniDrawer>
+                </ProtectedRoute>
+                <ProtectedRoute path='/live' auth={auth}>
+                  <MiniDrawer>
+                    <RealTimeChat />
                   </MiniDrawer>
                 </ProtectedRoute>
                 <Route path='/upload'>

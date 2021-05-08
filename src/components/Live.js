@@ -173,8 +173,8 @@ const RealTimeChat = ({ stage }) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'row',
-          marginBottom: 10,
-          paddingTop: 10,
+          marginBottom: 20,
+          marginTop: 10,
         }}
         >
           <TextField

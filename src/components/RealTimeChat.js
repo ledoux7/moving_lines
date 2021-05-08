@@ -19,8 +19,7 @@ function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const RealTimeChat = () => {
-  const [socketUrl, setSocketUrl] = useState('wss://dl5pmy7g33.execute-api.eu-west-1.amazonaws.com/dev');
+const RealTimeChat = ({ stage }) => {
   const messageHistory = useRef([]);
   const didUnmount = useRef(false);
 
@@ -31,7 +30,8 @@ const RealTimeChat = () => {
   const [newMsg, setNewMsg] = useState('');
   const [messages, setMessages] = useState([]);
   const [cachedMsgs, setCachedMsgs] = useState(new Set());
-  const [locUser, setLocUser] = useState(null);
+  // const [stage, setStage] = useState('prod');
+  const [socketUrl, setSocketUrl] = useState('wss://dl5pmy7g33.execute-api.eu-west-1.amazonaws.com/' + stage);
 
   const auth = useAuthState();
 

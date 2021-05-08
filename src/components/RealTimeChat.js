@@ -13,6 +13,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ClearIcon from '@material-ui/icons/Clear';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import ChatUI from './ChatUI';
+import { useAuthState } from '../context/context';
 
 function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -28,12 +29,11 @@ const RealTimeChat = () => {
   const [url, setUrl] = useState('');
   const [text, setText] = useState({});
   const [newMsg, setNewMsg] = useState('');
-
   const [messages, setMessages] = useState([]);
-
   const [cachedMsgs, setCachedMsgs] = useState(new Set());
-
   const [locUser, setLocUser] = useState(null);
+
+  const auth = useAuthState();
 
   const {
     sendMessage,
@@ -60,6 +60,9 @@ const RealTimeChat = () => {
       catch (error) {
         console.error('error in onmessage');
       }
+    },
+    queryParams: {
+      auth: auth && auth.session ? auth.session.idToken.jwtToken : '123',
     },
     // Will attempt to reconnect on all close events, such as server shutting down
     // eslint-disable-next-line arrow-body-style
@@ -119,9 +122,17 @@ const RealTimeChat = () => {
   );
 
   // useEffect(() => {
-  //   // lastJsonMessage && setMessageHistory(prev => prev.concat(lastMessage.data));
+  //   if (lastMessage) {
+  //     const lst = JSON.parse(JSON.parse(lastMessage.data).message);
+  //     // eslint-disable-next-line arrow-body-style
+  //     const hash123 = Array.from(lst.message).reduce((hash, char) => {
+  //       // eslint-disable-next-line no-bitwise
+  //       return 0 | (31 * hash + char.charCodeAt(0));
+  //     }, 0);
 
-  //   console.log('last msg', lastMessage);
+  //     console.log('last msg', hash123, lst);
+  //   }
+  //   // lastJsonMessage && setMessageHistory(prev => prev.concat(lastMessage.data));
   // }, [lastMessage]);
 
   return (

@@ -56,6 +56,19 @@ export const AuthReducer = (state, action) => {
           unauth: false,
         };
       }
+    case 'SESSION':
+      if (action.payload && action.payload.data) {
+        const session = {
+          ...action.payload.data,
+        };
+        return {
+          ...state,
+          session,
+        };
+      }
+      else {
+        return state;
+      }
     case 'LOGIN_SUCCESS':
       return {
         ...state,

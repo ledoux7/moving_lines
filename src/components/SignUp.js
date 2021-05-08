@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import Auth from '@aws-amplify/auth';
 import useStyles from '../styles';
+import { useAuthDispatch } from '../context/context';
 
 function useQuery(searchString) {
   return new URLSearchParams();
@@ -25,7 +26,7 @@ const SignUp = () => {
   const [username, setUsername] = useState(q || '');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
-
+  const dispatch = useAuthDispatch();
   const [qq, setQq] = useState('');
 
   useEffect(() => {
@@ -66,12 +67,38 @@ const SignUp = () => {
       event.preventDefault();
       console.log('code', code);
       Auth.confirmSignUp(username, code).then(data => {
-        console.log('confimed');
+        console.log('confimed', data);
+        Auth.currentCredentials()
+          .then(dataCreds => {
+            dispatch({ type: 'CREDENTIALS', payload: { dataCreds } });
+
+            Auth.currentSession()
+              .then(sessionData => {
+                console.log('session', sessionData);
+                dispatch({ type: 'SESSION', payload: { data: sessionData } });
+              })
+              .catch(error => {
+                console.log('errsession', error);
+                // dispatch({ type: 'SESSION', payload: { data: sessionData } });
+              });
+
+            if (dataCreds.authenticated) {
+              Auth.currentAuthenticatedUser().then(user => {
+                dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+              })
+                .catch(e => {
+                  console.log('e', e);
+                });
+            }
+          }).catch(e => {
+            console.log('err unauth');
+            dispatch({ type: 'CREDENTIALS', payload: null });
+          });
 
         history.push('/');
       });
     },
-    [code, history, username],
+    [code, dispatch, history, username],
   );
 
   const onSubmitResend = useCallback(

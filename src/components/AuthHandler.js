@@ -20,6 +20,16 @@ const AuthHandler = ({ children }) => {
       .then(data => {
         dispatch({ type: 'CREDENTIALS', payload: { data } });
 
+        Auth.currentSession()
+          .then(sessionData => {
+            console.log('session', sessionData);
+            dispatch({ type: 'SESSION', payload: { data: sessionData } });
+          })
+          .catch(error => {
+            console.log('errsession', error);
+            // dispatch({ type: 'SESSION', payload: { data: sessionData } });
+          });
+
         if (data.authenticated) {
           Auth.currentAuthenticatedUser().then(user => {
             dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });

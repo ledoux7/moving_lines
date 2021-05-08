@@ -158,9 +158,14 @@ const Routes = ({ buster }) => {
                     <Chat />
                   </MiniDrawer>
                 </ProtectedRoute>
+                <ProtectedRoute path='/live/dev' auth={auth}>
+                  <MiniDrawer>
+                    <RealTimeChat stage={'dev'} />
+                  </MiniDrawer>
+                </ProtectedRoute>
                 <ProtectedRoute path='/live' auth={auth}>
                   <MiniDrawer>
-                    <RealTimeChat />
+                    <RealTimeChat stage={'prod'} />
                   </MiniDrawer>
                 </ProtectedRoute>
                 <Route path='/upload'>

@@ -31,6 +31,16 @@ const LoginTab = props => {
           console.log('signin', data);
           dispatch({ type: 'LOGIN_SUCCESS', payload: { user: data } });
 
+          Auth.currentSession()
+            .then(sessionData => {
+              console.log('session', sessionData);
+              dispatch({ type: 'SESSION', payload: { data: sessionData } });
+            })
+            .catch(error => {
+              console.log('errsession', error);
+            // dispatch({ type: 'SESSION', payload: { data: sessionData } });
+            });
+
           Auth.currentUserCredentials().then(userCred => {
             console.log('login cred', userCred);
             dispatch({ type: 'CREDENTIALS', payload: { data: userCred } });
@@ -96,8 +106,7 @@ const LoginTab = props => {
             InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
             InputProps={{ style: { fontSize: 22 } }}
             onKeyPress={ev => {
-              console.log(`Pressed keyCode ${ev.key}`);
-              if (ev.key === 'Enter') {
+              if (password && ev.key === 'Enter') {
                 onSubmit();
               }
             }}

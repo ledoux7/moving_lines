@@ -158,7 +158,7 @@ const RealTimeChat = () => {
           paddingBottom: 20,
         }}
       >
-        Real Time Chat
+        Real Time Chat{stage === 'dev' ? ': ' + stage : ''}
       </Typography>
       <div style={{
         overflow: 'hidden',

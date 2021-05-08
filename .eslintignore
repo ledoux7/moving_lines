@@ -2,3 +2,5 @@
 /vendor/*
 /storybook-static/*
 /build/*
+/lambdas/newAuth/*
+*.joss.js

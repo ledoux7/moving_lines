@@ -183,7 +183,6 @@ const SignUp = () => {
             InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
             InputProps={{ style: { fontSize: 22 } }}
             onKeyPress={ev => {
-              console.log(`Pressed keyCode ${ev.key}`);
               if (ev.key === 'Enter') {
                 onSubmit();
               }

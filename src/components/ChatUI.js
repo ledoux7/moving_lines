@@ -1,5 +1,7 @@
 /* eslint-disable no-loop-func */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import { a, Hub, Storage } from 'aws-amplify';
 import { Button, TextField } from '@material-ui/core';
@@ -31,8 +33,20 @@ class GeneralSet {
   delete(item) {
     return this.map.delete(item.toIdString());
   }
+}
 
-  // ...
+export function DOMRectToObject(element) {
+  const rect = element.getBoundingClientRect();
+  return {
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y,
+  };
 }
 
 const ChatUI = ({ messagesObj }) => {
@@ -53,12 +67,20 @@ const ChatUI = ({ messagesObj }) => {
 
   const [locUser, setLocUser] = useState(null);
 
+  const messagesEndRef = useRef(null);
+  const chatRef = useRef(null);
+
   useEffect(() => {
     // console.log(messages);
 
     const nm = Object.values(messagesObj);
     nm.sort((aa, bb) => aa.uts - bb.uts);
     // nm.sort((aa, bb) => aa.message - bb.message);
+    const tmpRect = DOMRectToObject(chatRef.current);
+
+    console.log('tmp', tmpRect);
+
+    messagesEndRef.current.scrollIntoView(false, { block: 'end', inline: 'end' });
 
     setMessages(nm);
     // return () => {
@@ -67,17 +89,21 @@ const ChatUI = ({ messagesObj }) => {
   }, [messagesObj]);
 
   return (
-    <div style={{
-      minHeight: 'min-content',
-      height: '100%',
-      width: '100%',
-    }}
-    >
-      <div style={{
-        maxHeight: '100%',
-        overflowY: 'scroll',
-        overflowX: 'hidden',
+    <div
+      style={{
+        minHeight: 'min-content',
+        height: '100%',
+        width: '100%',
       }}
+      id={'ui-chat'}
+    >
+      <div
+        style={{
+          maxHeight: '100%',
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+        }}
+        ref={chatRef}
       >
         {
         messages
@@ -111,8 +137,6 @@ const ChatUI = ({ messagesObj }) => {
               <div style={{
                 marginRight: 10,
                 display: 'flex',
-              // paddingLeft: 5,
-              // wordBreak: 'keep-all',
               }}
               >
                 {m.message}
@@ -120,7 +144,8 @@ const ChatUI = ({ messagesObj }) => {
             </div>
           ))
       }
-
+        <div style={{ height: 25 }} />
+        <div ref={messagesEndRef} />
       </div>
 
     </div>

@@ -88,25 +88,21 @@ exports.handler = (event, context, cb) => {
     const { queryStringParameters } = event;
     const token = queryStringParameters.auth;
 
-    console.log('eventParam', event.methodArn);
     let stage = '';
 
     if (event.methodArn) {
-      console.log('start if');
       const what = event.methodArn.split(':');
-      console.log('first split');
 
       if (what.length) {
         const apiGatewayArnTmp = what[5].split('/');
         stage = apiGatewayArnTmp[1];
         const route = apiGatewayArnTmp[2];
-        console.log(' splited', apiGatewayArnTmp);
       }
     }
 
     console.log('stage', stage, stage === 'prod');
 
-    if (stage === 'live') {
+    if (stage === 'prod') {
       cb(null, generateAllow('me', event.methodArn));
     }
     else if (token) {

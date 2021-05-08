@@ -28,6 +28,7 @@ const Signup = lazy(() => import('./SignUp'));
 const Chat = lazy(() => import('./Chat'));
 const RealTimeChat = lazy(() => import('./RealTimeChat'));
 const Upload = lazy(() => import('./Upload'));
+const Live = lazy(() => import('./Live'));
 
 const Loading = () => (
   <div style={{
@@ -153,17 +154,22 @@ const Routes = ({ buster }) => {
                     <Signup />
                   </LoginLayout>
                 </NonLoggedInRoute>
-                <ProtectedRoute path='/chat' auth={auth}>
+                <ProtectedRoute path='/live' auth={auth}>
+                  <MiniDrawer>
+                    <Live stage={'prod'} />
+                  </MiniDrawer>
+                </ProtectedRoute>
+                <ProtectedRoute path='/chat/s3' auth={auth}>
                   <MiniDrawer>
                     <Chat />
                   </MiniDrawer>
                 </ProtectedRoute>
-                <ProtectedRoute path='/live/dev' auth={auth}>
+                <ProtectedRoute path='/chat/dev' auth={auth}>
                   <MiniDrawer>
                     <RealTimeChat stage={'dev'} />
                   </MiniDrawer>
                 </ProtectedRoute>
-                <ProtectedRoute path='/live' auth={auth}>
+                <ProtectedRoute path='/chat' auth={auth}>
                   <MiniDrawer>
                     <RealTimeChat stage={'prod'} />
                   </MiniDrawer>

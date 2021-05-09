@@ -19,7 +19,6 @@ import MiniDrawer from '../layouts';
 import LoginLayout from '../layouts/LoginLayout';
 import StoreProvider, { StoreContext } from '../store';
 import themeObject from '../themes';
-import { configureAmplify } from '../lib/amplify';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));

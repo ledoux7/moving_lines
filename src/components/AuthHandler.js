@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import Amplify, { Auth, Hub, Logger } from 'aws-amplify';
 import { AuthProvider, useAuthDispatch, useAuthState } from '../context/context';
-import MyAuth, { configureAmplify } from '../lib/amplify';
+import configureAmplify from '../lib/amplify';
 
 const AuthHandler = ({ children }) => {
   const [logger, setLogger] = useState(new Logger('Hub', 'DEBUG'));

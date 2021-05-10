@@ -16,7 +16,7 @@ function App() {
     }}
     >
       <div>
-        Home
+        HomeSweetAlabama
       </div>
       <div style={{
         height: 600,

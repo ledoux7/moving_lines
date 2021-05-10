@@ -40,7 +40,7 @@ const AuthHandler = ({ children }) => {
             });
         }
       }).catch(e => {
-        console.log('err unauth');
+        console.log('err unauth', e);
         dispatch({ type: 'CREDENTIALS', payload: null });
       });
     return () => {

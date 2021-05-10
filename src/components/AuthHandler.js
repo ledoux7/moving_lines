@@ -14,6 +14,7 @@ const AuthHandler = ({ children }) => {
     console.log('init');
     dispatch({ type: 'INIT', payload: null });
 
+    console.log('configure', configureAmplify);
     configureAmplify();
 
     Auth.currentCredentials()

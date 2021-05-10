@@ -14,6 +14,7 @@ phases:
       - echo Post Build...
       - ls
       - echo Content
+      - echo "$(<src/views/Home.js)"
       # - aws s3 cp --recursive --acl public-read ./build s3://moving-lines 
       - aws s3 sync build/ s3://moving-lines --acl public-read --delete --debug
 

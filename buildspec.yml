@@ -16,7 +16,7 @@ phases:
       - echo Content
       - echo "$(<src/views/Home.js)"
       # - aws s3 cp --recursive --acl public-read ./build s3://moving-lines 
-      - aws s3 sync build/ s3://moving-lines --acl public-read --delete --debug
+      - aws s3 sync build/ s3://moving-lines --acl public-read --delete
 
       - echo Done
       # set the cache-control headers for service-worker.js to prevent

@@ -3,17 +3,34 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Installing source NPM dependencies...
       - npm install
   build:
     commands:
       - npm run build
-
   post_build:
-      commands:
-        - aws s3 sync build/ s3://moving-lines --acl public-read --delete
+    commands:
+      # copy the contents of /build to S3
+      - echo Post Build...
+      - ls
+      - echo Content
+      # - aws s3 cp --recursive --acl public-read ./build s3://moving-lines 
+      - aws s3 sync build/ s3://moving-lines --acl public-read --delete
 
+      - echo Done
+      # set the cache-control headers for service-worker.js to prevent
+      # browser caching
+      # - >
+      #   aws s3 cp --acl public-read 
+      #   --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+      #   ./build/service-worker.js s3://<your-s3-website-bucket-name>
+      # set the cache-control headers for index.html to prevent
+      # browser caching
+      # - >
+      #   aws s3 cp --acl public-read 
+      #   --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+      #   ./build/index.html s3://moving-lines 
 artifacts:
   files:
     - '**/*'
-  discard-paths: no
   base-directory: build

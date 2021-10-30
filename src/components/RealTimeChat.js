@@ -188,7 +188,6 @@ const RealTimeChat = ({ stage }) => {
           style={{
             width: '92%',
           }}
-          // type='text'
           autoComplete='off'
           type=''
           label='Message'

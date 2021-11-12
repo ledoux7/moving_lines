@@ -68,7 +68,8 @@ const FileDownloader = ({ stage, url }) => {
     <div style={{ overflow: 'scroll', height: 800 }}>
       <pre>
         {JSON.stringify(url, null, 2)}
-        {JSON.stringify(parsedCsvData, null, 2)}
+        {/* {JSON.stringify(parsedCsvData, null, 2)} */}
+        {JSON.stringify(parsedCsvData.map(obj => obj.game_id), null, 2)}
       </pre>
 
     </div>

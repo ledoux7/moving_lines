@@ -183,11 +183,12 @@ const Routes = ({ buster }) => {
                     <Login />
                   </LoginLayout>
                 </NonLoggedInRoute>
-                <PrivateRoute path='/dash' auth={auth}>
+                <Route path='/dash' auth={auth}>
                   <MiniDrawer>
-                    <AuthCmp />
+                    {/* <AuthCmp /> */}
+                    <Dashboard stage={'dev'} />
                   </MiniDrawer>
-                </PrivateRoute>
+                </Route>
                 <Route path='/'>
                   <MiniDrawer>
                     <Home />

@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const createPBPUrl = (gameId, eventNum, eventType) => (
   `https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/pbp?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
 );

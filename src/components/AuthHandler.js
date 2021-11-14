@@ -11,10 +11,10 @@ const AuthHandler = ({ children }) => {
   const dispatch = useAuthDispatch();
 
   useEffect(() => {
-    console.log('init');
+    // console.log('init');
     dispatch({ type: 'INIT', payload: null });
 
-    console.log('configure', configureAmplify);
+    // console.log('configure', configureAmplify);
     configureAmplify();
 
     Auth.currentCredentials()

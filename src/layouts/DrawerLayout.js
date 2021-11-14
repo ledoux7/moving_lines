@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import CalendarTodayIcon from '@material-ui/icons//CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link, useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
@@ -67,16 +68,26 @@ const createArr = [
     name: 'Dashboard',
     icon: <DashboardIcon />,
   },
+  // {
+  //   to: '/schedule',
+  //   name: 'Schedule',
+  //   icon: <CalendarTodayIcon />,
+  // },
   {
-    to: '/upload',
-    name: 'Photos',
-    icon: <PhotoIcon />,
-  },
-  {
-    to: '/live',
-    name: 'Live',
+    to: '/analytics',
+    name: 'Analytics',
     icon: <OndemandVideoIcon />,
   },
+  // {
+  //   to: '/upload',
+  //   name: 'Photos',
+  //   icon: <PhotoIcon />,
+  // },
+  // {
+  //   to: '/live',
+  //   name: 'Live',
+  //   icon: <OndemandVideoIcon />,
+  // },
   {
     to: '/chat',
     name: 'Chat',
@@ -157,7 +168,7 @@ export default function MyDrawer({
       </List>
       <Divider />
       <List style={{ flexDirection: 'column', display: 'flex', backgroundClip: undefined }}>
-        {!auth.auth && <ListItemLink to={'/login'} icon={<PersonIcon />} name={'Sign In'} onClick1={() => history.push('/lgoin')} />}
+        {!auth.auth && <ListItemLink to={'/login'} icon={<PersonIcon />} name={'Sign In'} onClick1={() => history.push('/login')} />}
         {!auth.auth && <ListItemLink to={'/signup'} icon={<PersonAddIcon />} name={'Sign Up'} onClick1={() => history.push('/signup')} />}
 
         <ListItemLink to={''} icon={<SettingsIcon />} name={'Settings'} button onClick={handleOpen} />

@@ -20,6 +20,10 @@ import LoginLayout from '../layouts/LoginLayout';
 import StoreProvider, { StoreContext } from '../store';
 import themeObject from '../themes';
 import Dashboard from './Dashboard';
+import Analytics from './NBA/Analytics';
+import Replay from './NBA/Replay';
+import PlayPBP from './NBA/PlayPBP';
+import PlayRangeWrapper from './NBA/PlayRangeWrapper';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
@@ -128,7 +132,7 @@ const Routes = ({ buster }) => {
 
   const auth = useAuthState();
 
-  console.log('auth', auth);
+  // console.log('auth', auth);
 
   return (
     <MuiThemeProvider theme={store ? store.theme : themeConfig}>
@@ -179,6 +183,26 @@ const Routes = ({ buster }) => {
                     <Upload />
                   </MiniDrawer>
                 </Route>
+                <Route path='/analytics'>
+                  <MiniDrawer>
+                    <Analytics stage={'dev'} />
+                  </MiniDrawer>
+                </Route>
+                <Route path='/pbp'>
+                  <MiniDrawer>
+                    <Replay />
+                  </MiniDrawer>
+                </Route>
+                <Route path='/playrange'>
+                  <MiniDrawer>
+                    <PlayRangeWrapper />
+                  </MiniDrawer>
+                </Route>
+                <Route path='/play'>
+                  <MiniDrawer>
+                    <PlayPBP />
+                  </MiniDrawer>
+                </Route>
                 <NonLoggedInRoute path='/login' auth={auth}>
                   <LoginLayout>
                     <Login />
@@ -191,8 +215,11 @@ const Routes = ({ buster }) => {
                   </MiniDrawer>
                 </Route>
                 <Route path='/'>
-                  <MiniDrawer>
+                  {/* <MiniDrawer>
                     <Home />
+                  </MiniDrawer> */}
+                  <MiniDrawer>
+                    <Analytics stage={'dev'} />
                   </MiniDrawer>
                 </Route>
               </Switch>

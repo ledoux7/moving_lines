@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -63,6 +63,7 @@ const PlayRange = ({ cached }) => {
 
       refetchOnWindowFocus: false,
       retry: 0,
+      enabled: curEventNum !== undefined,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
     },
@@ -165,6 +166,17 @@ const PlayRange = ({ cached }) => {
     }}
     >
       {videoUrl.isError && <h1>No video cached, try with proxy</h1>}
+      {(!videoUrl.isSuccess && !videoUrl.isError) && (
+        <div style={{
+          display: 'flex',
+          // flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
+          <CircularProgress />
+        </div>
+      )}
 
       {(sourceUrl) && (
         [
@@ -186,7 +198,7 @@ const PlayRange = ({ cached }) => {
             muted
             style={{
               width: '100%',
-              height: '80vh',
+              paddingTop: '50px',
             }}
             controls
             src={sourceUrl}

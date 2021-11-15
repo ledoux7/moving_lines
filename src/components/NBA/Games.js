@@ -25,7 +25,7 @@ const Replayer = () => {
 
   const history = useHistory();
   const handleSubmit = gameId => {
-    history.push('/pbp?gameId=' + gameId, { gameId });
+    history.push('/game?gameId=' + gameId, { gameId });
   };
 
   const vidRef = useRef(null);
@@ -44,15 +44,17 @@ const Replayer = () => {
       display: 'flex',
       flexDirection: 'column',
       flex: 1,
+      alignItems: 'center',
       // overflow: 'scroll',
     }}
     >
-      <h1>Analytics</h1>
+      <h1>Recent Games</h1>
 
       <div style={{
         display: 'flex',
         overflow: 'scroll',
         flexWrap: 'wrap',
+        justifyContent: 'center',
       }}
       >
         {(data && data.pages) && data.pages.map((group, i) => (
@@ -61,7 +63,7 @@ const Replayer = () => {
               variant='contained'
               style={{
                 textTransform: 'none',
-                width: 200,
+                width: 180,
                 height: 55,
                 fontSize: 26,
                 margin: '10px 10px',

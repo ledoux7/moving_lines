@@ -63,19 +63,19 @@ const createArr = [
     name: 'Home',
     icon: <HomeIcon />,
   },
-  {
-    to: '/dash',
-    name: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
+  // {
+  //   to: '/dash',
+  //   name: 'Dashboard',
+  //   icon: <DashboardIcon />,
+  // },
   // {
   //   to: '/schedule',
   //   name: 'Schedule',
   //   icon: <CalendarTodayIcon />,
   // },
   {
-    to: '/analytics',
-    name: 'Analytics',
+    to: '/games',
+    name: 'Games',
     icon: <OndemandVideoIcon />,
   },
   // {

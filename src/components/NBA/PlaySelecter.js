@@ -29,7 +29,10 @@ const PlaySelector = React.memo(({
 
   console.log('render');
   return (
-    <div>
+    <div style={{
+      overflow: 'scroll',
+    }}
+    >
       {value}
       {(data && data.pages) && data.pages.map((group, i) => (
         group.Items.map(play => (

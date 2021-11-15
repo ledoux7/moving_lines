@@ -11,13 +11,14 @@ import {
 } from 'react-query';
 import { useHistory, useLocation } from 'react-router';
 import Slider from '@material-ui/core/Slider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
 } from '../../api';
 import { useGetPBPForGame } from '../../hooks/analytics';
 import PlaySelector from './PlaySelecter';
 
-const Replay = () => {
+const Game = () => {
   const [showPlays, setShowPlays] = React.useState(false);
 
   const { search } = useLocation();
@@ -43,6 +44,8 @@ const Replay = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isSuccess,
+    isLoading,
   } = useGetPBPForGame(gameId);
 
   useEffect(() => {
@@ -58,13 +61,28 @@ const Replay = () => {
       display: 'flex',
       flexDirection: 'column',
       flex: 1,
+      alignItems: 'center',
     }}
     >
       <h1>Replay: {search} {JSON.stringify(value)}</h1>
+      {isLoading && (
+        <div style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       <div style={{
         display: 'flex',
+        // flex: 1,
+        width: '100%',
       }}
       >
+
         <div style={{
           display: 'flex',
           flex: 1,
@@ -75,6 +93,7 @@ const Replay = () => {
           maxWidth: '100%',
         }}
         >
+
           {(data && data.pages) && (
             <div style={{
               display: 'flex',
@@ -119,21 +138,26 @@ const Replay = () => {
         </div>
 
       </div>
-      <Button
-        variant='contained'
-        style={{
-          textTransform: 'none',
-          width: 200,
-          fontSize: 26,
-          margin: '10px 10px',
-        }}
-        color='primary'
-        onClick={() => setShowPlays(prev => !prev)}
-      >
-        Show Plays
-      </Button>
       {
-        showPlays && (
+        isSuccess && (
+        <Button
+          variant='contained'
+          style={{
+            textTransform: 'none',
+            width: 200,
+            fontSize: 26,
+            margin: '10px 10px',
+          }}
+          color='primary'
+          onClick={() => setShowPlays(prev => !prev)}
+        >
+          Show Plays
+        </Button>
+
+        )
+      }
+      {
+        isSuccess && showPlays && (
           <PlaySelector
             value={1}
             data={data}
@@ -148,8 +172,8 @@ const Replay = () => {
   );
 };
 
-Replay.propTypes = {
+Game.propTypes = {
 
 };
 
-export default Replay;
+export default Game;

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
@@ -26,7 +26,7 @@ const PlayPBP = pbpData => {
   const vidRef = useRef(null);
 
   const {
-    isLoading, error, data, refetch, isSuccess,
+    isLoading, isError, error, data, refetch, isSuccess,
   } = useQuery(
     {
       queryKey: ['play', { gameId, eventNum, eventType }],
@@ -87,14 +87,12 @@ const PlayPBP = pbpData => {
     }
   }, []);
 
-  // console.log('loaded', data);
-  // console.log('loaded2', sourceUrl, data2);
-
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       flex: 1,
+      alignItems: 'center',
     }}
     >
       <Button
@@ -110,6 +108,17 @@ const PlayPBP = pbpData => {
       >
         Fetch
       </Button>
+      {isError && <h1>No video cached, try to fetch</h1>}
+      {(isLoading || isLoading2) && (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
+          <CircularProgress />
+        </div>
+      )}
 
       {(sourceUrl) && (
         [
@@ -122,7 +131,7 @@ const PlayPBP = pbpData => {
             muted
             style={{
               width: '100%',
-              height: '80vh',
+              paddigTop: 40,
             }}
             controls
             src={sourceUrl}
@@ -132,6 +141,10 @@ const PlayPBP = pbpData => {
 
     </div>
   );
+};
+
+PlayPBP.propTypes = {
+
 };
 
 export default PlayPBP;

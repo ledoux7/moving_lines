@@ -22,6 +22,8 @@ import themeObject from '../themes';
 import Dashboard from './Dashboard';
 import Analytics from './NBA/Analytics';
 import Replay from './NBA/Replay';
+import Analytics from './NBA/Games';
+import Game from './NBA/Game';
 import PlayPBP from './NBA/PlayPBP';
 import PlayRangeWrapper from './NBA/PlayRangeWrapper';
 
@@ -183,14 +185,14 @@ const Routes = ({ buster }) => {
                     <Upload />
                   </MiniDrawer>
                 </Route>
-                <Route path='/analytics'>
+                <Route path='/games'>
                   <MiniDrawer>
                     <Analytics stage={'dev'} />
                   </MiniDrawer>
                 </Route>
-                <Route path='/pbp'>
+                <Route path='/game'>
                   <MiniDrawer>
-                    <Replay />
+                    <Game />
                   </MiniDrawer>
                 </Route>
                 <Route path='/playrange'>

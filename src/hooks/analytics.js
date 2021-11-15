@@ -13,15 +13,7 @@ export const useGetPBPForGame = gameId => {
   const [page, setPage] = React.useState(0);
   // const [gameId, setGameId] = React.useState('0022100078');
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
-  } = useInfiniteQuery(
+  const query = useInfiniteQuery(
     ['pbp', gameId],
     fetchPBP,
     {
@@ -42,13 +34,7 @@ export const useGetPBPForGame = gameId => {
   );
 
   return {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
+    ...query,
   };
 };
 
@@ -56,14 +42,7 @@ export const useGetGames = () => {
   const [page, setPage] = React.useState(0);
   // const [gameId, setGameId] = React.useState('0022100078');
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
+  const query = useInfiniteQuery(
     ['games'],
     fetchGames,
     {
@@ -80,12 +59,7 @@ export const useGetGames = () => {
   );
 
   return {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
+    ...query,
   };
 };
 

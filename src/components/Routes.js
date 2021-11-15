@@ -20,8 +20,6 @@ import LoginLayout from '../layouts/LoginLayout';
 import StoreProvider, { StoreContext } from '../store';
 import themeObject from '../themes';
 import Dashboard from './Dashboard';
-import Analytics from './NBA/Analytics';
-import Replay from './NBA/Replay';
 import Analytics from './NBA/Games';
 import Game from './NBA/Game';
 import PlayPBP from './NBA/PlayPBP';

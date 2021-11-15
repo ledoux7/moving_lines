@@ -15,7 +15,7 @@ import {
 } from '../../api';
 import { useGetGames, useGetPBPForGame } from '../../hooks/analytics';
 
-const Replayer = () => {
+const Games = () => {
   const [curPlay, setCurPlay] = useState(null);
   const [curLoaded, setCurLoaded] = useState(false);
   const [page, setPage] = React.useState(0);
@@ -108,8 +108,8 @@ const Replayer = () => {
   );
 };
 
-Replayer.propTypes = {
+Games.propTypes = {
 
 };
 
-export default Replayer;
+export default Games;

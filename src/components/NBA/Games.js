@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
@@ -37,6 +37,8 @@ const Games = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isLoading,
+    isError,
   } = useGetGames();
 
   return (
@@ -57,6 +59,7 @@ const Games = () => {
         justifyContent: 'center',
       }}
       >
+        {isLoading && <CircularProgress />}
         {(data && data.pages) && data.pages.map((group, i) => (
           group.Items.map(game => (
             <Button
@@ -75,35 +78,44 @@ const Games = () => {
             </Button>
           ))
         ))}
+        { isError && (
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 200,
+              height: 55,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => handleSubmit('0022100016')}
+          >
+            {'LAC-GSW'}
+          </Button>
+        )}
+      </div>
+
+      <div>
         <Button
           variant='contained'
           style={{
             textTransform: 'none',
-            width: 200,
-            height: 55,
+            width: 300,
             fontSize: 26,
-            margin: '10px 10px',
+            margin: '40px 10px',
           }}
           color='primary'
-          onClick={() => handleSubmit('0022100016')}
-        >
-          {'LAC-GSW'}
-        </Button>
-      </div>
-
-      <div>
-        <button
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
         >
           {isFetchingNextPage
             ? 'Loading more...'
             : hasNextPage
-              ? 'Load More'
+              ? 'Load Next 25'
               : 'Nothing more to load'}
-        </button>
+        </Button>
       </div>
-
     </div>
   );
 };

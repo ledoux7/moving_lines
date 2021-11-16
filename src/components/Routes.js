@@ -20,7 +20,7 @@ import LoginLayout from '../layouts/LoginLayout';
 import StoreProvider, { StoreContext } from '../store';
 import themeObject from '../themes';
 import Dashboard from './Dashboard';
-import Analytics from './NBA/Games';
+import Games from './NBA/Games';
 import Game from './NBA/Game';
 import PlayPBP from './NBA/PlayPBP';
 import PlayRangeWrapper from './NBA/PlayRangeWrapper';
@@ -185,7 +185,7 @@ const Routes = ({ buster }) => {
                 </Route>
                 <Route path='/games'>
                   <MiniDrawer>
-                    <Analytics stage={'dev'} />
+                    <Games stage={'dev'} />
                   </MiniDrawer>
                 </Route>
                 <Route path='/game'>
@@ -219,7 +219,7 @@ const Routes = ({ buster }) => {
                     <Home />
                   </MiniDrawer> */}
                   <MiniDrawer>
-                    <Analytics stage={'dev'} />
+                    <Games stage={'dev'} />
                   </MiniDrawer>
                 </Route>
               </Switch>

@@ -163,6 +163,7 @@ const PlayRange = ({ cached }) => {
       display: 'flex',
       flexDirection: 'column',
       flex: 1,
+      overflow: 'scroll',
     }}
     >
       {videoUrl.isError && <h1>No video cached, try with proxy</h1>}
@@ -198,7 +199,8 @@ const PlayRange = ({ cached }) => {
             muted
             style={{
               width: '100%',
-              paddingTop: '50px',
+              // paddingTop: '50px',
+              maxHeight: 'calc(100vh - 132px)',
             }}
             controls
             src={sourceUrl}

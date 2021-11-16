@@ -102,9 +102,9 @@ const PlaySelector = React.memo(({
   // console.log('render');
   return (
     <div style={{
-      // overflow: 'scroll',
+      overflow: 'scroll',
       display: 'flex',
-      flex: 1,
+      // flex: 1,
       width: '90%',
       flexDirection: 'column',
     }}
@@ -234,7 +234,7 @@ const PlaySelector = React.memo(({
             color='primary'
             disabled={play.video === '0'}
           >
-            {play.home_dsc || play.neutral_dsc || play.road_dsc }
+            P{play.period}: {play.time_str}  {play.home_dsc || play.neutral_dsc || play.road_dsc }
           </Button>
         ))}
 

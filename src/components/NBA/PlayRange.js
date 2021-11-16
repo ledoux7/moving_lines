@@ -15,7 +15,7 @@ import {
 import { useLocation } from 'react-router';
 // import pbpData from '../data';
 import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
-import { useGetPBPForGame } from '../../hooks/analytics';
+import { useGetPBPForGame, useGetVideoUrlFresh } from '../../hooks/analytics';
 
 const PlayRange = ({ cached }) => {
   const [curPlay, setCurPlay] = useState(null);
@@ -42,6 +42,8 @@ const PlayRange = ({ cached }) => {
     status,
   } = useGetPBPForGame(gameId);
 
+  const { refetch } = useGetVideoUrlFresh(gameId, curEventNum, curEventType, false);
+
   const pbpRange = useMemo(() => {
     const a = 123;
     if (data && data.pages && data.pages[0].Items) {
@@ -62,8 +64,8 @@ const PlayRange = ({ cached }) => {
         : ({ queryKey }) => fetchViaProxy({ queryKey }),
 
       refetchOnWindowFocus: false,
-      retry: 1,
-      retryDelay: () => 500,
+      retry: 2,
+      retryDelay: attempt => 500 + attempt * 2000,
       enabled: curEventNum !== undefined,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
@@ -191,6 +193,22 @@ const PlayRange = ({ cached }) => {
             onClick={() => tryNext()}
           >
             Try Next
+          </Button>
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 200,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => {
+              refetch();
+              setTimeout(() => videoUrl.refetch(), 5000);
+            }}
+          >
+            Fetch This
           </Button>
           <h1>No video cached, try with proxy</h1>
         </div>

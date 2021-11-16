@@ -63,50 +63,23 @@ export const useGetGames = () => {
   };
 };
 
-// export const useGetVideoUrl = (gameId, eventNum, eventType, cached = true) => {
-//   const [page, setPage] = React.useState(0);
-//   // const [gameId, setGameId] = React.useState('0022100078');
+export const useGetVideoUrlFresh = (gameId, eventNum, eventType, enabled = false) => {
+  const query = useQuery(
+    {
+      queryKey: ['playProxy', { gameId, eventNum, eventType }],
+      queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
 
-//   const fn = cached
-//     ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-//     : ({ queryKey }) => fetchViaProxy({ queryKey });
-
-//   const {
-//     data,
-//     error,
-//     fetchNextPage,
-//     hasNextPage,
-//     isFetchingNextPage,
-//     status,
-//     isSuccess,
-//     isLoading,
-//   } = useQuery(
-//     {
-//       queryKey: ['videoUrl', { gameId, eventNum: curEventNum, eventType: curEventType }],
-//       // queryFn: ({ queryKey }) => fetchFromDynamoDb({ queryKey }),
-//       queryFn: fn,
-//       // queryFn: state.checkedB
-//       //   ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-//       //   : ({ queryKey }) => fetchViaProxy({ queryKey }),
-
-//       refetchOnWindowFocus: false,
-//       retry: 0,
-//       // staleTime: 60 * 1000,
-//       refetchOnMount: false,
-//     },
-//   );
-
-//   return {
-//     data,
-//     error,
-//     fetchNextPage,
-//     hasNextPage,
-//     isFetchingNextPage,
-//     status,
-//     isSuccess,
-//     isLoading,
-//   };
-// };
+  return {
+    ...query,
+  };
+};
 
 // export const useGetPlayUrl = (gameId, eventNum, eventType) => {
 //   const [page, setPage] = React.useState(0);

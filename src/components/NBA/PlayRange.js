@@ -210,7 +210,7 @@ const PlayRange = ({ cached }) => {
           >
             Fetch This
           </Button>
-          <h1>No video cached, try with proxy</h1>
+          <h1>No video cached. Turn off cached toggle to use proxy for all plays. Use Fetch This to load this specific play(might take 5s). If still does not work use Try Next</h1>
         </div>
       )}
 

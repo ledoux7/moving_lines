@@ -98,47 +98,48 @@ const Game = () => {
           >
 
             {(data && data.pages) && (
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              alignItems: 'center',
-            }}
-            >
-              <Slider
-                value={value}
-                onChange={handleChange}
-                style={{
-                  margin: '0px 20px',
-                  width: '90%',
-                  height: 50,
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                }}
-              // valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
-                valueLabelDisplay='on'
-                disabled={data.pages[0].Items.length < 1}
-                min={0}
-                max={data.pages[0].Items.length - 1}
-              />
-              <Button
-                variant='contained'
-                style={{
-                  textTransform: 'none',
-                  width: 200,
-                  fontSize: 26,
-                  margin: '10px 10px',
-                }}
-                color='primary'
-                onClick={() => handleSubmit(value)}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+                alignItems: 'center',
+              }}
               >
-                Play Range
-              </Button>
-            </div>
+                <Slider
+                  value={value}
+                  onChange={handleChange}
+                  style={{
+                    margin: '0px 20px',
+                    width: '90%',
+                    height: 50,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                  }}
+                // valueLabelDisplay='auto'
+                  aria-labelledby='range-slider'
+                  valueLabelDisplay='on'
+                  disabled={data.pages[0].Items.length < 1}
+                  min={0}
+                  max={data.pages[0].Items.length - 1}
+                />
+                <Button
+                  variant='contained'
+                  style={{
+                    textTransform: 'none',
+                    width: 200,
+                    fontSize: 26,
+                    margin: '10px 10px',
+                  }}
+                  color='primary'
+                  onClick={() => handleSubmit(value)}
+                >
+                  Play Range
+                </Button>
+              </div>
             )}
           </div>
-        </div>)
+        </div>
+        )
       }
       {
         isSuccess && (

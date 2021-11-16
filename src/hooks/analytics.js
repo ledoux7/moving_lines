@@ -46,6 +46,7 @@ export const useGetGames = () => {
     ['games'],
     fetchGames,
     {
+      retry: 2,
       getNextPageParam: (lastPage, pages) => {
         // const { page, total_pages: totalPages } = lastPage.data;
         // return (page < totalPages) ? page + 1 : undefined;

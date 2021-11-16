@@ -63,85 +63,87 @@ export const useGetGames = () => {
   };
 };
 
-export const useGetVideoUrl = (gameId, eventNum, eventType, cached = true) => {
-  const [page, setPage] = React.useState(0);
-  // const [gameId, setGameId] = React.useState('0022100078');
+// export const useGetVideoUrl = (gameId, eventNum, eventType, cached = true) => {
+//   const [page, setPage] = React.useState(0);
+//   // const [gameId, setGameId] = React.useState('0022100078');
 
-  const fn = cached
-    ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-    : ({ queryKey }) => fetchViaProxy({ queryKey });
+//   const fn = cached
+//     ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
+//     : ({ queryKey }) => fetchViaProxy({ queryKey });
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
-  } = useQuery(
-    {
-      queryKey: ['videoUrl', { gameId, eventNum: curEventNum, eventType: curEventType }],
-      // queryFn: ({ queryKey }) => fetchFromDynamoDb({ queryKey }),
-      queryFn: fn,
-      // queryFn: state.checkedB
-      //   ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-      //   : ({ queryKey }) => fetchViaProxy({ queryKey }),
+//   const {
+//     data,
+//     error,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     status,
+//     isSuccess,
+//     isLoading,
+//   } = useQuery(
+//     {
+//       queryKey: ['videoUrl', { gameId, eventNum: curEventNum, eventType: curEventType }],
+//       // queryFn: ({ queryKey }) => fetchFromDynamoDb({ queryKey }),
+//       queryFn: fn,
+//       // queryFn: state.checkedB
+//       //   ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
+//       //   : ({ queryKey }) => fetchViaProxy({ queryKey }),
 
-      refetchOnWindowFocus: false,
-      retry: 0,
-      // staleTime: 60 * 1000,
-      refetchOnMount: false,
-    },
-  );
+//       refetchOnWindowFocus: false,
+//       retry: 0,
+//       // staleTime: 60 * 1000,
+//       refetchOnMount: false,
+//     },
+//   );
 
-  return {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
-  };
-};
+//   return {
+//     data,
+//     error,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     status,
+//     isSuccess,
+//     isLoading,
+//   };
+// };
 
-export const useGetPlayUrl = (gameId, eventNum, eventType) => {
-  const [page, setPage] = React.useState(0);
-  // const [gameId, setGameId] = React.useState('0022100078');
+// export const useGetPlayUrl = (gameId, eventNum, eventType) => {
+//   const [page, setPage] = React.useState(0);
+//   // const [gameId, setGameId] = React.useState('0022100078');
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
-  } = useQuery(
-    ['play', gameId, eventNum, eventType],
-    fetchPlayUrl,
-    {
+//   const {
+//     data,
+//     error,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     status,
+//     isSuccess,
+//   } = useQuery(
+//     ['play', gameId, eventNum, eventType],
+//     fetchPlayUrl,
+//     {
 
-      // getNextPageParam: (lastPage, pages) => {
-      //   // const { page, total_pages: totalPages } = lastPage.data;
-      //   // return (page < totalPages) ? page + 1 : undefined;
-      //   const a = 12;
-      //   return {
-      //     NextToken: encodeURIComponent(lastPage.NextToken),
-      //     QueryExecutionId: lastPage.QueryExecutionId,
-      //   };
-      // },
-    },
-  );
+//       // getNextPageParam: (lastPage, pages) => {
+//       //   // const { page, total_pages: totalPages } = lastPage.data;
+//       //   // return (page < totalPages) ? page + 1 : undefined;
+//       //   const a = 12;
+//       //   return {
+//       //     NextToken: encodeURIComponent(lastPage.NextToken),
+//       //     QueryExecutionId: lastPage.QueryExecutionId,
+//       //   };
+//       // },
+//     },
+//   );
 
-  return {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isSuccess,
-  };
-};
+//   return {
+//     data,
+//     error,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     status,
+//     isSuccess,
+//   };
+// };

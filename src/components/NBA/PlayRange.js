@@ -62,7 +62,8 @@ const PlayRange = ({ cached }) => {
         : ({ queryKey }) => fetchViaProxy({ queryKey }),
 
       refetchOnWindowFocus: false,
-      retry: 0,
+      retry: 1,
+      retryDelay: () => 500,
       enabled: curEventNum !== undefined,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
@@ -71,7 +72,7 @@ const PlayRange = ({ cached }) => {
 
   const vidRef = useRef(null);
 
-  const ended = useCallback(
+  const tryNext = useCallback(
     () => {
       for (let i = curPlay + 1; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
@@ -85,6 +86,13 @@ const PlayRange = ({ cached }) => {
       }
     },
     [curPlay, pbpRange],
+  );
+
+  const ended = useCallback(
+    () => {
+      tryNext();
+    },
+    [tryNext],
   );
 
   const onPlaying = useCallback(
@@ -166,7 +174,28 @@ const PlayRange = ({ cached }) => {
       overflow: 'scroll',
     }}
     >
-      {videoUrl.isError && <h1>No video cached, try with proxy</h1>}
+      {videoUrl.isError && (
+        <div style={{
+          display: 'flex',
+        }}
+        >
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 200,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => tryNext()}
+          >
+            Try Next
+          </Button>
+          <h1>No video cached, try with proxy</h1>
+        </div>
+      )}
+
       {(!videoUrl.isSuccess && !videoUrl.isError) && (
         <div style={{
           display: 'flex',

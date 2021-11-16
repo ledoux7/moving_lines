@@ -60,6 +60,7 @@ const PlayRangeWrapper = pbpData => {
     >
 
       <FormControlLabel
+        style={{ margin: 0 }}
         control={
           <Switch
             checked={state.checkedB}

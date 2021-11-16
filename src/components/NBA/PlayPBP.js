@@ -40,10 +40,10 @@ const PlayPBP = pbpData => {
   );
 
   const {
-    isLoading: isLoading2, error: error2, data: data2, refetch: refetch2, isSuccess: isSuccess2,
+    isLoading: isLoading2, error: error2, data: data32, refetch: refetch2, isSuccess: isSuccess2,
   } = useQuery(
     {
-      queryKey: ['play', { gameId, eventNum, eventType }],
+      queryKey: ['playProxy', { gameId, eventNum, eventType }],
       queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
       refetchOnWindowFocus: false,
       retry: 0,
@@ -63,29 +63,30 @@ const PlayPBP = pbpData => {
   const onPlaying = useCallback(
     () => {
       console.log('playing');
-      vidRef.current.playbackRate = 1.5;
+      // vidRef.current.playbackRate = 1.5;
     },
     [],
   );
 
   useEffect(() => {
+    console.log('hot', data, data32);
     if (data && data.Item) {
       // setCurPlay(0);
       setSourceUrl(data.Item.UrlHigh.S);
       setDsc(data.Item.Dsc.S);
     }
-    if (data2 && data2.Item) {
-      console.log('awht', data2.Item);
-      setSourceUrl(data2.Item.UrlHigh);
-      setDsc(data2.Item.Dsc);
+    else if (data32 && data32.Item) {
+      console.log('awht', data32.Item);
+      setSourceUrl(data32.Item.UrlHigh);
+      setDsc(data32.Item.Dsc);
     }
-  }, [data, data2]);
+  }, [data, data32]);
 
-  useEffect(() => {
-    if (vidRef.current) {
-      vidRef.current.playbackRate = 1.5;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (vidRef.current) {
+  //     vidRef.current.playbackRate = 1.5;
+  //   }
+  // }, []);
 
   return (
     <div style={{
@@ -108,7 +109,7 @@ const PlayPBP = pbpData => {
       >
         Fetch
       </Button>
-      {isError && <h1>No video cached, try to fetch</h1>}
+      {isError && !isSuccess2 && <h1>No video cached, try to fetch</h1>}
       {(isLoading || isLoading2) && (
         <div style={{
           display: 'flex',
@@ -130,8 +131,9 @@ const PlayPBP = pbpData => {
             autoPlay
             muted
             style={{
-              width: '100%',
-              paddigTop: 40,
+              // width: '100%',
+              maxHeight: 'calc(100vh - 220px)',
+              // paddigTop: 40,
             }}
             controls
             src={sourceUrl}

@@ -62,6 +62,7 @@ const Game = () => {
       flexDirection: 'column',
       flex: 1,
       alignItems: 'center',
+      overflow: 'scroll',
     }}
     >
       <h1>Replay: {search} {JSON.stringify(value)}</h1>
@@ -76,25 +77,27 @@ const Game = () => {
           <CircularProgress />
         </div>
       )}
-      <div style={{
-        display: 'flex',
-        // flex: 1,
-        width: '100%',
-      }}
-      >
-
+      {
+        !showPlays && (
         <div style={{
           display: 'flex',
-          flex: 1,
-          overflow: 'scroll',
-          maxHeight: 650,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          maxWidth: '100%',
+          // flex: 1,
+          width: '100%',
         }}
         >
 
-          {(data && data.pages) && (
+          <div style={{
+            display: 'flex',
+            flex: 1,
+            overflow: 'scroll',
+            maxHeight: 650,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            maxWidth: '100%',
+          }}
+          >
+
+            {(data && data.pages) && (
             <div style={{
               display: 'flex',
               flexDirection: 'column',
@@ -133,11 +136,10 @@ const Game = () => {
                 Play Range
               </Button>
             </div>
-          )}
-
-        </div>
-
-      </div>
+            )}
+          </div>
+        </div>)
+      }
       {
         isSuccess && (
         <Button
@@ -151,7 +153,7 @@ const Game = () => {
           color='primary'
           onClick={() => setShowPlays(prev => !prev)}
         >
-          Show Plays
+          {showPlays ? 'Show Slider' : 'Select Plays'}
         </Button>
 
         )

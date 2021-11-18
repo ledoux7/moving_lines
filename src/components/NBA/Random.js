@@ -35,8 +35,7 @@ const top100Films = [
 
 const options = ['Option 1', 'Option 2'];
 
-const RandomShots = React.memo(({
-}) => {
+const RandomShots = React.memo(() => {
   const [player, setPlayer] = useState();
   const [curPlay, setCurPlay] = useState(null);
   const [curPlayObj, setCurPlayObj] = useState(null);
@@ -97,9 +96,7 @@ const RandomShots = React.memo(({
     >
       <h1>Random 10 Shot Sample</h1>
       <Autocomplete
-        // multiple
         fullWidth
-        disableCloseOnSelect
         id='tags-standard'
         options={playerNames}
         onChange={(event, newValue) => {

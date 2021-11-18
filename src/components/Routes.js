@@ -25,6 +25,7 @@ import Game from './NBA/Game';
 import PlayPBP from './NBA/PlayPBP';
 import PlayRangeWrapper from './NBA/PlayRangeWrapper';
 import PlaySelectorWrapper from './NBA/PlaySelectorWrapper';
+import RandomShots from './NBA/Random';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
@@ -207,6 +208,11 @@ const Routes = ({ buster }) => {
                 <Route path='/play'>
                   <MiniDrawer>
                     <PlayPBP />
+                  </MiniDrawer>
+                </Route>
+                <Route path='/random'>
+                  <MiniDrawer>
+                    <RandomShots />
                   </MiniDrawer>
                 </Route>
                 <NonLoggedInRoute path='/login' auth={auth}>

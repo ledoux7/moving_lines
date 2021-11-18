@@ -6,7 +6,13 @@ import {
   useQuery, useQueries, useMutation, useInfiniteQuery,
 } from 'react-query';
 import {
-  fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP, fetchGames, fetchPlayUrl,
+  fetchFromDynamoDb,
+  fetchNew,
+  fetchViaProxy, fetchPBP,
+  fetchGames,
+  fetchPlayUrl,
+  fetchRandomShotsPlayer,
+  fetchPlayerNames,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -72,6 +78,41 @@ export const useGetVideoUrlFresh = (gameId, eventNum, eventType, enabled = false
       refetchOnWindowFocus: false,
       retry: 0,
       enabled,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetRandomShotsPlayer = playerName => {
+  const query = useQuery(
+    {
+      queryKey: ['random_shots_player', { playerName }],
+      queryFn: ({ queryKey }) => fetchRandomShotsPlayer({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled: !!playerName,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetPlayerNames = () => {
+  const query = useQuery(
+    {
+      queryKey: ['playernames'],
+      queryFn: () => fetchPlayerNames(),
+      refetchOnWindowFocus: false,
+      retry: 0,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
     },

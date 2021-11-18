@@ -18,6 +18,14 @@ const getUrlGames = (NextToken, QueryExecutionId) => (
   `${baseUrl}ml/games?NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
 );
 
+const getUrlRandomShotsPlayer = playerName => (
+  `${baseUrl}ml/random/shots/player?playerName=${playerName}`
+);
+
+const getUrlPlayerNames = () => (
+  `${baseUrl}ml/players`
+);
+
 export const fetchViaProxy = async ({ queryKey }) => {
   console.log('keyProxy', queryKey);
   const [_key, { gameId, eventNum, eventType }] = queryKey;
@@ -77,6 +85,21 @@ export const fetchGames = async ({
   console.log({ url });
 
   const res = await axios.get(url);
+  return res?.data;
+};
+
+export const fetchRandomShotsPlayer = async ({ queryKey }) => {
+  console.log('keyProxy', queryKey);
+  const [_key, { playerName }] = queryKey;
+  if (playerName === undefined) {
+    throw new Error('bad params');
+  }
+  const res = await axios.get(getUrlRandomShotsPlayer(encodeURIComponent(playerName)));
+  return res?.data;
+};
+
+export const fetchPlayerNames = async () => {
+  const res = await axios.get(getUrlPlayerNames());
   return res?.data;
 };
 

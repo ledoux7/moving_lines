@@ -20,6 +20,7 @@ import Auth from '@aws-amplify/auth';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
+import { Shuffle } from '@material-ui/icons';
 import useStyles from '../styles';
 import ListItemLink from '../components/ListItemLink';
 import { loginUser, useAuthState, useAuthDispatch } from '../context/context';
@@ -77,6 +78,11 @@ const createArr = [
     to: '/games',
     name: 'Games',
     icon: <OndemandVideoIcon />,
+  },
+  {
+    to: '/random',
+    name: 'Random',
+    icon: <Shuffle />,
   },
   // {
   //   to: '/upload',

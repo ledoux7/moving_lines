@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { ButtonBase } from '@material-ui/core';
+import { ButtonBase, Tooltip } from '@material-ui/core';
 import useStyles from '../styles';
 
 const ListItemLink = ({
@@ -29,25 +29,29 @@ const ListItemLink = ({
 
   if (button) {
     return (
-      <ButtonBase onClick={onClick}>
-        <ListItem button key={'Home'}>
-          <ListItemIcon>
-            {icon}
-          </ListItemIcon>
-          <ListItemText primary={name} />
-        </ListItem>
-      </ButtonBase>
+      <Tooltip title={name}>
+        <ButtonBase onClick={onClick}>
+          <ListItem button key={'Home'}>
+            <ListItemIcon>
+              {icon}
+            </ListItemIcon>
+            <ListItemText primary={name} />
+          </ListItem>
+        </ButtonBase>
+      </Tooltip>
     );
   }
 
   return (
     <CustomLink to={to}>
-      <ListItem button key={'Home'}>
-        <ListItemIcon>
-          {icon}
-        </ListItemIcon>
-        <ListItemText primary={name} className={classes.listItem} />
-      </ListItem>
+      <Tooltip title={name} placement='right'>
+        <ListItem button key={'Home'}>
+          <ListItemIcon>
+            {icon}
+          </ListItemIcon>
+          <ListItemText primary={name} className={classes.listItem} />
+        </ListItem>
+      </Tooltip>
     </CustomLink>
   );
 };

@@ -2,7 +2,13 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button, CircularProgress } from '@material-ui/core';
+import {
+  Button, CircularProgress, IconButton, Tooltip,
+} from '@material-ui/core';
+import { Cached, SkipNext, SkipPrevious } from '@material-ui/icons';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
 import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
@@ -14,7 +20,7 @@ import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
 import { useGetPBPForGame, useGetVideoUrlFresh } from '../../hooks/analytics';
 
 const PlayRange = ({ cached }) => {
-  const [curPlay, setCurPlay] = useState(null);
+  const [curPlay, setCurPlay] = useState(0);
   const [curLoaded, setCurLoaded] = useState(false);
   const [sourceUrl, setSourceUrl] = useState(null);
   const [err, setError] = useState(false);
@@ -64,8 +70,24 @@ const PlayRange = ({ cached }) => {
   const vidRef = useRef(null);
 
   const tryNext = useCallback(
-    () => {
-      for (let i = curPlay + 1; i < pbpRange.length; i++) {
+    (num = 1) => {
+      for (let i = curPlay + num; i < pbpRange.length; i++) {
+        if (pbpRange[i] && pbpRange[i].video !== '0') {
+          setCurEventNum(pbpRange[i].eventnum);
+          setCurEventType(pbpRange[i].event_type_id);
+          setCurPlay(i);
+          console.log('ended', pbpRange[i]);
+          break;
+        }
+        console.log('skipped', pbpRange[i]);
+      }
+    },
+    [curPlay, pbpRange],
+  );
+
+  const tryPrev = useCallback(
+    (num = 1) => {
+      for (let i = curPlay - num; i < pbpRange.length && i >= 0; i--) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
           setCurEventNum(pbpRange[i].eventnum);
           setCurEventType(pbpRange[i].event_type_id);
@@ -114,22 +136,12 @@ const PlayRange = ({ cached }) => {
 
   useEffect(() => {
     if (pbpRange.length) {
-      for (let i = 0; i < pbpRange.length; i++) {
-        if (pbpRange[i] && pbpRange[i].video !== '0') {
-          setCurEventNum(pbpRange[i].eventnum);
-          setCurEventType(pbpRange[i].event_type_id);
-          setCurPlay(i);
-          // console.log('fist', pbpRange[i]);
-          break;
-        }
-        // console.log('first skipped', pbpRange[i]);
-      }
+      tryNext(0);
     }
-  }, [pbpRange]);
+  }, [pbpRange, tryNext]);
 
   useEffect(() => {
     if (videoUrl.data && videoUrl.data.Item) {
-      // setCurPlay(0);
       setSourceUrl(videoUrl.data.Item.UrlHigh);
       setDsc(videoUrl.data.Item.Dsc);
     }
@@ -148,37 +160,42 @@ const PlayRange = ({ cached }) => {
           display: 'flex',
         }}
         >
-          <Button
-            variant='contained'
-            style={{
-              textTransform: 'none',
-              width: 200,
-              fontSize: 26,
-              margin: '10px 10px',
-            }}
-            color='primary'
-            onClick={() => tryNext()}
-          >
-            Try Next
-          </Button>
-          <Button
-            variant='contained'
-            style={{
-              textTransform: 'none',
-              width: 200,
-              fontSize: 26,
-              margin: '10px 10px',
-            }}
-            color='primary'
-            onClick={() => {
-              videoUrl.refetch();
-            }}
-          >
-            Fetch This
-          </Button>
-          <h1>Video not cached. Turn off cached toggle to use proxy for all plays. </h1>
+          <h1>Error on {curEventNum}, try again</h1>
         </div>
       )}
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: 10,
+      }}
+      >
+        <Tooltip title={'Go Back 5'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => tryPrev(5)}>
+            <SkipPrevious fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Go Back'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => tryPrev()}>
+            <NavigateBeforeIcon fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Refetch'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => videoUrl.refetch()}>
+            <Cached fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Go Next'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => tryNext()}>
+            <NavigateNextIcon fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Go Next 5'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => tryNext(5)}>
+            <SkipNext fontSize='large' />
+          </IconButton>
+        </Tooltip>
+      </div>
 
       {(!videoUrl.isSuccess && !videoUrl.isError) && (
         <div style={{

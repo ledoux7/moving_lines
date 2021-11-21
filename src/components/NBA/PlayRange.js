@@ -3,9 +3,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
 import { Button, CircularProgress } from '@material-ui/core';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
@@ -13,7 +10,6 @@ import {
   useQuery, useQueries, useMutation, useQueryClient,
 } from 'react-query';
 import { useLocation } from 'react-router';
-// import pbpData from '../data';
 import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
 import { useGetPBPForGame, useGetVideoUrlFresh } from '../../hooks/analytics';
 
@@ -25,7 +21,7 @@ const PlayRange = ({ cached }) => {
   const [curEventNum, setCurEventNum] = useState();
   const [curEventType, setCurEventType] = useState();
   const [dsc, setDsc] = useState(null);
-  // const [pbpRange, setPBPRange] = useState([]);
+
   const queryClient = useQueryClient();
   const { search } = useLocation();
   const query = new URLSearchParams(search);
@@ -42,8 +38,6 @@ const PlayRange = ({ cached }) => {
     status,
   } = useGetPBPForGame(gameId);
 
-  const { refetch } = useGetVideoUrlFresh(gameId, curEventNum, curEventType, false);
-
   const pbpRange = useMemo(() => {
     const a = 123;
     if (data && data.pages && data.pages[0].Items) {
@@ -57,12 +51,7 @@ const PlayRange = ({ cached }) => {
       queryKey: ['videoUrl', {
         gameId, eventNum: curEventNum, eventType: curEventType, cached,
       }],
-      // queryFn: ({ queryKey }) => fetchFromDynamoDb({ queryKey }),
-      // queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
-      queryFn: cached
-        ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-        : ({ queryKey }) => fetchViaProxy({ queryKey }),
-
+      queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
       refetchOnWindowFocus: false,
       retry: 2,
       retryDelay: attempt => 500 + attempt * 2000,
@@ -109,9 +98,7 @@ const PlayRange = ({ cached }) => {
               queryKey: ['videoUrl', {
                 gameId, eventNum: pbpRange[i].eventnum, eventType: pbpRange[i].event_type_id, cached,
               }],
-              queryFn: cached
-                ? ({ queryKey }) => fetchFromDynamoDb({ queryKey })
-                : ({ queryKey }) => fetchViaProxy({ queryKey }),
+              queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
               refetchOnWindowFocus: false,
               retry: 0,
               // staleTime: 60 * 1000,
@@ -120,17 +107,10 @@ const PlayRange = ({ cached }) => {
           );
           break;
         }
-        // console.log('skipped prefetch', pbpRange[i]);
       }
     },
     [cached, curPlay, gameId, pbpRange, queryClient],
   );
-
-  // useEffect(() => {
-  //   if (vidRef.current) {
-  //     vidRef.current.playbackRate = 1.5;
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (pbpRange.length) {
@@ -148,20 +128,7 @@ const PlayRange = ({ cached }) => {
   }, [pbpRange]);
 
   useEffect(() => {
-    // console.log('hello', videoUrl);
-    // if (videoUrl && videoUrl.data && Object.keys(videoUrl.data).length === 0) {
-    //   setError(true);
-    //   return;
-    // }
-
-    if (cached) {
-      if (videoUrl.data && videoUrl.data.Item) {
-        // setCurPlay(0);
-        setSourceUrl(videoUrl.data.Item.UrlHigh.S);
-        setDsc(videoUrl.data.Item.Dsc.S);
-      }
-    }
-    else if (videoUrl.data && videoUrl.data.Item) {
+    if (videoUrl.data && videoUrl.data.Item) {
       // setCurPlay(0);
       setSourceUrl(videoUrl.data.Item.UrlHigh);
       setDsc(videoUrl.data.Item.Dsc);
@@ -204,8 +171,7 @@ const PlayRange = ({ cached }) => {
             }}
             color='primary'
             onClick={() => {
-              refetch();
-              setTimeout(() => videoUrl.refetch(), 5000);
+              videoUrl.refetch();
             }}
           >
             Fetch This

@@ -2,18 +2,18 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button, CircularProgress } from '@material-ui/core';
+import {
+  Button, CircularProgress, IconButton, Tooltip,
+} from '@material-ui/core';
+import { Cached } from '@material-ui/icons';
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
 import { useQuery, useQueries, useMutation } from 'react-query';
 import { useLocation } from 'react-router';
-// import pbpData from '../data';
 import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
 
 const PlayPBP = pbpData => {
-  const [curPlay, setCurPlay] = useState(null);
-  const [curLoaded, setCurLoaded] = useState(false);
   const [sourceUrl, setSourceUrl] = useState(null);
   const [dsc, setDsc] = useState(null);
 
@@ -30,24 +30,9 @@ const PlayPBP = pbpData => {
   } = useQuery(
     {
       queryKey: ['play', { gameId, eventNum, eventType }],
-      queryFn: ({ queryKey }) => fetchFromDynamoDb({ queryKey }),
-
-      refetchOnWindowFocus: false,
-      retry: 0,
-      staleTime: 60 * 1000,
-      refetchOnMount: false,
-    },
-  );
-
-  const {
-    isLoading: isLoading2, error: error2, data: data32, refetch: refetch2, isSuccess: isSuccess2,
-  } = useQuery(
-    {
-      queryKey: ['playProxy', { gameId, eventNum, eventType }],
       queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
       refetchOnWindowFocus: false,
       retry: 0,
-      enabled: false,
       staleTime: 60 * 1000,
       refetchOnMount: false,
     },
@@ -69,24 +54,11 @@ const PlayPBP = pbpData => {
   );
 
   useEffect(() => {
-    console.log('hot', data, data32);
     if (data && data.Item) {
-      // setCurPlay(0);
-      setSourceUrl(data.Item.UrlHigh.S);
-      setDsc(data.Item.Dsc.S);
+      setSourceUrl(data.Item.UrlHigh);
+      setDsc(data.Item.Dsc);
     }
-    else if (data32 && data32.Item) {
-      console.log('awht', data32.Item);
-      setSourceUrl(data32.Item.UrlHigh);
-      setDsc(data32.Item.Dsc);
-    }
-  }, [data, data32]);
-
-  // useEffect(() => {
-  //   if (vidRef.current) {
-  //     vidRef.current.playbackRate = 1.5;
-  //   }
-  // }, []);
+  }, [data]);
 
   return (
     <div style={{
@@ -96,25 +68,13 @@ const PlayPBP = pbpData => {
       alignItems: 'center',
     }}
     >
-      <Button
-        variant='contained'
-        style={{
-          textTransform: 'none',
-          width: 200,
-          fontSize: 26,
-          margin: '10px 10px',
-        }}
-        color='primary'
-        onClick={() => refetch2()}
-      >
-        Fetch
-      </Button>
-      {isError && !isSuccess2 && <h1>No video cached, try to fetch</h1>}
-      {(isLoading || isLoading2) && (
+      {isError && <h1>Error, try fetch again</h1>}
+      {(isLoading) && (
         <div style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flex: 1,
         }}
         >
           <CircularProgress />
@@ -123,7 +83,17 @@ const PlayPBP = pbpData => {
 
       {(sourceUrl) && (
         [
-          <h1>{dsc}</h1>,
+          <h1>
+            {dsc}
+            <Tooltip title={'Refetch'} placement='top'>
+              <IconButton
+                aria-label='delete'
+                onClick={() => refetch()}
+              >
+                <Cached fontSize='large' />
+              </IconButton>
+            </Tooltip>
+          </h1>,
           <video
             onEnded={ended}
             onPlaying={onPlaying}

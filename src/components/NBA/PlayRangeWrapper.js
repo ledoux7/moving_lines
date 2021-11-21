@@ -59,7 +59,7 @@ const PlayRangeWrapper = pbpData => {
     }}
     >
 
-      <FormControlLabel
+      {/* <FormControlLabel
         style={{ margin: 0 }}
         control={
           <Switch
@@ -72,7 +72,7 @@ const PlayRangeWrapper = pbpData => {
         }
         label={ST[state.checkedB]}
         labelPlacement='end'
-      />
+      /> */}
 
       {/* {curPlay && <PlayRange key={state.checkedB} cached={state.checkedB} />} */}
       <PlayRange key={state.checkedB} cached={state.checkedB} />

@@ -18,12 +18,24 @@ const getUrlGames = (NextToken, QueryExecutionId) => (
   `${baseUrl}ml/games?NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
 );
 
-const getUrlRandomShotsPlayer = playerName => (
-  `${baseUrl}ml/random/shots/player?playerName=${playerName}`
+const getUrlRandomShotsPlayer = (playerName, fg3) => (
+  `${baseUrl}ml/random/shots/player${fg3}?playerName=${playerName}`
+);
+
+const getUrlRandomShotsTeam = (team, fg3) => (
+  `${baseUrl}ml/random/shots/team${fg3}?team=${team}`
+);
+
+const getUrlRandomShotsOpp = (team, fg3) => (
+  `${baseUrl}ml/random/shots/opp${fg3}?team=${team}`
 );
 
 const getUrlPlayerNames = () => (
   `${baseUrl}ml/players`
+);
+
+const getUrlTeamNames = () => (
+  `${baseUrl}ml/teams`
 );
 
 export const fetchViaProxy = async ({ queryKey }) => {
@@ -90,16 +102,40 @@ export const fetchGames = async ({
 
 export const fetchRandomShotsPlayer = async ({ queryKey }) => {
   console.log('keyProxy', queryKey);
-  const [_key, { playerName }] = queryKey;
+  const [_key, { playerName, fg3 }] = queryKey;
   if (playerName === undefined) {
     throw new Error('bad params');
   }
-  const res = await axios.get(getUrlRandomShotsPlayer(encodeURIComponent(playerName)));
+  const res = await axios.get(getUrlRandomShotsPlayer(encodeURIComponent(playerName), fg3));
+  return res?.data;
+};
+
+export const fetchRandomShotsTeam = async ({ queryKey }) => {
+  console.log('keyProxy', queryKey);
+  const [_key, { team, fg3 }] = queryKey;
+  if (team === undefined) {
+    throw new Error('bad params');
+  }
+  const res = await axios.get(getUrlRandomShotsTeam(team, fg3));
+  return res?.data;
+};
+
+export const fetchRandomShotsOpp = async ({ queryKey }) => {
+  console.log('keyProxy', queryKey);
+  const [_key, { team, fg3 }] = queryKey;
+  if (team === undefined) {
+    throw new Error('bad params');
+  }
+  const res = await axios.get(getUrlRandomShotsOpp(team, fg3));
   return res?.data;
 };
 
 export const fetchPlayerNames = async () => {
   const res = await axios.get(getUrlPlayerNames());
+  return res?.data;
+};
+export const fetchTeamNames = async () => {
+  const res = await axios.get(getUrlTeamNames());
   return res?.data;
 };
 

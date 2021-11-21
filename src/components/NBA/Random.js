@@ -3,7 +3,9 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
-import { Button, IconButton } from '@material-ui/core';
+import {
+  Button, Checkbox, FormControl, FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, Tooltip,
+} from '@material-ui/core';
 import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
@@ -22,7 +24,7 @@ import {
   Pause, PlayArrow, SkipNext, SkipPrevious,
 } from '@material-ui/icons';
 import {
-  useGetPBPForGame, useGetPlayerNames, useGetRandomShotsPlayer, useGetVideoUrlFresh,
+  useGetPBPForGame, useGetPlayerNames, useGetRandomShotsOpp, useGetRandomShotsPlayer, useGetRandomShotsTeam, useGetTeamNames, useGetVideoUrlFresh,
 } from '../../hooks/analytics';
 import {
   fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
@@ -37,20 +39,42 @@ const options = ['Option 1', 'Option 2'];
 
 const RandomShots = React.memo(() => {
   const [player, setPlayer] = useState();
+  const [team, setTeam] = useState();
+  const [opp, setOpp] = useState();
+
   const [curPlay, setCurPlay] = useState(null);
   const [curPlayObj, setCurPlayObj] = useState(null);
+  const [typeSample, setTypeSample] = React.useState('Player');
+  const [only3PT, setOnly3PT] = React.useState(false);
 
-  const { data: randomShots, refetch: refetchShots } = useGetRandomShotsPlayer(player);
+  const { data: randomShots, refetch: refetchShots } = useGetRandomShotsPlayer(player, only3PT ? '3' : '');
+  const { data: randomShotsTeam, refetch: refetchShotsTeam } = useGetRandomShotsTeam(team, only3PT ? '3' : '');
+  const { data: randomShotsOpp, refetch: refetchShotsOpp } = useGetRandomShotsOpp(opp, only3PT ? '3' : '');
 
   const { data: playerNamesData } = useGetPlayerNames();
+  const { data: teamNamesData } = useGetTeamNames();
 
-  const keyObj = (randomShots && randomShots.Items[curPlay])
+  const dd = typeSample === 'Player'
+    ? randomShots
+    : typeSample === 'Team'
+      ? randomShotsTeam
+      : randomShotsOpp;
+
+  const keyObj = (dd && dd.Items[curPlay])
     ? {
-      gameId: randomShots.Items[curPlay].game_id, eventNum: randomShots.Items[curPlay].eventnum, eventType: randomShots.Items[curPlay].event_type_id,
+      gameId: dd.Items[curPlay].game_id, eventNum: dd.Items[curPlay].eventnum, eventType: dd.Items[curPlay].event_type_id,
     }
     : {
       gameId: undefined, eventNum: undefined, eventType: undefined,
     };
+
+  const handleChangeRadio = event => {
+    setTypeSample(event.target.value);
+  };
+
+  const handleChange3PT = event => {
+    setOnly3PT(event.target.checked);
+  };
 
   // const { refetch } = useGetVideoUrlFresh(gameId, curEventNum, curEventType, false);
 
@@ -77,28 +101,38 @@ const RandomShots = React.memo(() => {
     return [];
   }, [playerNamesData]);
 
+  const teamNames = useMemo(() => {
+    if (teamNamesData && teamNamesData.Items) {
+      return teamNamesData.Items.map(t => t.team);
+    }
+
+    return [];
+  }, [teamNamesData]);
+
   useEffect(() => {
-    if (randomShots && randomShots.Items && randomShots.Items.length) {
+    if (typeSample === 'Player' && randomShots && randomShots.Items && randomShots.Items.length) {
       console.log('hwa', randomShots);
       setCurPlay(0);
       setCurPlayObj(randomShots.Items[0]);
     }
-  }, [randomShots]);
+    else if (typeSample === 'Team' && randomShotsTeam && randomShotsTeam.Items && randomShotsTeam.Items.length) {
+      setCurPlay(0);
+      setCurPlayObj(randomShotsTeam.Items[0]);
+    }
+    else if (typeSample === 'Opp' && randomShotsOpp && randomShotsOpp.Items && randomShotsOpp.Items.length) {
+      setCurPlay(0);
+      setCurPlayObj(randomShotsOpp.Items[0]);
+    }
+  }, [randomShots, randomShotsOpp, randomShotsTeam, typeSample]);
 
-  return (
-    <div style={{
-      overflow: 'scroll',
-      display: 'flex',
-      // flex: 1,
-      width: '90%',
-      flexDirection: 'column',
-    }}
-    >
-      <h1>Random 10 Shot Sample</h1>
+  let autoCompleteCmp = null;
+  if (typeSample === 'Player') {
+    autoCompleteCmp = (
       <Autocomplete
         fullWidth
         id='tags-standard'
         options={playerNames}
+        disabled={typeSample !== 'Player'}
         onChange={(event, newValue) => {
           console.log('nw', newValue);
           setPlayer(newValue);
@@ -112,33 +146,118 @@ const RandomShots = React.memo(() => {
           />
         )}
       />
+    );
+  }
+  else if (typeSample === 'Team') {
+    autoCompleteCmp = (
+      <Autocomplete
+        fullWidth
+        id='tags-standard'
+        options={teamNames}
+        disabled={typeSample !== 'Team'}
+        onChange={(event, newValue) => {
+          console.log('nw', newValue);
+          setTeam(newValue);
+        }}
+        renderInput={params => (
+          <TextField
+            {...params}
+            variant='standard'
+            label='Team'
+            placeholder='Team name'
+          />
+        )}
+      />
+    );
+  }
+  else if (typeSample === 'Opp') {
+    autoCompleteCmp = (
+      <Autocomplete
+        fullWidth
+        id='tags-standard'
+        options={teamNames}
+        disabled={typeSample !== 'Opp'}
+        onChange={(event, newValue) => {
+          console.log('nw', newValue);
+          setOpp(newValue);
+        }}
+        renderInput={params => (
+          <TextField
+            {...params}
+            variant='standard'
+            label='Opp'
+            placeholder='Opp'
+          />
+        )}
+      />
+    );
+  }
+
+  return (
+    <div style={{
+      overflow: 'scroll',
+      display: 'flex',
+      width: '90%',
+      flexDirection: 'column',
+    }}
+    >
+      <h1>Random 10 Shot Sample</h1>
+      <FormControl component='fieldset'>
+        <FormLabel component='legend'>Type</FormLabel>
+        <RadioGroup row value={typeSample} onChange={handleChangeRadio}>
+          <FormControlLabel value='Player' control={<Radio />} label='Player ' />
+          <FormControlLabel value='Team' control={<Radio />} label='Team' />
+          <FormControlLabel value='Opp' control={<Radio />} label='Opp' />
+        </RadioGroup>
+        <FormControlLabel
+          label='3PT Only'
+          control={
+            <Checkbox
+              checked={only3PT}
+              onChange={handleChange3PT}
+              name='checkedB'
+              color='primary'
+              label='test'
+            />
+          }
+        />
+      </FormControl>
+
+      {autoCompleteCmp}
 
       <div style={{
         display: 'flex',
         justifyContent: 'center',
-        paddingTop: 20,
+        paddingTop: 10,
       }}
       >
-        <IconButton aria-label='delete' onClick={() => setCurPlay(c => c - 1)}>
-          <SkipPrevious fontSize='large' />
-        </IconButton>
-        <IconButton aria-label='delete' onClick={() => refetchShots()}>
-          <Cached fontSize='large' />
-        </IconButton>
-        <IconButton aria-label='delete' onClick={() => setCurPlay(c => c + 1)}>
-          <SkipNext fontSize='large' />
-        </IconButton>
+        <Tooltip title={'Go Back'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => setCurPlay(c => c - 1)}>
+            <SkipPrevious fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Refetch New Sample'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => refetchShots()}>
+            <Cached fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={'Go Next'} placement='top'>
+          <IconButton aria-label='delete' onClick={() => setCurPlay(c => c + 1)}>
+            <SkipNext fontSize='large' />
+          </IconButton>
+        </Tooltip>
       </div>
       <video
         key={2}
         // onEnded={ended}
         // onPlaying={onPlaying}
         // ref={vidRef}
-        // autoPlay
+        autoPlay
         muted
         style={{
-          width: '100%',
-          maxHeight: 'calc(100vh - 300px)',
+          // width: '100%',
+          // maxHeight: 'calc(100vh - 350px)',
+          height: 560,
         }}
         controls
         src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}

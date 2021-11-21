@@ -13,6 +13,9 @@ import {
   fetchPlayUrl,
   fetchRandomShotsPlayer,
   fetchPlayerNames,
+  fetchTeamNames,
+  fetchRandomShotsTeam,
+  fetchRandomShotsOpp,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -88,14 +91,50 @@ export const useGetVideoUrlFresh = (gameId, eventNum, eventType, enabled = false
   };
 };
 
-export const useGetRandomShotsPlayer = playerName => {
+export const useGetRandomShotsPlayer = (playerName, fg3) => {
   const query = useQuery(
     {
-      queryKey: ['random_shots_player', { playerName }],
+      queryKey: ['random_shots_player', { playerName, fg3 }],
       queryFn: ({ queryKey }) => fetchRandomShotsPlayer({ queryKey }),
       refetchOnWindowFocus: false,
       retry: 0,
       enabled: !!playerName,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetRandomShotsTeam = (team, fg3) => {
+  const query = useQuery(
+    {
+      queryKey: ['random_shots_team', { team, fg3 }],
+      queryFn: ({ queryKey }) => fetchRandomShotsTeam({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled: !!team,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetRandomShotsOpp = (team, fg3) => {
+  const query = useQuery(
+    {
+      queryKey: ['random_shots_opp', { team, fg3 }],
+      queryFn: ({ queryKey }) => fetchRandomShotsOpp({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled: !!team,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
     },
@@ -111,6 +150,23 @@ export const useGetPlayerNames = () => {
     {
       queryKey: ['playernames'],
       queryFn: () => fetchPlayerNames(),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetTeamNames = () => {
+  const query = useQuery(
+    {
+      queryKey: ['teamnames'],
+      queryFn: () => fetchTeamNames(),
       refetchOnWindowFocus: false,
       retry: 0,
       // staleTime: 60 * 1000,

@@ -16,6 +16,7 @@ import {
   fetchTeamNames,
   fetchRandomShotsTeam,
   fetchRandomShotsOpp,
+  fetchIsItFoulPlayer,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -135,6 +136,24 @@ export const useGetRandomShotsOpp = (team, fg3) => {
       refetchOnWindowFocus: false,
       retry: 0,
       enabled: !!team,
+      // staleTime: 60 * 1000,
+      refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetIsItFoul = (playerName, gameId) => {
+  const query = useQuery(
+    {
+      queryKey: ['isit_foul', { playerName, gameId }],
+      queryFn: ({ queryKey }) => fetchIsItFoulPlayer({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled: !!playerName,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
     },

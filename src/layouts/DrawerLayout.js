@@ -16,6 +16,7 @@ import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import PhotoIcon from '@material-ui/icons/Photo';
 import ChatIcon from '@material-ui/icons/Chat';
 import ClearIcon from '@material-ui/icons/Clear';
+import FlagIcon from '@material-ui/icons/Flag';
 import Auth from '@aws-amplify/auth';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -83,6 +84,11 @@ const createArr = [
     to: '/random',
     name: 'Random',
     icon: <Shuffle />,
+  },
+  {
+    to: '/isit',
+    name: 'Foul',
+    icon: <FlagIcon />,
   },
   // {
   //   to: '/upload',

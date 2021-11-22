@@ -38,6 +38,10 @@ const getUrlTeamNames = () => (
   `${baseUrl}ml/teams`
 );
 
+const getUrlIsItFoulPlayer = (playerName, gameId) => (
+  `${baseUrl}ml/isit/foul?playerName=${playerName}${gameId ? '&gameId=' + gameId : ''}`
+);
+
 export const fetchViaProxy = async ({ queryKey }) => {
   console.log('keyProxy', queryKey);
   const [_key, { gameId, eventNum, eventType }] = queryKey;
@@ -107,6 +111,16 @@ export const fetchRandomShotsPlayer = async ({ queryKey }) => {
     throw new Error('bad params');
   }
   const res = await axios.get(getUrlRandomShotsPlayer(encodeURIComponent(playerName), fg3));
+  return res?.data;
+};
+
+export const fetchIsItFoulPlayer = async ({ queryKey }) => {
+  console.log('keyProxy', queryKey);
+  const [_key, { playerName, gameId }] = queryKey;
+  if (playerName === undefined) {
+    throw new Error('bad params');
+  }
+  const res = await axios.get(getUrlIsItFoulPlayer(encodeURIComponent(playerName), gameId));
   return res?.data;
 };
 

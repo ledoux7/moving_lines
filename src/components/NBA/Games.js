@@ -15,6 +15,21 @@ import {
 } from '../../api';
 import { useGetGames, useGetPBPForGame } from '../../hooks/analytics';
 
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach(item => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    }
+    else {
+      collection.push(item);
+    }
+  });
+  return map;
+}
+
 const Games = () => {
   const [curPlay, setCurPlay] = useState(null);
   const [curLoaded, setCurLoaded] = useState(false);
@@ -22,6 +37,7 @@ const Games = () => {
   const [nextToken, setNextToken] = React.useState('');
   const [queryId, setQueryId] = React.useState('');
   const [gameId2, setGameId2] = React.useState('0022100079');
+  const [grouped, setGrouped] = React.useState();
 
   const history = useHistory();
   const handleSubmit = gameId => {
@@ -41,6 +57,18 @@ const Games = () => {
     isError,
   } = useGetGames();
 
+  useEffect(() => {
+    if (data) {
+      const biggie = data.pages.reduce((acc, cur) => acc.concat([...cur.Items]), []);
+      const grp = groupBy(biggie, g => g.game_date);
+      const obj = Object.fromEntries(grp);
+
+      setGrouped(obj);
+    }
+  }, [data]);
+
+  console.log('gr', grouped);
+
   return (
     <div style={{
       display: 'flex',
@@ -56,28 +84,53 @@ const Games = () => {
         display: 'flex',
         overflow: 'scroll',
         flexWrap: 'wrap',
-        justifyContent: 'center',
       }}
       >
         {isLoading && <CircularProgress />}
-        {(data && data.pages) && data.pages.map((group, i) => (
-          group.Items.map(game => (
-            <Button
-              variant='contained'
-              style={{
-                textTransform: 'none',
-                width: 180,
-                height: 55,
-                fontSize: 26,
-                margin: '10px 10px',
-              }}
-              color='primary'
-              onClick={() => handleSubmit(game.game_id)}
+
+        {(grouped) && Object.entries(grouped).map((dateGroup, i) => (
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            // flexDirection: 'column',
+          }}
+          >
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+            }}
             >
-              {game.matchup}
-            </Button>
-          ))
+              <h3 style={{
+                textAlign: 'center',
+                margin: 0,
+
+              }}
+              >
+                {dateGroup[0]}
+              </h3>
+
+              { dateGroup[1].map(game => (
+                <Button
+                  variant='contained'
+                  style={{
+                    textTransform: 'none',
+                    width: 180,
+                    height: 55,
+                    fontSize: 26,
+                    margin: '10px 10px',
+                  }}
+                  color='primary'
+                  onClick={() => handleSubmit(game.game_id)}
+                >
+                  {game.matchup}
+                </Button>
+              ))}
+            </div>
+
+          </div>
         ))}
+
         { isError && (
           <Button
             variant='contained'
@@ -103,7 +156,7 @@ const Games = () => {
             textTransform: 'none',
             width: 300,
             fontSize: 26,
-            margin: '40px 10px',
+            marginTop: 10,
           }}
           color='primary'
           onClick={() => fetchNextPage()}

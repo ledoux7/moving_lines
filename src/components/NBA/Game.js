@@ -57,6 +57,9 @@ const Game = () => {
   }, [data]);
 
   function valuetext(value1) {
+    if (!(data && data.pages && data.pages.length && data.pages[0].Items.length)) {
+      return '0%';
+    }
     return `${Math.round((value1 / data.pages[0].Items.length) * 100)}%`;
   }
 

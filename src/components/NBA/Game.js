@@ -34,7 +34,7 @@ const Game = () => {
 
   const history = useHistory();
   const handleSubmit = rangeArr => {
-    history.push(`/playrange?gameId=${gameId}&start=${rangeArr[0]}&end=${rangeArr[1]}`);
+    history.push(`/playrange?gameId=${gameId}&start=${Math.round(rangeArr[0])}&end=${Math.round(rangeArr[1])}`);
   };
 
   const {
@@ -50,11 +50,15 @@ const Game = () => {
 
   useEffect(() => {
     if (data) {
-      setValue([data.pages[0].Items.length - 26, data.pages[0].Items.length - 1]);
+      setValue([data.pages[0].Items.length * 0.92, data.pages[0].Items.length - 1]);
       // setValue([data.pages[0].Items.length - 21, data.pages[0].Items.length - 1]);
       // setValue([data.pages[0].Items.length - 21, data.pages[0].Items.length - 1]);
     }
   }, [data]);
+
+  function valuetext(value1) {
+    return `${Math.round((value1 / data.pages[0].Items.length) * 100)}%`;
+  }
 
   return (
     <div style={{
@@ -65,7 +69,10 @@ const Game = () => {
       overflow: 'scroll',
     }}
     >
-      <h1>Replay: {search} {JSON.stringify(value)}</h1>
+      <h1>
+        Replay: {search}
+        [{valuetext(value[0])}, {valuetext(value[1])}]
+      </h1>
       {isLoading && (
         <div style={{
           display: 'flex',
@@ -118,6 +125,8 @@ const Game = () => {
                 // valueLabelDisplay='auto'
                   aria-labelledby='range-slider'
                   valueLabelDisplay='on'
+                  getAriaValueText={valuetext}
+                  valueLabelFormat={valuetext}
                   disabled={data.pages[0].Items.length < 1}
                   min={0}
                   max={data.pages[0].Items.length - 1}

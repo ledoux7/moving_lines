@@ -73,7 +73,7 @@ const Shots = () => {
           <ShotChart
             data={fixedData}
             playerId={'203952'}
-            minCount={1}
+            minCount={3}
             chartType={'hexbin'}
             // chartType={'scatter'}
             displayToolTips

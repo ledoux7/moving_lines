@@ -115,10 +115,8 @@ function createShots() {
         shots.enter()
           .append('circle')
           .classed('shot', true)
-          .classed('make', d => d.FGM === 1, // used to set fill color to green if it's a made shot
-          )
-          .classed('miss', d => d.FGM === 0, // used to set fill color to red if it's a miss
-          )
+          .classed('make', d => d.FGM === 1) // used to set fill color to green if it's a made shot
+          .classed('miss', d => d.FGM === 0) // used to set fill color to red if it's a miss
           .attr('cx', d => d.x)
           .attr('cy', d => yScale(d.y))
           .attr('r', 0)
@@ -172,6 +170,7 @@ function createShots() {
                 return hexbin1.hexagon(hexRadiusScale(2));
               }
             }
+            return undefined;
           })
           .style('fill', d => heatScale(d.pps));
 
@@ -216,6 +215,7 @@ function createShots() {
             .style('fill', () => {
               if (activeTheme === 'night') { return 'white'; }
               else if (activeTheme === 'day') { return 'black'; }
+              return 'white';
             })
             .style('font-size', '2px');
 
@@ -252,11 +252,14 @@ function createShots() {
           frequencyLegend.selectAll('text').style('fill', () => {
             if (activeTheme === 'night') { return 'white'; }
             else if (activeTheme === 'day') { return 'black'; }
+            return 'white';
           })
             .style('font-size', '2px');
           frequencyLegend.selectAll('path').style('fill', () => {
             if (activeTheme === 'night') { return 'none'; }
             else if (activeTheme === 'day') { return 'grey'; }
+
+            return 'none';
           });
         }
       }

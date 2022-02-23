@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useGetShotLog } from '../../hooks/analytics';
 import ShotChart from './ShotChart/ShotChart';
 
-
 const parseKeys = ['LOC_X', 'LOC_Y', 'SHOT_PTS', 'TIME', 'TIME_PER',
   'HOME_PTS', 'ROAD_PTS', 'SCOREMARGIN', 'ASSISTED', 'SCORE_DIFF', 'FGA', 'FGM', 'SHOT_VALUE', 'PERIOD',
 ];

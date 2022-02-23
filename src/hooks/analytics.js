@@ -203,7 +203,6 @@ export const useGetTeamNames = () => {
   };
 };
 
-
 export const useGetShotLog = playerName => {
   const query = useInfiniteQuery(
     ['shots/player', playerName],

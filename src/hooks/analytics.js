@@ -17,6 +17,7 @@ import {
   fetchRandomShotsTeam,
   fetchRandomShotsOpp,
   fetchIsItFoulPlayer,
+  fetchShotLog,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -31,10 +32,13 @@ export const useGetPBPForGame = gameId => {
         // const { page, total_pages: totalPages } = lastPage.data;
         // return (page < totalPages) ? page + 1 : undefined;
         const a = 12;
-        return {
-          NextToken: encodeURIComponent(lastPage.NextToken),
-          QueryExecutionId: lastPage.QueryExecutionId,
-        };
+        if (lastPage.NextToken) {
+          return {
+            NextToken: lastPage.NextToken ? encodeURIComponent(lastPage.NextToken) : '',
+            QueryExecutionId: lastPage.QueryExecutionId,
+          };
+        }
+        return undefined;
       },
       // select: d => ({
       //   pages: [...d.pages].reverse(),
@@ -58,13 +62,14 @@ export const useGetGames = () => {
     {
       retry: 2,
       getNextPageParam: (lastPage, pages) => {
-        // const { page, total_pages: totalPages } = lastPage.data;
-        // return (page < totalPages) ? page + 1 : undefined;
         const a = 12;
-        return {
-          NextToken: encodeURIComponent(lastPage.NextToken),
-          QueryExecutionId: lastPage.QueryExecutionId,
-        };
+        if (lastPage.NextToken) {
+          return {
+            NextToken: lastPage.NextToken ? encodeURIComponent(lastPage.NextToken) : '',
+            QueryExecutionId: lastPage.QueryExecutionId,
+          };
+        }
+        return undefined;
       },
     },
   );
@@ -190,6 +195,29 @@ export const useGetTeamNames = () => {
       retry: 0,
       // staleTime: 60 * 1000,
       refetchOnMount: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+
+export const useGetShotLog = playerName => {
+  const query = useInfiniteQuery(
+    ['shots/player', playerName],
+    fetchShotLog,
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.NextToken) {
+          return {
+            NextToken: lastPage.NextToken ? encodeURIComponent(lastPage.NextToken) : '',
+            QueryExecutionId: lastPage.QueryExecutionId,
+          };
+        }
+        return undefined;
+      },
     },
   );
 

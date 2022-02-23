@@ -21,6 +21,7 @@ import Auth from '@aws-amplify/auth';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
+import BubbleChart from '@material-ui/icons/BubbleChart';
 import { Shuffle } from '@material-ui/icons';
 import useStyles from '../styles';
 import ListItemLink from '../components/ListItemLink';
@@ -84,6 +85,11 @@ const createArr = [
     to: '/random',
     name: 'Random',
     icon: <Shuffle />,
+  },
+  {
+    to: '/shots',
+    name: 'Shot Chart',
+    icon: <BubbleChart />,
   },
   {
     to: '/isit',

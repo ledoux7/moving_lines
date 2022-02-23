@@ -2,10 +2,8 @@
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/sort-comp */
 import React from 'react';
-// import nba from 'nba'
 import * as d3 from 'd3';
 import { hexbin } from 'd3-hexbin';
-// import { court, shots } from 'd3-shotchart'
 import PropTypes from 'prop-types';
 import court from './court';
 import shots from './shots';
@@ -48,14 +46,8 @@ class ShotChart extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('ShotChart ToolTips: ', this.props.displayToolTips);
-
     const shotlog = this.props.data;
-
-    // shots
     const { namee } = this.props;
-
-    // this.props.data
 
     const courtSelection = d3.select('#shot-chart' + namee);
     // without this line, all updates on court would be ineffect only after changing chartType

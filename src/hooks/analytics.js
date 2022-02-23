@@ -208,6 +208,7 @@ export const useGetShotLog = playerName => {
     ['shots/player', playerName],
     fetchShotLog,
     {
+      enabled: !!playerName,
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.NextToken) {
           return {

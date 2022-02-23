@@ -91,11 +91,11 @@ const createArr = [
     name: 'Shot Chart',
     icon: <BubbleChart />,
   },
-  {
-    to: '/isit',
-    name: 'Foul',
-    icon: <FlagIcon />,
-  },
+  // {
+  //   to: '/isit',
+  //   name: 'Foul',
+  //   icon: <FlagIcon />,
+  // },
   // {
   //   to: '/upload',
   //   name: 'Photos',
@@ -106,11 +106,11 @@ const createArr = [
   //   name: 'Live',
   //   icon: <OndemandVideoIcon />,
   // },
-  {
-    to: '/chat',
-    name: 'Chat',
-    icon: <ChatIcon />,
-  },
+  // {
+  //   to: '/chat',
+  //   name: 'Chat',
+  //   icon: <ChatIcon />,
+  // },
 ];
 
 const arr = createArr.map(l => (

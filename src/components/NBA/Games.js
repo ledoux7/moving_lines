@@ -10,6 +10,7 @@ import {
   useQuery, useQueries, useMutation, useInfiniteQuery,
 } from 'react-query';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
 } from '../../api';
@@ -112,6 +113,8 @@ const Games = () => {
 
               { dateGroup[1].map(game => (
                 <Button
+                  component={Link}
+                  to={'/game?gameId=' + game.game_id}
                   variant='contained'
                   style={{
                     textTransform: 'none',

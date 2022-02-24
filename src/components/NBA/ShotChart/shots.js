@@ -21,7 +21,7 @@ const decFormatter = d3.format('.3n');
 
 const tranTime = 100;
 
-function createShots() {
+function createShots(callbackProp) {
   const hexRadiusValues = [0.8, 1.0, 1.2];
   let hexMinShotThreshold = 1;
   const heatScale = d3.scaleQuantize().domain([0.3, 1.5]).range(['#5458A2', '#6689BB', '#FADC97', '#F08460', '#B02B48']);
@@ -107,7 +107,8 @@ function createShots() {
           toolTip = d3_tip()
             .attr('class', 'd3-tip')
             .offset([-8, 0])
-            .html(d => d.PLAYER_NAME + '<br><br/>' + d.SHOT_DIST + "' " + d.SHOT_TYPE);
+            // eslint-disable-next-line no-useless-concat
+            .html(d => d.PLAYER_NAME + '<br><br/>' + d.SHOT_DIST + "' " + d.SHOT_TYPE + '<br><br/>' + 'Click To See');
 
           shotsGroup.call(toolTip);
         }
@@ -122,6 +123,12 @@ function createShots() {
           .attr('r', 0)
           .on('mouseover', function (d) { if (toolTips) { toolTip.show(d, this); } })
           .on('mouseout', function (d) { if (toolTips) { toolTip.hide(d, this); } })
+          .on('click', d => {
+            if (toolTips) {
+              toolTip.hide(d, this);
+              callbackProp(d.GAME_ID, d.GAME_EVENT_ID, (d.FGM === 1 ? 1 : 2));
+            }
+          })
           .transition()
           .duration(tranTime)
           .attr('r', 0.5);

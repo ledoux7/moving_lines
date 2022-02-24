@@ -53,7 +53,7 @@ class ShotChart extends React.Component {
     // without this line, all updates on court would be ineffect only after changing chartType
     courtSelection.html('');
     const chartCourt = court().width(this.props.width);
-    const chartShots = shots()
+    const chartShots = shots(this.props.callback)
       .shotRenderThreshold(this.props.minCount)
       .displayToolTips(this.props.displayToolTips)
       .displayType(this.props.chartType);

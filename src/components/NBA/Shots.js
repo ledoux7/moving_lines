@@ -1,5 +1,6 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import { useGetShotLog } from '../../hooks/analytics';
 import ShotChart from './ShotChart/ShotChart';
 import NBADropdown from './SubComp/NBADropdown';
@@ -24,9 +25,15 @@ const CHART_TYPES = {
 };
 
 const Shots = () => {
+  const history = useHistory();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const qPlayerName = query.get('playerName');
+  const qChart = query.get('chart');
+
+  const [player, setPlayer] = useState(qPlayerName);
+  const [chartType, setChartType] = useState(qChart !== 'scatter');
   const [fixedData, setFixedData] = useState([]);
-  const [player, setPlayer] = useState(null);
-  const [chartType, setChartType] = useState(true);
 
   const {
     data,
@@ -69,6 +76,15 @@ const Shots = () => {
     };
   }, [data]);
 
+  const gotoPlay = (...rest) => {
+    console.log('cbbb', rest);
+    history.push({
+      pathname: '/shots',
+      search: '?playerName=' + player + '&chart=' + CHART_TYPES[chartType],
+    });
+    history.push(`/play?gameId=${rest[0]}&eventNum=${rest[1]}&eventType=${rest[2]}`);
+  };
+
   // console.log({ data1: data, fixedData });
   return (
     <div style={{
@@ -106,6 +122,16 @@ const Shots = () => {
         </Button>
 
       </div>
+      <h2 style={{
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+        margin: 0,
+        paddingTop: 10,
+      }}
+      >
+        {player}
+      </h2>
 
       <div style={{
         width: 600,
@@ -119,6 +145,7 @@ const Shots = () => {
           displayToolTips
           width={650}
           namee={'p1'}
+          callback={gotoPlay}
         />
       </div>
       <div

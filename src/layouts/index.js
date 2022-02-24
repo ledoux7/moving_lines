@@ -17,6 +17,7 @@ import useStyles from '../styles';
 import { StoreContext } from '../store';
 import MyDrawer from './DrawerLayout';
 import { useAuthState } from '../context/context';
+import ErrorBoundary from '../utils/ErrorBoundary';
 
 const MyLink = ({ to, children }) => (
   <Link
@@ -119,6 +120,20 @@ export default function MiniDrawer({ children }) {
     </div>
   );
 
+  const errorComp = (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      // alignItems: 'center',
+      flex: 1,
+    }}
+    >
+      <h1>
+        Error
+      </h1>
+    </div>
+  );
+
   return (
     <div className={classes.root}>
       {/* <CssBaseline /> */}
@@ -155,10 +170,12 @@ export default function MiniDrawer({ children }) {
         open={open}
         openModal={openModal}
       />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {children}
-      </main>
+      <ErrorBoundary fallback={errorComp}>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {children}
+        </main>
+      </ErrorBoundary>
       <Modal
         open={openModal}
         onClose={handleClose}

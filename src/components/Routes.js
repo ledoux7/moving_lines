@@ -92,6 +92,7 @@ const WaitALittle = (auth, location) => {
 function PrivateRoute({ auth, children, ...rest }) {
   return (
     <Route
+      key={rest.path}
       {...rest}
       render={({ location }) => (auth.auth
         ? children
@@ -103,6 +104,7 @@ function PrivateRoute({ auth, children, ...rest }) {
 function ProtectedRoute({ auth, children, ...rest }) {
   return (
     <Route
+      key={rest.path}
       {...rest}
       render={({ location }) => (
         (auth.auth || auth.unauth)
@@ -115,6 +117,7 @@ function ProtectedRoute({ auth, children, ...rest }) {
 function NonLoggedInRoute({ auth, children, ...rest }) {
   return (
     <Route
+      key={rest.path}
       {...rest}
       render={({ location }) => (
         (!auth.auth)
@@ -124,6 +127,16 @@ function NonLoggedInRoute({ auth, children, ...rest }) {
             state: { from: location },
           }}
           />)}
+    />
+  );
+}
+
+function MyRoute({ children, ...rest }) {
+  return (
+    <Route
+      key={rest.path}
+      {...rest}
+      render={() => children}
     />
   );
 }
@@ -155,7 +168,7 @@ const Routes = ({ buster }) => {
             wordBreak: 'break-word',
           }}
           >
-            <ErrorBoundary fallback={<div>aaaa</div>}>
+            <ErrorBoundary fallback={<div>Error</div>}>
               <Switch>
                 <NonLoggedInRoute path='/signup' auth={auth}>
                   <LoginLayout>
@@ -182,70 +195,71 @@ const Routes = ({ buster }) => {
                     <RealTimeChat stage={'prod'} />
                   </MiniDrawer>
                 </ProtectedRoute>
-                <Route path='/upload'>
+                <MyRoute path='/upload'>
                   <MiniDrawer>
                     <Upload />
                   </MiniDrawer>
-                </Route>
-                <Route path='/games'>
+                </MyRoute>
+                <MyRoute path='/games'>
                   <MiniDrawer>
                     <Games stage={'dev'} />
                   </MiniDrawer>
-                </Route>
-                <Route path='/game'>
+                </MyRoute>
+                <MyRoute path='/game'>
                   <MiniDrawer>
                     <Game />
                   </MiniDrawer>
-                </Route>
-                <Route path='/playrange'>
+                </MyRoute>
+                <MyRoute path='/playrange'>
                   <MiniDrawer>
                     <PlayRangeWrapper />
                   </MiniDrawer>
-                </Route>
-                <Route path='/playselector'>
+                </MyRoute>
+                <MyRoute path='/playselector'>
                   <MiniDrawer>
                     <PlaySelectorWrapper />
                   </MiniDrawer>
-                </Route>
-                <Route path='/play'>
+                </MyRoute>
+                <MyRoute path='/play'>
                   <MiniDrawer>
                     <PlayPBP />
                   </MiniDrawer>
-                </Route>
-                <Route path='/random'>
+                </MyRoute>
+                <MyRoute path='/random'>
                   <MiniDrawer>
                     <RandomShots />
                   </MiniDrawer>
-                </Route>
-                <Route path='/shots'>
+                </MyRoute>
+                <MyRoute path='/shots'>
                   <MiniDrawer>
                     <Shots />
                   </MiniDrawer>
-                </Route>
-                <Route path='/isit'>
+                </MyRoute>
+                <MyRoute path='/isit'>
                   <MiniDrawer>
                     <IsIt />
                   </MiniDrawer>
-                </Route>
+                </MyRoute>
                 <NonLoggedInRoute path='/login' auth={auth}>
                   <LoginLayout>
                     <Login />
                   </LoginLayout>
                 </NonLoggedInRoute>
-                <Route path='/dash' auth={auth}>
+                <MyRoute path='/dash' auth={auth}>
                   <MiniDrawer>
                     {/* <AuthCmp /> */}
                     <Dashboard stage={'dev'} />
+                    {/* <NBADash /> */}
                   </MiniDrawer>
-                </Route>
-                <Route path='/'>
+                </MyRoute>
+                <MyRoute path='/'>
                   {/* <MiniDrawer>
                     <Home />
                   </MiniDrawer> */}
                   <MiniDrawer>
                     <Games stage={'dev'} />
                   </MiniDrawer>
-                </Route>
+                </MyRoute>
               </Switch>
             </ErrorBoundary>
           </div>

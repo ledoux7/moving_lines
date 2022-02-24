@@ -54,7 +54,7 @@ const SignUp = () => {
           email, // optional
         },
       }).then(data => {
-        console.log('signup', username, email);
+        // console.log('signup', username, email);
 
         setShowCode(true);
       });
@@ -65,16 +65,16 @@ const SignUp = () => {
   const onSubmitCode = useCallback(
     event => {
       event.preventDefault();
-      console.log('code', code);
+      // console.log('code', code);
       Auth.confirmSignUp(username, code).then(data => {
-        console.log('confimed', data);
+        // console.log('confimed', data);
         Auth.currentCredentials()
           .then(dataCreds => {
             dispatch({ type: 'CREDENTIALS', payload: { dataCreds } });
 
             Auth.currentSession()
               .then(sessionData => {
-                console.log('session', sessionData);
+                // console.log('session', sessionData);
                 dispatch({ type: 'SESSION', payload: { data: sessionData } });
               })
               .catch(error => {
@@ -87,7 +87,7 @@ const SignUp = () => {
                 dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
               })
                 .catch(e => {
-                  console.log('e', e);
+                  // console.log('e', e);
                 });
             }
           }).catch(e => {

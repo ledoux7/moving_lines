@@ -68,8 +68,7 @@ const Games = () => {
     }
   }, [data]);
 
-  console.log('gr', grouped);
-
+  // console.log('gr', grouped);
   return (
     <div style={{
       display: 'flex',

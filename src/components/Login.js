@@ -14,6 +14,7 @@ const LoginTab = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [failed, setFailed] = useState(false);
 
   const [code, setCode] = useState(false);
 
@@ -28,12 +29,12 @@ const LoginTab = props => {
 
       const user = Auth.signIn(username, password)
         .then(data => {
-          console.log('signin', data);
+          // console.log('signin', data);
           dispatch({ type: 'LOGIN_SUCCESS', payload: { user: data } });
 
           Auth.currentSession()
             .then(sessionData => {
-              console.log('session', sessionData);
+              // console.log('session', sessionData);
               dispatch({ type: 'SESSION', payload: { data: sessionData } });
             })
             .catch(error => {
@@ -42,17 +43,18 @@ const LoginTab = props => {
             });
 
           Auth.currentUserCredentials().then(userCred => {
-            console.log('login cred', userCred);
+            // console.log('login cred', userCred);
             dispatch({ type: 'CREDENTIALS', payload: { data: userCred } });
             history.goBack();
           }).catch(e => {
-            console.log('err unauth');
+            // console.log('err unauth');
             dispatch({ type: 'CREDENTIALS', payload: null });
           });
         })
         .catch(e => {
           console.log('err', e);
           // "UserNotConfirmedException"
+          setFailed(true);
           dispatch({ type: 'LOGIN_FAILD' });
         });
     },
@@ -72,6 +74,16 @@ const LoginTab = props => {
       >
         Login
       </Typography>
+      {failed && (
+        <div style={{
+          color: 'red',
+          marginLeft: '50px',
+          padding: 5,
+        }}
+        >
+          * Login Error
+        </div>
+      )}
       <Grid container spacing={4} alignItems='flex-end'>
         <Grid item>
           <AccountCircleIcon />

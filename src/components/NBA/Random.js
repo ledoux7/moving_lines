@@ -245,17 +245,19 @@ const RandomShots = React.memo(() => {
               src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}
             />
           )
-          : (
-            <div style={{
-              display: 'flex',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            >
-              <CircularProgress />
-            </div>
-          )
+          : videoUrl.isLoading
+            ? (
+              <div style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              >
+                <CircularProgress />
+              </div>
+            )
+            : null
       }
 
     </div>

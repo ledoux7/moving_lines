@@ -49,7 +49,7 @@ const PlayRange = ({ cached }) => {
       }],
       queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
       refetchOnWindowFocus: false,
-      retry: 2,
+      retry: 3,
       retryDelay: attempt => 500 + attempt * 2000,
       enabled: curEventNum !== undefined,
       refetchOnMount: false,

@@ -1,9 +1,6 @@
 /* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
-/* eslint-disable react/button-has-type */
 import {
-  Button, CircularProgress, IconButton, Tooltip,
+  CircularProgress, IconButton, Tooltip,
 } from '@material-ui/core';
 import { Cached, SkipNext, SkipPrevious } from '@material-ui/icons';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -13,17 +10,15 @@ import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
 import {
-  useQuery, useQueries, useMutation, useQueryClient,
+  useQuery, useQueryClient,
 } from 'react-query';
 import { useLocation } from 'react-router';
-import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
-import { useGetPBPForGame, useGetVideoUrlFresh } from '../../hooks/analytics';
+import { fetchViaProxy } from '../../api';
+import { useGetPBPForGame } from '../../hooks/analytics';
 
 const PlayRange = ({ cached }) => {
   const [curPlay, setCurPlay] = useState(0);
-  const [curLoaded, setCurLoaded] = useState(false);
   const [sourceUrl, setSourceUrl] = useState(null);
-  const [err, setError] = useState(false);
   const [curEventNum, setCurEventNum] = useState();
   const [curEventType, setCurEventType] = useState();
   const [dsc, setDsc] = useState(null);
@@ -37,11 +32,6 @@ const PlayRange = ({ cached }) => {
 
   const {
     data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
   } = useGetPBPForGame(gameId);
 
   const pbpRange = useMemo(() => {
@@ -62,7 +52,6 @@ const PlayRange = ({ cached }) => {
       retry: 2,
       retryDelay: attempt => 500 + attempt * 2000,
       enabled: curEventNum !== undefined,
-      // staleTime: 60 * 1000,
       refetchOnMount: false,
     },
   );
@@ -110,15 +99,16 @@ const PlayRange = ({ cached }) => {
 
   const onPlaying = useCallback(
     async () => {
-      // vidRef.current.playbackRate = 1.5;
-
       for (let i = curPlay + 1; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
           // eslint-disable-next-line no-await-in-loop
           await queryClient.prefetchQuery(
             {
               queryKey: ['videoUrl', {
-                gameId, eventNum: pbpRange[i].eventnum, eventType: pbpRange[i].event_type_id, cached,
+                gameId,
+                eventNum: pbpRange[i].eventnum,
+                eventType: pbpRange[i].event_type_id,
+                cached,
               }],
               queryFn: ({ queryKey }) => fetchViaProxy({ queryKey }),
               refetchOnWindowFocus: false,
@@ -200,7 +190,6 @@ const PlayRange = ({ cached }) => {
       {(!videoUrl.isSuccess && !videoUrl.isError) && (
         <div style={{
           display: 'flex',
-          // flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}
@@ -218,7 +207,6 @@ const PlayRange = ({ cached }) => {
             }}
           >
             {curEventNum}:
-            {/* {dsc} */}
           </h2>,
           <video
             key={2}
@@ -229,7 +217,6 @@ const PlayRange = ({ cached }) => {
             muted
             style={{
               width: '100%',
-              // paddingTop: '50px',
               maxHeight: 'calc(100vh - 132px)',
             }}
             controls

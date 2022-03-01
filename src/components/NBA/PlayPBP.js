@@ -1,17 +1,14 @@
 /* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
-/* eslint-disable react/button-has-type */
 import {
-  Button, CircularProgress, IconButton, Tooltip,
+  CircularProgress, IconButton, Tooltip,
 } from '@material-ui/core';
 import { Cached } from '@material-ui/icons';
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
-import { useQuery, useQueries, useMutation } from 'react-query';
+import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
-import { fetchFromDynamoDb, fetchViaProxy } from '../../api';
+import { fetchViaProxy } from '../../api';
 
 const PlayPBP = pbpData => {
   const [sourceUrl, setSourceUrl] = useState(null);
@@ -101,9 +98,7 @@ const PlayPBP = pbpData => {
             autoPlay
             muted
             style={{
-              // width: '100%',
               maxHeight: 'calc(100vh - 220px)',
-              // paddigTop: 40,
             }}
             controls
             src={sourceUrl}

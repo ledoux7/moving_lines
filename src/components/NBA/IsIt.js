@@ -1,60 +1,35 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
-/* eslint-disable react/button-has-type */
 import {
-  Button, Checkbox, FormControl, FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, Tooltip,
+  CircularProgress,
+  IconButton,
+  Tooltip,
 } from '@material-ui/core';
 import React, {
-  useState, useEffect, useCallback, useRef, useMemo,
+  useState, useEffect, useMemo,
 } from 'react';
 import {
-  useQuery, useQueries, useMutation, useInfiniteQuery,
+  useQuery,
 } from 'react-query';
-import { useHistory, useLocation } from 'react-router';
-import Slider from '@material-ui/core/Slider';
-import { Link } from 'react-router-dom';
-import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {
   Cached,
-  Pause, PlayArrow, SkipNext, SkipPrevious,
+  SkipNext,
+  SkipPrevious,
 } from '@material-ui/icons';
-import { useDebouncedCallback, useDebounce } from 'use-lodash-debounce';
+import { useDebounce } from 'use-lodash-debounce';
 import {
   useGetIsItFoul,
-  useGetPBPForGame, useGetPlayerNames, useGetRandomShotsOpp, useGetRandomShotsPlayer, useGetRandomShotsTeam, useGetTeamNames, useGetVideoUrlFresh,
+  useGetPlayerNames,
+  useGetTeamNames,
 } from '../../hooks/analytics';
 import {
-  fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
+  fetchViaProxy,
 } from '../../api';
 
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-];
-
-const options = ['Option 1', 'Option 2'];
-
 const IsIt = React.memo(() => {
-  const [player, setPlayer] = useState('James Harden');
+  const [player, setPlayer] = useState('');
   const [gameId, setGameId] = useState('');
   const debouncedGameId = useDebounce(gameId, 1000);
-  const debouncedSetGameId = useDebouncedCallback(setGameId, 1000);
-  const debounced = useDebouncedCallback(
-    // function
-    value => {
-      setGameId(value);
-    },
-    // delay in ms
-    1000,
-  );
-
-  const [team, setTeam] = useState();
-  const [opp, setOpp] = useState();
 
   const [curPlay, setCurPlay] = useState(null);
   const [curPlayObj, setCurPlayObj] = useState(null);
@@ -62,21 +37,16 @@ const IsIt = React.memo(() => {
   const [only3PT, setOnly3PT] = React.useState(false);
 
   const { data: fouls, refetch: refetchShots } = useGetIsItFoul(player, debouncedGameId);
-  // const { data: randomShotsTeam, refetch: refetchShotsTeam } = useGetRandomShotsTeam(team, only3PT ? '3' : '');
-  // const { data: randomShotsOpp, refetch: refetchShotsOpp } = useGetRandomShotsOpp(opp, only3PT ? '3' : '');
 
   const { data: playerNamesData } = useGetPlayerNames();
   const { data: teamNamesData } = useGetTeamNames();
 
-  // const dd = typeSample === 'Player'
-  //   ? randomShots
-  //   : typeSample === 'Team'
-  //     ? randomShotsTeam
-  //     : randomShotsOpp;
   const dd = fouls;
   const keyObj = (dd && dd.Items[curPlay])
     ? {
-      gameId: dd.Items[curPlay].game_id, eventNum: dd.Items[curPlay].eventnum, eventType: dd.Items[curPlay].event_type_id,
+      gameId: dd.Items[curPlay].game_id,
+      eventNum: dd.Items[curPlay].eventnum,
+      eventType: dd.Items[curPlay].event_type_id,
     }
     : {
       gameId: undefined, eventNum: undefined, eventType: undefined,
@@ -102,7 +72,6 @@ const IsIt = React.memo(() => {
       retry: 2,
       retryDelay: attempt => 500 + attempt * 2000,
       enabled: !!curPlayObj,
-      // staleTime: 60 * 1000,
       refetchOnMount: false,
       cacheTime: Infinity,
       staleTime: Infinity,
@@ -116,14 +85,6 @@ const IsIt = React.memo(() => {
 
     return [];
   }, [playerNamesData]);
-
-  const teamNames = useMemo(() => {
-    if (teamNamesData && teamNamesData.Items) {
-      return teamNamesData.Items.map(t => t.team);
-    }
-
-    return [];
-  }, [teamNamesData]);
 
   useEffect(() => {
     if (typeSample === 'Player' && fouls && fouls.Items && fouls.Items.length) {
@@ -200,16 +161,35 @@ const IsIt = React.memo(() => {
           </IconButton>
         </Tooltip>
       </div>
-      <video
-        key={2}
-        autoPlay
-        muted
-        style={{
-          height: 560,
-        }}
-        controls
-        src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}
-      />
+
+      {
+        videoUrl.isSuccess
+          ? (
+            <video
+              key={2}
+              autoPlay
+              muted
+              style={{
+                height: 560,
+              }}
+              controls
+              src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}
+            />
+          )
+          : videoUrl.isLoading
+            ? (
+              <div style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              >
+                <CircularProgress />
+              </div>
+            )
+            : null
+      }
     </div>
   );
 });

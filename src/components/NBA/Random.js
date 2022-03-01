@@ -1,41 +1,24 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
-/* eslint-disable react/button-has-type */
 import {
-  Button, Checkbox, FormControl, FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, Tooltip,
+  Checkbox, CircularProgress, FormControl,
+  FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, Tooltip,
 } from '@material-ui/core';
 import React, {
-  useState, useEffect, useCallback, useRef, useMemo,
+  useState, useEffect, useMemo,
 } from 'react';
-import {
-  useQuery, useQueries, useMutation, useInfiniteQuery,
-} from 'react-query';
-import { useHistory, useLocation } from 'react-router';
-import Slider from '@material-ui/core/Slider';
-import { Link } from 'react-router-dom';
-import Chip from '@material-ui/core/Chip';
+import { useQuery } from 'react-query';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {
   Cached,
-  Pause, PlayArrow, SkipNext, SkipPrevious,
+  SkipNext,
+  SkipPrevious,
 } from '@material-ui/icons';
 import {
-  useGetPBPForGame, useGetPlayerNames, useGetRandomShotsOpp, useGetRandomShotsPlayer, useGetRandomShotsTeam, useGetTeamNames, useGetVideoUrlFresh,
+  useGetPlayerNames,
+  useGetRandomShotsOpp, useGetRandomShotsPlayer,
+  useGetRandomShotsTeam, useGetTeamNames,
 } from '../../hooks/analytics';
-import {
-  fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
-} from '../../api';
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-];
-
-const options = ['Option 1', 'Option 2'];
+import { fetchViaProxy } from '../../api';
 
 const RandomShots = React.memo(() => {
   const [player, setPlayer] = useState();
@@ -48,8 +31,8 @@ const RandomShots = React.memo(() => {
   const [only3PT, setOnly3PT] = React.useState(false);
 
   const { data: randomShots, refetch: refetchShots } = useGetRandomShotsPlayer(player, only3PT ? '3' : '');
-  const { data: randomShotsTeam, refetch: refetchShotsTeam } = useGetRandomShotsTeam(team, only3PT ? '3' : '');
-  const { data: randomShotsOpp, refetch: refetchShotsOpp } = useGetRandomShotsOpp(opp, only3PT ? '3' : '');
+  const { data: randomShotsTeam } = useGetRandomShotsTeam(team, only3PT ? '3' : '');
+  const { data: randomShotsOpp } = useGetRandomShotsOpp(opp, only3PT ? '3' : '');
 
   const { data: playerNamesData } = useGetPlayerNames();
   const { data: teamNamesData } = useGetTeamNames();
@@ -62,7 +45,9 @@ const RandomShots = React.memo(() => {
 
   const keyObj = (dd && dd.Items[curPlay])
     ? {
-      gameId: dd.Items[curPlay].game_id, eventNum: dd.Items[curPlay].eventnum, eventType: dd.Items[curPlay].event_type_id,
+      gameId: dd.Items[curPlay].game_id,
+      eventNum: dd.Items[curPlay].eventnum,
+      eventType: dd.Items[curPlay].event_type_id,
     }
     : {
       gameId: undefined, eventNum: undefined, eventType: undefined,
@@ -76,8 +61,6 @@ const RandomShots = React.memo(() => {
     setOnly3PT(event.target.checked);
   };
 
-  // const { refetch } = useGetVideoUrlFresh(gameId, curEventNum, curEventType, false);
-
   const videoUrl = useQuery(
     {
       queryKey: ['videoUrl', keyObj],
@@ -86,7 +69,6 @@ const RandomShots = React.memo(() => {
       retry: 2,
       retryDelay: attempt => 500 + attempt * 2000,
       enabled: !!curPlayObj,
-      // staleTime: 60 * 1000,
       refetchOnMount: false,
       cacheTime: Infinity,
       staleTime: Infinity,
@@ -193,6 +175,7 @@ const RandomShots = React.memo(() => {
     );
   }
 
+  // const add = Math.random() < 0.5 ? asd.as() : null;
   return (
     <div style={{
       overflow: 'scroll',
@@ -247,21 +230,34 @@ const RandomShots = React.memo(() => {
           </IconButton>
         </Tooltip>
       </div>
-      <video
-        key={2}
-        // onEnded={ended}
-        // onPlaying={onPlaying}
-        // ref={vidRef}
-        autoPlay
-        muted
-        style={{
-          // width: '100%',
-          // maxHeight: 'calc(100vh - 350px)',
-          height: 560,
-        }}
-        controls
-        src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}
-      />
+
+      {
+        videoUrl.isSuccess
+          ? (
+            <video
+              key={2}
+              autoPlay
+              muted
+              style={{
+                height: 560,
+              }}
+              controls
+              src={videoUrl.isSuccess ? videoUrl.data.Item.UrlHigh : ''}
+            />
+          )
+          : (
+            <div style={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            >
+              <CircularProgress />
+            </div>
+          )
+      }
+
     </div>
   );
 });

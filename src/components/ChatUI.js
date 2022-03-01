@@ -1,39 +1,6 @@
-/* eslint-disable no-loop-func */
 import React, {
-  useState, useEffect, useCallback, useRef,
+  useState, useEffect, useRef,
 } from 'react';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
-import { a, Hub, Storage } from 'aws-amplify';
-import { Button, TextField } from '@material-ui/core';
-import CachedIcon from '@material-ui/icons/Cached';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SendIcon from '@material-ui/icons/Send';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import { red } from '@material-ui/core/colors';
-
-function randomNum(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-class GeneralSet {
-  constructor() {
-    this.map = new Map();
-    this[Symbol.iterator] = this.values;
-  }
-
-  add(item) {
-    this.map.set(item.toIdString(), item);
-  }
-
-  values() {
-    return this.map.values();
-  }
-
-  delete(item) {
-    return this.map.delete(item.toIdString());
-  }
-}
 
 export function DOMRectToObject(element) {
   const rect = element.getBoundingClientRect();
@@ -50,42 +17,19 @@ export function DOMRectToObject(element) {
 }
 
 const ChatUI = ({ messagesObj }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [url, setUrl] = useState('');
-  const [text, setText] = useState({});
-  const [newMsg, setNewMsg] = useState('');
-
   const re = Object.values(messagesObj);
-  // .reduce((acc, cur) => {
-
-  // } )
-
   const [messages, setMessages] = useState(re);
-
-  const [cachedMsgs, setCachedMsgs] = useState(new Set());
-
-  const [locUser, setLocUser] = useState(null);
 
   const messagesEndRef = useRef(null);
   const chatRef = useRef(null);
 
   useEffect(() => {
-    // console.log(messages);
-
     const nm = Object.values(messagesObj);
     nm.sort((aa, bb) => aa.uts - bb.uts);
-    // nm.sort((aa, bb) => aa.message - bb.message);
-    const tmpRect = DOMRectToObject(chatRef.current);
-
-    console.log('tmp', tmpRect);
-
+    // const tmpRect = DOMRectToObject(chatRef.current);
     messagesEndRef.current.scrollIntoView(false, { block: 'end', inline: 'end' });
 
     setMessages(nm);
-    // return () => {
-    //   cleanup
-    // }
   }, [messagesObj]);
 
   return (

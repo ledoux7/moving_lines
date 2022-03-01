@@ -1,20 +1,10 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
-/* eslint-disable react/button-has-type */
 import { Button } from '@material-ui/core';
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
-import {
-  useQuery, useQueries, useMutation, useInfiniteQuery,
-} from 'react-query';
 import { useHistory, useLocation } from 'react-router';
 import Slider from '@material-ui/core/Slider';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {
-  fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
-} from '../../api';
 import { useGetPBPForGame } from '../../hooks/analytics';
 import PlaySelector from './PlaySelecter';
 
@@ -24,9 +14,6 @@ const Game = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const gameId = query.get('gameId');
-
-  const vidRef = useRef(null);
-
   const [value, setValue] = React.useState([0, 0]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -39,11 +26,9 @@ const Game = () => {
 
   const {
     data,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
     isSuccess,
     isLoading,
   } = useGetPBPForGame(gameId);
@@ -51,8 +36,6 @@ const Game = () => {
   useEffect(() => {
     if (data) {
       setValue([data.pages[0].Items.length * 0.92, data.pages[0].Items.length - 1]);
-      // setValue([data.pages[0].Items.length - 21, data.pages[0].Items.length - 1]);
-      // setValue([data.pages[0].Items.length - 21, data.pages[0].Items.length - 1]);
     }
   }, [data]);
 
@@ -63,6 +46,7 @@ const Game = () => {
     return `${Math.round((value1 / data.pages[0].Items.length) * 100)}%`;
   }
 
+  // TODO: make slider 3min left 4q
   return (
     <div style={{
       display: 'flex',

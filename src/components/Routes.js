@@ -3,10 +3,8 @@ import React, {
 } from 'react';
 import {
   HashRouter as Router,
-  // BrowserRouter as Router,
   Route,
   Switch,
-  Link,
   Redirect,
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -14,10 +12,9 @@ import { CircularProgress } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../utils/ErrorBoundary';
 import { AuthProvider, useAuthDispatch, useAuthState } from '../context/context';
-import { useDarkMode, useKeyCount, useTwoKeyCount } from '../hooks';
 import MiniDrawer from '../layouts';
 import LoginLayout from '../layouts/LoginLayout';
-import StoreProvider, { StoreContext } from '../store';
+import { StoreContext } from '../store';
 import themeObject from '../themes';
 import Dashboard from './Dashboard';
 import Games from './NBA/Games';
@@ -31,7 +28,6 @@ import Shots from './NBA/Shots';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
-const AuthCmp = lazy(() => import('./AuthStatus'));
 const Signup = lazy(() => import('./SignUp'));
 const Chat = lazy(() => import('./Chat'));
 const RealTimeChat = lazy(() => import('./RealTimeChat'));
@@ -50,20 +46,6 @@ const Loading = () => (
   >
     <CircularProgress />
   </div>
-);
-
-const NavRoute = ({ exact, path, component: Component }) => (
-  <Route
-    // exact={exact}
-    path={path}
-    render={props => (
-      <div>
-        {/* <Header /> */}
-        <div>header</div>
-        <Component {...props} />
-      </div>
-    )}
-  />
 );
 
 const WaitALittle = (auth, location) => {
@@ -146,10 +128,7 @@ const themeConfig = createMuiTheme(themeObject);
 const Routes = ({ buster }) => {
   const store = React.useContext(StoreContext);
   const dispatch = useAuthDispatch();
-
   const auth = useAuthState();
-
-  // console.log('auth', auth);
 
   return (
     <MuiThemeProvider theme={store ? store.theme : themeConfig}>
@@ -159,8 +138,6 @@ const Routes = ({ buster }) => {
           <div style={{
             height: '100%',
             width: ' 100%',
-            // maxHeight: '100%',
-            // maxWidth: ' 100%',
             display: 'flex',
             flexDirection: 'column',
             maxWidth: '100%',

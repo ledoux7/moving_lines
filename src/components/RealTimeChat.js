@@ -1,16 +1,9 @@
-/* eslint-disable no-loop-func */
 import React, {
-  useState, useEffect, useCallback, useMemo, useRef,
+  useState, useEffect, useCallback, useRef,
 } from 'react';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
-import { a, Hub, Storage } from 'aws-amplify';
-import { Button, TextField, Typography } from '@material-ui/core';
-import CachedIcon from '@material-ui/icons/Cached';
+import { TextField, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import ClearIcon from '@material-ui/icons/Clear';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import ChatUI from './ChatUI';
 import { useAuthState } from '../context/context';
@@ -20,37 +13,22 @@ function randomNum(min, max) {
 }
 
 const RealTimeChat = ({ stage }) => {
-  const messageHistory = useRef([]);
   const didUnmount = useRef(false);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [url, setUrl] = useState('');
   const [text, setText] = useState({});
   const [newMsg, setNewMsg] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [cachedMsgs, setCachedMsgs] = useState(new Set());
-  // const [stage, setStage] = useState('prod');
   const [socketUrl, setSocketUrl] = useState('wss://dl5pmy7g33.execute-api.eu-west-1.amazonaws.com/' + stage);
 
   const auth = useAuthState();
 
   const {
     sendMessage,
-    sendJsonMessage,
-    lastMessage,
-    lastJsonMessage,
     readyState,
-    getWebSocket,
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('opened'),
     onMessage: msg => {
       try {
         const deser = JSON.parse(msg.data);
-        // console.log('onMsg: ', deser);
-
         const realMsg = JSON.parse(deser.message);
-        // console.log('onMsg Parse: ', sec);
 
         setText(o => ({
           ...o,
@@ -97,13 +75,8 @@ const RealTimeChat = ({ stage }) => {
     msg => {
       const uts = Date.now();
       const d = new Date(uts);
-      const curDate = d.getDate();
-      const curMonth = d.getMonth() + 1; // Months are zero based
-      const curYear = d.getFullYear();
 
       const startStr = d.toISOString().split('T')[0];
-      // const tStr = d.toISOString().split('T')[1];
-
       const strr = startStr + '_' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '_' + randomNum(0, 9) + '.json';
       const pretty = startStr + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
@@ -115,7 +88,6 @@ const RealTimeChat = ({ stage }) => {
         message: msg,
       };
 
-      // sendJsonMessage(obj);
       sendMessage(JSON.stringify({ action: 'onmessage', message: JSON.stringify(obj) }));
     },
     [sendMessage],

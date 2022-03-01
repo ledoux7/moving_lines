@@ -11,10 +11,7 @@ const AuthHandler = ({ children }) => {
   const dispatch = useAuthDispatch();
 
   useEffect(() => {
-    // console.log('init');
     dispatch({ type: 'INIT', payload: null });
-
-    // console.log('configure', configureAmplify);
     configureAmplify();
 
     Auth.currentCredentials()
@@ -23,7 +20,7 @@ const AuthHandler = ({ children }) => {
 
         Auth.currentSession()
           .then(sessionData => {
-            console.log('session', sessionData);
+            // console.log('session', sessionData);
             dispatch({ type: 'SESSION', payload: { data: sessionData } });
           })
           .catch(error => {
@@ -36,7 +33,7 @@ const AuthHandler = ({ children }) => {
             dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
           })
             .catch(e => {
-              console.log('e', e);
+              // console.log('e', e);
             });
         }
       }).catch(e => {

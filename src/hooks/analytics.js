@@ -1,16 +1,9 @@
-/* eslint-disable import/prefer-default-export */
-import React, {
-  useState, useEffect, useCallback, useRef,
-} from 'react';
 import {
-  useQuery, useQueries, useMutation, useInfiniteQuery,
+  useQuery, useInfiniteQuery,
 } from 'react-query';
 import {
-  fetchFromDynamoDb,
-  fetchNew,
   fetchViaProxy, fetchPBP,
   fetchGames,
-  fetchPlayUrl,
   fetchRandomShotsPlayer,
   fetchPlayerNames,
   fetchTeamNames,
@@ -21,16 +14,11 @@ import {
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
-  const [page, setPage] = React.useState(0);
-  // const [gameId, setGameId] = React.useState('0022100078');
-
   const query = useInfiniteQuery(
     ['pbp', gameId],
     fetchPBP,
     {
       getNextPageParam: (lastPage, pages) => {
-        // const { page, total_pages: totalPages } = lastPage.data;
-        // return (page < totalPages) ? page + 1 : undefined;
         const a = 12;
         if (lastPage.NextToken) {
           return {
@@ -40,10 +28,6 @@ export const useGetPBPForGame = gameId => {
         }
         return undefined;
       },
-      // select: d => ({
-      //   pages: [...d.pages].reverse(),
-      //   pageParams: [...d.pageParams].reverse(),
-      // }),
     },
   );
 
@@ -53,9 +37,6 @@ export const useGetPBPForGame = gameId => {
 };
 
 export const useGetGames = () => {
-  const [page, setPage] = React.useState(0);
-  // const [gameId, setGameId] = React.useState('0022100078');
-
   const query = useInfiniteQuery(
     ['games'],
     fetchGames,

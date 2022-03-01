@@ -32,14 +32,9 @@ class GeneralSet {
   delete(item) {
     return this.map.delete(item.toIdString());
   }
-
-  // ...
 }
 
 const Chat = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [url, setUrl] = useState('');
   const [text, setText] = useState({});
   const [newMsg, setNewMsg] = useState('');
 
@@ -93,15 +88,9 @@ const Chat = () => {
     msg => {
       const uts = Date.now();
       const d = new Date(uts);
-      const curDate = d.getDate();
-      const curMonth = d.getMonth() + 1; // Months are zero based
-      const curYear = d.getFullYear();
-
       const startStr = d.toISOString().split('T')[0];
-      // const tStr = d.toISOString().split('T')[1];
 
       const strr = startStr + '_' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '_' + randomNum(0, 9) + '.json';
-      // + console.log(curDate + '-' + curr_month + '-' + curr_year);
       const pretty = startStr + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
       // const fileD = dd.toLocaleString('nb-no')
@@ -116,10 +105,6 @@ const Chat = () => {
         time: d.toLocaleTimeString('nb-NO'),
         message: msg,
       };
-
-      // const file = fileD + '.txt';
-
-      // const formatMsg = dd.toLocaleString('nb-no').replace(',', '') + ': ' + msg;
 
       console.log('msg', obj);
       const result = Storage.put(strr, JSON.stringify(obj, null, 2), {
@@ -138,7 +123,6 @@ const Chat = () => {
   );
 
   useEffect(() => {
-    const obj = {};
     const newFiles = messages.filter(item => !cachedMsgs.has(item));
 
     for (let i = 0; i < newFiles.length; i++) {
@@ -154,11 +138,8 @@ const Chat = () => {
         setCachedMsgs(set => set.add(newFiles[i]));
         data.Body.text().then(str => {
           // handle the String data return String
-          console.log('str:', str);
-
           const deser = JSON.parse(str);
 
-          // setText(str);
           setText(o => ({
             ...o,
             [newFiles[i]]: deser,
@@ -167,15 +148,6 @@ const Chat = () => {
       });
     }
   }, [cachedMsgs, messages]);
-
-  // console.log(text);
-
-  useEffect(() => {
-    console.log(text);
-    // return () => {
-    //   cleanup
-    // }
-  }, [text]);
 
   return (
     <div style={{
@@ -186,16 +158,12 @@ const Chat = () => {
       margin: '0px 20px',
       overflow: 'hidden',
       position: 'relative',
-      // justifyContent: 'center',
-      // alignItems: 'center',
     }}
     >
       <div style={{
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        // 'height': '70px',
-
       }}
       >
         <IconButton
@@ -270,7 +238,6 @@ const Chat = () => {
           InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
           InputProps={{ style: { fontSize: 22 } }}
           onKeyPress={ev => {
-            // console.log(`Pressed keyCode ${ev.key}`);
             if (ev.key === 'Enter') {
               sendMsgJson(newMsg);
               setNewMsg('');
@@ -283,7 +250,6 @@ const Chat = () => {
           onClick={() => {
             sendMsgJson(newMsg);
             setNewMsg('');
-            // getMessages();
           }}
           style={{
             textTransform: 'none', height: 55, fontSize: 26, marginTop: 10,

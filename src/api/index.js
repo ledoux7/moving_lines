@@ -185,18 +185,3 @@ export const fetchPlayUrl = async ({
 
   return res?.data;
 };
-
-export const fetchPlayUrl1 = async ({
-  pageParam = {
-    eventNum: '',
-    eventType: '',
-  },
-  queryKey,
-}) => {
-  // console.log('getstuff', pageParam, queryKey);
-  const url = createPBPUrlDynamoDB(queryKey[1], pageParam.eventNum, pageParam.eventType);
-  console.log({ url });
-  const res = await axios.post();
-
-  return res?.data;
-};

@@ -80,7 +80,7 @@ const PlayPBP = pbpData => {
 
       {(sourceUrl) && (
         [
-          <h1>
+          <h1 style={{ textAlign: 'center' }}>
             {dsc}
             <Tooltip title={'Refetch'} placement='top'>
               <IconButton
@@ -98,7 +98,7 @@ const PlayPBP = pbpData => {
             autoPlay
             muted
             style={{
-              maxHeight: 'calc(100vh - 220px)',
+              maxHeight: 'min(calc(100vh - 220px), calc((100vw - 65px) * 0.5625))',
             }}
             controls
             src={sourceUrl}

@@ -230,12 +230,12 @@ const Routes = ({ buster }) => {
                   </MiniDrawer>
                 </MyRoute>
                 <MyRoute path='/'>
-                  {/* <MiniDrawer>
-                    <Home />
-                  </MiniDrawer> */}
                   <MiniDrawer>
-                    <Games stage={'dev'} />
+                    <Home />
                   </MiniDrawer>
+                  {/* <MiniDrawer>
+                    <Games stage={'dev'} />
+                  </MiniDrawer> */}
                 </MyRoute>
               </Switch>
             </ErrorBoundary>

@@ -1,6 +1,9 @@
 import { Button, CircularProgress } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useLayoutEffect, useRef, useState,
+} from 'react';
 import { useHistory, useLocation } from 'react-router';
+import debounce from 'lodash.debounce';
 import { useGetShotLog } from '../../hooks/analytics';
 import ShotChart from './ShotChart/ShotChart';
 import NBADropdown from './SubComp/NBADropdown';
@@ -19,6 +22,25 @@ function capitalize(s) {
   return s[0].toUpperCase() + s.slice(1);
 }
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+
+    const debouncedSet = debounce(updateSize, 300, {
+      leading: true,
+      trailing: true,
+    });
+
+    window.addEventListener('resize', debouncedSet);
+    updateSize();
+    return () => window.removeEventListener('resize', debouncedSet);
+  }, []);
+  return size;
+}
+
 const CHART_TYPES = {
   [true]: 'hexbin',
   [false]: 'scatter',
@@ -30,6 +52,8 @@ const Shots = () => {
   const query = new URLSearchParams(search);
   const qPlayerName = query.get('playerName');
   const qChart = query.get('chart');
+  const ref = useRef(null);
+  const [width, height] = useWindowSize();
 
   const [player, setPlayer] = useState(qPlayerName);
   const [chartType, setChartType] = useState(qChart !== 'scatter');
@@ -87,21 +111,23 @@ const Shots = () => {
 
   // console.log({ data1: data, fixedData });
   return (
-    <div style={{
-      display: 'flex',
-      // flex: 1,
-      width: 800,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+    <div
+      style={{
+        display: 'flex',
+        // flex: 1,
+        width: 800,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
 
-    }}
+      }}
+      ref={ref}
     >
       <div style={{
         display: 'flex',
         width: '100%',
         flexWrap: 'wrap',
-        paddingTop: 20,
+        paddingTop: 15,
         justifyContent: 'space-evenly',
       }}
       >
@@ -128,9 +154,12 @@ const Shots = () => {
         justifyContent: 'center',
         margin: 0,
         paddingTop: 10,
+        height: 40,
+        alignItems: 'center',
       }}
       >
         {player}
+        {isLoading && <CircularProgress style={{ marginLeft: 20 }} />}
       </h2>
 
       <div style={{
@@ -138,12 +167,13 @@ const Shots = () => {
       }}
       >
         <ShotChart
+          // key={width * 0.75}
           data={fixedData}
           playerId={'203952'}
           minCount={3}
           chartType={CHART_TYPES[chartType]}
           displayToolTips
-          width={650}
+          width={width * 0.75}
           namee={'p1'}
           callback={gotoPlay}
         />
@@ -156,7 +186,6 @@ const Shots = () => {
           flex: 1,
         }}
       >
-        {isLoading && <CircularProgress />}
         <Button
           variant='contained'
           style={{

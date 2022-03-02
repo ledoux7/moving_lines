@@ -1,39 +1,115 @@
-import React from 'react';
+import {
+  Box,
+  Button, ButtonBase, Card, CardActions, CardContent, Grid, Paper, Typography,
+} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../App.css';
+import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
+import ExploreIcon from '@material-ui/icons/Explore';
+
+function useImportImage(filePath) {
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    import(`../styles/images/${filePath}`)
+      .then(img => (isMounted ? setImage(img.default) : null))
+      .catch(() => null);
+
+    // eslint-disable-next-line no-return-assign
+    return () => isMounted = false;
+  }, [filePath]);
+  return image;
+}
+
+const My = ({ title, path, content }) => {
+  const a = 123;
+
+  return (
+    <Grid item>
+      <ButtonBase component={Link} to={path}>
+        <Card style={{ width: 350, minHeight: 300 }}>
+          <CardContent style={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
+          }}
+          >
+            <Typography style={{ fontSize: 36 }} color='textSecondary' align='center' gutterBottom>
+              {title}
+            </Typography>
+            {content}
+          </CardContent>
+        </Card>
+      </ButtonBase>
+    </Grid>
+  );
+};
 
 function App() {
+  const court = useImportImage('court.png');
+
+  const shotchart = useImportImage('shotchart.png');
+
+  const games = (
+    <OndemandVideoIcon style={{
+      width: 150,
+      height: 150,
+    }}
+    />
+  );
+
+  const explore = (
+    <ExploreIcon style={{
+      width: 150,
+      height: 150,
+    }}
+    />
+  );
+
+  const sc = (
+    <div style={{
+      backgroundImage: `url(${shotchart})`,
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      width: 220,
+      height: 192,
+    }}
+    />
+  );
+
   return (
     <div style={{
       fontSize: 60,
       height: '100%',
       display: 'flex',
       width: '100%',
-      overflow: 'scroll',
       flexDirection: 'column',
-      overflowY: 'scoll',
-      marginRight: 100,
       position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 50,
     }}
     >
-      <div>
-        HomeSweetAlabama
-      </div>
-      <div style={{
-        height: 600,
-        paddingTop: 200,
-        margin: 'auto',
-      }}
+      <Grid
+        sx={{ flexGrow: 1 }}
+        container
+        spacing={2}
       >
-        scroll down
-      </div>
-      <div style={{
-        marginTop: 1600,
-        height: 50,
-      }}
-      >
-        bottom and no toolbar
-      </div>
-
+        <Grid
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          container
+          spacing={4}
+          columns={3}
+        >
+          <My title='Recent Games' path='/games' content={games} />
+          <My title='Explore' path='/random' content={explore} />
+          <My title='Shot Chart' path='/shots' content={sc} />
+        </Grid>
+      </Grid>
     </div>
   );
 }

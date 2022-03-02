@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => {
     content: {
       flex: 1,
       display: 'flex',
-      overflow: 'hidden',
+      // overflow: 'hidden',
       position: 'relative',
       justifyContent: 'center',
       marginLeft: 65,

@@ -158,6 +158,7 @@ const PlayRange = ({ cached }) => {
         display: 'flex',
         justifyContent: 'center',
         paddingTop: 10,
+        paddingBottom: 10,
       }}
       >
         <Tooltip title={'Go Back 5'} placement='top'>
@@ -200,14 +201,6 @@ const PlayRange = ({ cached }) => {
 
       {(sourceUrl) && (
         [
-          <h2
-            key={1}
-            style={{
-              margin: 0,
-            }}
-          >
-            {curEventNum}:
-          </h2>,
           <video
             key={2}
             onEnded={ended}
@@ -217,7 +210,8 @@ const PlayRange = ({ cached }) => {
             muted
             style={{
               width: '100%',
-              maxHeight: 'calc(100vh - 132px)',
+              // maxHeight: 'calc(100vh - 132px)',
+              maxHeight: 'min(calc(100vh - 220px), calc((100vw - 65px) * 0.5625))',
             }}
             controls
             src={sourceUrl}

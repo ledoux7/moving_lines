@@ -57,8 +57,9 @@ const Game = () => {
     }}
     >
       <h1>
-        Replay: {search}
-        [{valuetext(value[0])}, {valuetext(value[1])}]
+        {/* Replay: {search} */}
+        {/* [{valuetext(value[0])}, {valuetext(value[1])}] */}
+        Game Timeline
       </h1>
       {isLoading && (
         <div style={{

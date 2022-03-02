@@ -218,6 +218,7 @@ const PlaySelector = React.memo(({
         flex: 1,
         flexWrap: 'wrap',
         paddingTop: 20,
+        justifyContent: 'center',
       }}
       >
         {(filteredData) && filteredData.map((play, i) => (

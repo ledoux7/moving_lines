@@ -1,19 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
 import { Button, CircularProgress } from '@material-ui/core';
-import React, {
-  useState, useEffect, useCallback, useRef,
-} from 'react';
-import {
-  useQuery, useQueries, useMutation, useInfiniteQuery,
-} from 'react-query';
+import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import {
-  fetchFromDynamoDb, fetchNew, fetchViaProxy, fetchPBP,
-} from '../../api';
 import { useGetGames, useGetPBPForGame } from '../../hooks/analytics';
 
 function groupBy(list, keyGetter) {
@@ -32,12 +23,6 @@ function groupBy(list, keyGetter) {
 }
 
 const Games = () => {
-  const [curPlay, setCurPlay] = useState(null);
-  const [curLoaded, setCurLoaded] = useState(false);
-  const [page, setPage] = React.useState(0);
-  const [nextToken, setNextToken] = React.useState('');
-  const [queryId, setQueryId] = React.useState('');
-  const [gameId2, setGameId2] = React.useState('0022100079');
   const [grouped, setGrouped] = React.useState();
 
   const history = useHistory();
@@ -49,13 +34,12 @@ const Games = () => {
 
   const {
     data,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
     isLoading,
     isError,
+    isSuccess,
   } = useGetGames();
 
   useEffect(() => {
@@ -67,6 +51,12 @@ const Games = () => {
       setGrouped(obj);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (isSuccess) { // first load only
+      fetchNextPage();
+    }
+  }, [fetchNextPage, isSuccess]);
 
   // console.log('gr', grouped);
   return (
@@ -91,11 +81,12 @@ const Games = () => {
         {isLoading && <CircularProgress />}
 
         {(grouped) && Object.entries(grouped).map((dateGroup, i) => (
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            // flexDirection: 'column',
-          }}
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+            }}
           >
             <div style={{
               display: 'flex',

@@ -1,12 +1,12 @@
 import {
-  Box,
-  Button, ButtonBase, Card, CardActions, CardContent, Grid, Paper, Typography,
+  ButtonBase, Card, CardContent, Grid, Typography,
 } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import ExploreIcon from '@material-ui/icons/Explore';
+import { useGetGames } from '../hooks/analytics';
 
 function useImportImage(filePath) {
   const [image, setImage] = useState(null);
@@ -31,7 +31,10 @@ const My = ({ title, path, content }) => {
       <ButtonBase component={Link} to={path}>
         <Card style={{ width: 350, minHeight: 300 }}>
           <CardContent style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
           }}
           >
             <Typography style={{ fontSize: 36 }} color='textSecondary' align='center' gutterBottom>
@@ -46,9 +49,9 @@ const My = ({ title, path, content }) => {
 };
 
 function App() {
-  const court = useImportImage('court.png');
-
   const shotchart = useImportImage('shotchart.png');
+  // const court = useImportImage('court.png');
+  useGetGames(); // prefetch games
 
   const games = (
     <OndemandVideoIcon style={{

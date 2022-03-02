@@ -160,7 +160,6 @@ const Games = () => {
             textTransform: 'none',
             width: 300,
             fontSize: 26,
-            marginTop: 10,
           }}
           color='primary'
           onClick={() => fetchNextPage()}

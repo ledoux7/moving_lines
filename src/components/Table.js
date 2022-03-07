@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-key */
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MaUTable from '@material-ui/core/Table';
@@ -30,10 +30,10 @@ function Table({ columns, data }) {
   return (
     <MaUTable {...getTableProps()}>
       <TableHead>
-        {headerGroups.map(headerGroup => (
-          <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+        {headerGroups.map((headerGroup, i) => (
+          <TableRow key={i} {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column, j) => (
+              <TableCell key={j} {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render('Header')}
                 <span>
                   {column.isSorted
@@ -51,9 +51,9 @@ function Table({ columns, data }) {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <TableRow {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <TableCell {...cell.getCellProps()}>
+            <TableRow key={i} {...row.getRowProps()}>
+              {row.cells.map((cell, j) => (
+                <TableCell key={j} {...cell.getCellProps()}>
                   {cell.render('Cell')}
                 </TableCell>
               ))}

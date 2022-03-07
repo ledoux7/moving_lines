@@ -220,17 +220,6 @@ const Game = () => {
         )
       }
       {
-        isSuccess && showPlays && (
-          <PlaySelector
-            value={1}
-            data={data}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-          />
-        )
-      }
-      {
         isSuccess && isSuccessBS && (
         <Button
           variant='contained'
@@ -248,6 +237,18 @@ const Game = () => {
 
         )
       }
+      {
+        isSuccess && showPlays && (
+          <PlaySelector
+            value={1}
+            data={data}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        )
+      }
+
       {
         showBoxScore && tableData && <TableWrap data={tableData} rows={rows} />
       }

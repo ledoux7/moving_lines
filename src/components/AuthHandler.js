@@ -24,7 +24,7 @@ const AuthHandler = ({ children }) => {
             dispatch({ type: 'SESSION', payload: { data: sessionData } });
           })
           .catch(error => {
-            console.log('errsession', error);
+            // console.log('errsession', error);
             // dispatch({ type: 'SESSION', payload: { data: sessionData } });
           });
 

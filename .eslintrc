@@ -65,6 +65,9 @@
       "no-plusplus": [
         "off"
       ],
+      "react/no-array-index-key": [
+        "off"
+      ],
       "func-names": [
         "error", "always",
         {

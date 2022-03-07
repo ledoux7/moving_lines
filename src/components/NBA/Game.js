@@ -52,7 +52,6 @@ const Game = () => {
   }, [data]);
 
   useEffect(() => {
-    console.log('bo', boxscore);
     if (boxscore && boxscore.pages[0].Items && boxscore.pages[0].Items.length) {
       const ay2 = Object.entries(boxscore.pages[0].Items).map(([key, val]) => ({
         // ...val,
@@ -87,8 +86,6 @@ const Game = () => {
       setRows(ay2);
 
       const s = [...new Set(ay2.map(a => a.team))];
-
-      console.log({ s, sss: s[0], as: ay2.filter(a => a.team === s[0]) });
       setTableData({
         team1: ay2.filter(a => a.team === s[0]),
         team1Name: s[0],

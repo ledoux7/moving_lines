@@ -91,8 +91,6 @@ export const fetchPBP = async ({
 }) => {
   // console.log('getstuff', pageParam, queryKey);
   const url = getUrlPBP(queryKey[1], pageParam.NextToken, pageParam.QueryExecutionId);
-  console.log({ url });
-
   const res = await axios.get(url);
   return res?.data;
 };
@@ -101,8 +99,6 @@ export const fetchBoxScore = async ({
   queryKey,
 }) => {
   const url = getUrlBoxScore(queryKey[1]);
-  console.log({ url });
-
   const res = await axios.get(url);
   return res?.data;
 };
@@ -115,8 +111,6 @@ export const fetchShotLog = async ({
   queryKey,
 }) => {
   const url = getUrlShotLog(queryKey[1], pageParam.NextToken, pageParam.QueryExecutionId);
-  console.log({ url });
-
   const res = await axios.get(url);
   return res?.data;
 };
@@ -130,8 +124,6 @@ export const fetchGames = async ({
 }) => {
   // console.log('getstuff', pageParam, queryKey);
   const url = getUrlGames(pageParam.NextToken, pageParam.QueryExecutionId);
-  console.log({ url });
-
   const res = await axios.get(url);
   return res?.data;
 };

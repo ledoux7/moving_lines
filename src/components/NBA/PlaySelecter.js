@@ -223,6 +223,7 @@ const PlaySelector = React.memo(({
       >
         {(filteredData) && filteredData.map((play, i) => (
           <Button
+            key={i}
             component={Link}
             to={`/play?gameId=${play.game_id}&eventNum=${play.eventnum}&eventType=${play.event_type_id}`}
             variant='contained'

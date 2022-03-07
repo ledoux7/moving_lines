@@ -14,6 +14,10 @@ const getUrlPBP = (gameId, NextToken, QueryExecutionId) => (
     `${baseUrl}ml/pbp?gameId=${gameId}&NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
 );
 
+const getUrlBoxScore = gameId => (
+  `${baseUrl}ml/boxscore?gameId=${gameId}`
+);
+
 const getUrlShotLog = (playerName, NextToken, QueryExecutionId) => (
   `${baseUrl}ml/shots/player?playerName=${playerName}&NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
 );
@@ -87,6 +91,16 @@ export const fetchPBP = async ({
 }) => {
   // console.log('getstuff', pageParam, queryKey);
   const url = getUrlPBP(queryKey[1], pageParam.NextToken, pageParam.QueryExecutionId);
+  console.log({ url });
+
+  const res = await axios.get(url);
+  return res?.data;
+};
+
+export const fetchBoxScore = async ({
+  queryKey,
+}) => {
+  const url = getUrlBoxScore(queryKey[1]);
   console.log({ url });
 
   const res = await axios.get(url);

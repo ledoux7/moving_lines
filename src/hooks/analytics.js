@@ -11,6 +11,7 @@ import {
   fetchRandomShotsOpp,
   fetchIsItFoulPlayer,
   fetchShotLog,
+  fetchBoxScore,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -199,6 +200,20 @@ export const useGetShotLog = playerName => {
         }
         return undefined;
       },
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetBoxScoreGame = gameId => {
+  const query = useInfiniteQuery(
+    ['boxscore', gameId],
+    fetchBoxScore,
+    {
+      enabled: !!gameId,
     },
   );
 

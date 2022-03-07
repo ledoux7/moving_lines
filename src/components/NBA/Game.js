@@ -231,7 +231,7 @@ const Game = () => {
         )
       }
       {
-        isSuccessBS && (
+        isSuccess && isSuccessBS && (
         <Button
           variant='contained'
           style={{

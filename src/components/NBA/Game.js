@@ -12,9 +12,6 @@ import TableWrap from '../Table';
 import { useAuthState } from '../../context/context';
 
 const Game = () => {
-  const [showPlays, setShowPlays] = React.useState(false);
-  const [showBoxScore, setShowBoxScore] = React.useState(false);
-
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const gameId = query.get('gameId');
@@ -222,7 +219,7 @@ const Game = () => {
           color='primary'
           onClick={() => gotoList(value)}
         >
-          Play Highlights
+          View Highlights
         </Button>
 
         )
@@ -240,8 +237,8 @@ const Game = () => {
           color='primary'
           onClick={() => setShowPlays(prev => !prev)}
         >
-          {(auth && auth.auth) ? showPlays ? 'Show Slider' : 'Show PBP' : ''}
-          {(auth && auth.unauth) ? showPlays ? 'Hide PBP' : 'Show PBP' : ''}
+          {(auth && auth.auth) ? showPlays ? 'Show Slider' : 'View PBP' : ''}
+          {(auth && auth.unauth) ? showPlays ? 'Hide PBP' : 'View PBP' : ''}
         </Button>
 
         )

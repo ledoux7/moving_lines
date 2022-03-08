@@ -215,7 +215,7 @@ const PlayListWrapper = pbpData => {
         variant='contained'
         style={{
           textTransform: 'none',
-          width: 250,
+          width: 200,
           fontSize: 26,
           marginTop: '10px',
           display: 'flex',
@@ -224,7 +224,7 @@ const PlayListWrapper = pbpData => {
         color='primary'
         onClick={() => handleClick()}
       >
-        Play Highlights
+        Play
       </Button>
       <PlayList arr={PBPArr} />
     </div>

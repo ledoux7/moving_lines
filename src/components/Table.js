@@ -28,12 +28,29 @@ function Table({ columns, data }) {
 
   // Render the UI for your table
   return (
-    <MaUTable {...getTableProps()}>
+    <MaUTable
+      {...getTableProps()}
+      options={
+        {
+          rowStyle: {
+            wordWrap: 'break-word',
+          },
+          padding: 'dense',
+          tableLayout: 'auto',
+          draggable: true,
+        }
+      }
+      style={{ width: 'max-content' }}
+    >
       <TableHead>
         {headerGroups.map((headerGroup, i) => (
           <TableRow key={i} {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column, j) => (
-              <TableCell key={j} {...column.getHeaderProps(column.getSortByToggleProps())}>
+              <TableCell
+                key={j}
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                // style={{ width: 90 }}
+              >
                 {column.render('Header')}
                 <span>
                   {column.isSorted
@@ -71,6 +88,10 @@ function TableWrap({ data, rows }) {
       {
         Header: 'player',
         accessor: 'player', // accessor is the "key" in the data
+      },
+      {
+        Header: 'MIN',
+        accessor: 'min',
       },
       {
         Header: 'PTS',
@@ -118,6 +139,8 @@ function TableWrap({ data, rows }) {
       <CssBaseline />
       <div style={{
         margin: 30,
+        maxWidth: '90%',
+        overflow: 'scroll',
       }}
       >
         <h2>{data.team1Name}: {data.team1Score} PTS</h2>
@@ -127,6 +150,8 @@ function TableWrap({ data, rows }) {
 
       <div style={{
         margin: 30,
+        maxWidth: '90%',
+        overflow: 'scroll',
       }}
       >
         <h2>{data.team2Name}: {data.team2Score} PTS</h2>

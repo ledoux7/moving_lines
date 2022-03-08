@@ -94,7 +94,7 @@ function App() {
     }}
     >
       <Grid
-        sx={{ flexGrow: 1 }}
+        style={{ flexGrow: 1, width: '100%' }}
         container
         spacing={2}
       >

@@ -51,7 +51,6 @@ const getUrlIsItFoulPlayer = (playerName, gameId) => (
 );
 
 export const fetchViaProxy = async ({ queryKey }) => {
-  console.log('keyProxy', queryKey);
   const [_key, { gameId, eventNum, eventType }] = queryKey;
   if (eventNum === undefined || eventType === undefined) {
     throw new Error('bad params');

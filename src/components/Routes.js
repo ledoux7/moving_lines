@@ -11,7 +11,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CircularProgress } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../utils/ErrorBoundary';
-import { AuthProvider, useAuthDispatch, useAuthState } from '../context/context';
+import { useAuthDispatch, useAuthState } from '../context/context';
 import MiniDrawer from '../layouts';
 import LoginLayout from '../layouts/LoginLayout';
 import { StoreContext } from '../store';
@@ -25,6 +25,7 @@ import PlaySelectorWrapper from './NBA/PlaySelectorWrapper';
 import RandomShots from './NBA/Random';
 import IsIt from './NBA/IsIt';
 import Shots from './NBA/Shots';
+import PlayListWrapper from './NBA/PlayListWrapper';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
@@ -76,7 +77,7 @@ function PrivateRoute({ auth, children, ...rest }) {
     <Route
       key={rest.path}
       {...rest}
-      render={({ location }) => (auth.auth
+      render={({ location }) => (auth && auth.auth
         ? children
         : <WaitALittle location={location} />)}
     />
@@ -89,7 +90,7 @@ function ProtectedRoute({ auth, children, ...rest }) {
       key={rest.path}
       {...rest}
       render={({ location }) => (
-        (auth.auth || auth.unauth)
+        (auth && (auth.auth || auth.unauth))
           ? children
           : <WaitALittle location={location} />)}
     />
@@ -102,7 +103,7 @@ function NonLoggedInRoute({ auth, children, ...rest }) {
       key={rest.path}
       {...rest}
       render={({ location }) => (
-        (!auth.auth)
+        (auth && !auth.auth)
           ? children
           : <Redirect to={{
             pathname: '/',
@@ -187,9 +188,14 @@ const Routes = ({ buster }) => {
                     <Game />
                   </MiniDrawer>
                 </MyRoute>
-                <MyRoute path='/playrange'>
+                <PrivateRoute path='/playrange' auth={auth}>
                   <MiniDrawer>
                     <PlayRangeWrapper />
+                  </MiniDrawer>
+                </PrivateRoute>
+                <MyRoute path='/playlist'>
+                  <MiniDrawer>
+                    <PlayListWrapper />
                   </MiniDrawer>
                 </MyRoute>
                 <MyRoute path='/playselector'>

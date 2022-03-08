@@ -9,6 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useGetBoxScoreGame, useGetPBPForGame } from '../../hooks/analytics';
 import PlaySelector from './PlaySelecter';
 import TableWrap from '../Table';
+import { useAuthState } from '../../context/context';
 
 const Game = () => {
   const [showPlays, setShowPlays] = React.useState(false);
@@ -17,10 +18,14 @@ const Game = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const gameId = query.get('gameId');
+  const auth = useAuthState();
+
   const [value, setValue] = useState([0, 0]);
   const [cols, setCols] = useState([]);
   const [rows, setRows] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [showPlays, setShowPlays] = useState(false);
+  const [showBoxScore, setShowBoxScore] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,6 +34,10 @@ const Game = () => {
   const history = useHistory();
   const handleSubmit = rangeArr => {
     history.push(`/playrange?gameId=${gameId}&start=${Math.round(rangeArr[0])}&end=${Math.round(rangeArr[1])}`);
+  };
+
+  const gotoList = rangeArr => {
+    history.push(`/playlist?gameId=${gameId}`);
   };
 
   const {
@@ -57,6 +66,7 @@ const Game = () => {
         // ...val,
         player: val.player_name,
         team: val.team_abbreviation,
+        min: Math.round(val.min),
         pts: val.pts,
         reb: val.reb,
         ast: val.ast,
@@ -116,11 +126,12 @@ const Game = () => {
       overflow: 'scroll',
     }}
     >
-      <h1>
-        {/* Replay: {search} */}
-        {/* [{valuetext(value[0])}, {valuetext(value[1])}] */}
-        Game Timeline
+      <h1 style={{ fontSize: 45 }}>
+        {boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup}
       </h1>
+      {!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup && (
+        <h1>Game Timeline</h1>
+      )}
       {isLoading && (
         <div style={{
           display: 'flex',
@@ -133,7 +144,7 @@ const Game = () => {
         </div>
       )}
       {
-        !showPlays && (
+        !showPlays && auth && auth.auth && (
         <div style={{
           display: 'flex',
           // flex: 1,
@@ -183,7 +194,7 @@ const Game = () => {
                   variant='contained'
                   style={{
                     textTransform: 'none',
-                    width: 200,
+                    width: 250,
                     fontSize: 26,
                     margin: '10px 10px',
                   }}
@@ -199,19 +210,38 @@ const Game = () => {
         )
       }
       {
+        isSuccess && isSuccessBS && (
+        <Button
+          variant='contained'
+          style={{
+            textTransform: 'none',
+            width: 250,
+            fontSize: 26,
+            margin: '10px 10px',
+          }}
+          color='primary'
+          onClick={() => gotoList(value)}
+        >
+          Play Highlights
+        </Button>
+
+        )
+      }
+      {
         isSuccess && (
         <Button
           variant='contained'
           style={{
             textTransform: 'none',
-            width: 200,
+            width: 250,
             fontSize: 26,
             margin: '10px 10px',
           }}
           color='primary'
           onClick={() => setShowPlays(prev => !prev)}
         >
-          {showPlays ? 'Show Slider' : 'Select Plays'}
+          {(auth && auth.auth) ? showPlays ? 'Show Slider' : 'Show PBP' : ''}
+          {(auth && auth.unauth) ? showPlays ? 'Hide PBP' : 'Show PBP' : ''}
         </Button>
 
         )
@@ -222,7 +252,7 @@ const Game = () => {
           variant='contained'
           style={{
             textTransform: 'none',
-            width: 200,
+            width: 250,
             fontSize: 26,
             margin: '10px 10px',
           }}

@@ -80,7 +80,7 @@ const PlayListWrapper = pbpData => {
 
   const handleClick = useCallback(
     () => {
-      const as = filteredData && filteredData.map((play, i) => ({
+      const as = filteredData && filteredData.filter(p => p.video).map((play, i) => ({
         eventType: play.event_type_id,
         eventNum: play.eventnum,
         gameId: play.game_id,

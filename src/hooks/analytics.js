@@ -43,6 +43,8 @@ export const useGetGames = () => {
     fetchGames,
     {
       retry: 2,
+      staleTime: 2 * 60 * 60 * 1000,
+      cacheTime: 2 * 60 * 60 * 1000,
       getNextPageParam: (lastPage, pages) => {
         const a = 12;
         if (lastPage.NextToken) {

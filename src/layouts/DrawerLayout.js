@@ -94,7 +94,7 @@ const createArr = [
   },
   {
     to: '/3pt',
-    name: '3PT Stabilty',
+    name: '3PT Stability',
     icon: <TimelineIcon />,
   },
 

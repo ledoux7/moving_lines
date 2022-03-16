@@ -61,8 +61,8 @@ const Game = () => {
     if (boxscore && boxscore.pages[0].Items && boxscore.pages[0].Items.length) {
       const ay2 = Object.entries(boxscore.pages[0].Items).map(([key, val]) => ({
         // ...val,
-        player: val.player_name,
-        team: val.team_abbreviation,
+        player: val.player,
+        team: val.team,
         min: Math.round(val.min),
         pts: val.pts,
         reb: val.reb,

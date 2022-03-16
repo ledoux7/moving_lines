@@ -115,8 +115,20 @@ const Pred = () => {
             }}
           >
             <CartesianGrid strokeDasharray='3 3' vertical={false} />
-            <XAxis dataKey='Shot Num' tick={{ fill: 'white', fontSize: '16px' }} />
-            <YAxis tickCount={10} tick={{ fill: 'white', fontSize: '16px' }} />
+            <XAxis
+              label={{
+                value: 'Shot Number', position: 'insideBottomRight', offset: -10, fill: 'white',
+              }}
+              dataKey='Shot Num'
+              tick={{ fill: 'white', fontSize: '15px' }}
+            />
+            <YAxis
+              label={{
+                value: '3PT%', angle: -90, position: 'insideLeft', fill: 'white', offset: -10,
+              }}
+              tickCount={10}
+              tick={{ fill: 'white', fontSize: '15px' }}
+            />
             <Tooltip cursor />
             <Legend />
             <Line type='monotone' dataKey='Actual Percentage' stroke='#16ff05' strokeWidth={3} dot={false} />

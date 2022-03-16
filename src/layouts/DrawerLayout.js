@@ -16,6 +16,7 @@ import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import PhotoIcon from '@material-ui/icons/Photo';
 import ChatIcon from '@material-ui/icons/Chat';
 import ClearIcon from '@material-ui/icons/Clear';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import FlagIcon from '@material-ui/icons/Flag';
 import Auth from '@aws-amplify/auth';
 import { Button, SwipeableDrawer } from '@material-ui/core';
@@ -91,6 +92,12 @@ const createArr = [
     name: 'Shot Chart',
     icon: <BubbleChart />,
   },
+  {
+    to: '/3pt',
+    name: '3PT Stabilty',
+    icon: <TimelineIcon />,
+  },
+
   // {
   //   to: '/isit',
   //   name: 'Foul',

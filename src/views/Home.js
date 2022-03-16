@@ -94,7 +94,11 @@ function App() {
     }}
     >
       <Grid
-        style={{ flexGrow: 1, width: '100%' }}
+        style={{
+          flexGrow: 1,
+          width: '100%',
+          margin: 0,
+        }}
         container
         spacing={2}
       >
@@ -103,6 +107,8 @@ function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            width: '100%',
+            margin: 0,
           }}
           container
           spacing={4}

@@ -12,6 +12,8 @@ import {
   fetchIsItFoulPlayer,
   fetchShotLog,
   fetchBoxScore,
+  fetchShots3,
+  fetchLeagueAvg3,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -203,6 +205,31 @@ export const useGetShotLog = playerName => {
         return undefined;
       },
     },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetShot3Log = playerName => {
+  const query = useInfiniteQuery(
+    ['shots3/player', playerName],
+    fetchShots3,
+    {
+      enabled: !!playerName,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetLeagueAvg3 = () => {
+  const query = useInfiniteQuery(
+    ['leagueAvg3'],
+    fetchLeagueAvg3,
   );
 
   return {

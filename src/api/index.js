@@ -30,6 +30,14 @@ const getUrlRandomShotsPlayer = (playerName, fg3) => (
   `${baseUrl}ml/random/shots/player${fg3}?playerName=${playerName}`
 );
 
+const getUrlShots3Player = playerName => (
+  `${baseUrl}predictions/shots3?playerName=${playerName}`
+);
+
+const getUrlLeagueAvg3 = () => (
+  `${baseUrl}predictions/avg`
+);
+
 const getUrlRandomShotsTeam = (team, fg3) => (
   `${baseUrl}ml/random/shots/team${fg3}?team=${team}`
 );
@@ -111,6 +119,20 @@ export const fetchShotLog = async ({
 }) => {
   const url = getUrlShotLog(queryKey[1], pageParam.NextToken, pageParam.QueryExecutionId);
   const res = await axios.get(url);
+  return res?.data;
+};
+
+export const fetchShots3 = async ({ queryKey }) => {
+  const playerName = queryKey[1];
+  if (playerName === undefined) {
+    throw new Error('bad params');
+  }
+  const res = await axios.get(getUrlShots3Player(encodeURIComponent(playerName)));
+  return res?.data;
+};
+
+export const fetchLeagueAvg3 = async ({ queryKey }) => {
+  const res = await axios.get(getUrlLeagueAvg3());
   return res?.data;
 };
 

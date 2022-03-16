@@ -74,29 +74,42 @@ const Pred = () => {
       }}
       ref={ref}
     >
+      <h1 style={{
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+        margin: 0,
+        paddingTop: 20,
+        paddingBottom: 20,
+        alignItems: 'center',
+        fontSize: 40,
+      }}
+      >
+        3PT Stability
+      </h1>
       <div style={{
         display: 'flex',
         width: '100%',
         flexWrap: 'wrap',
         paddingTop: 15,
-        justifyContent: 'space-evenly',
+        paddingBottom: 20,
+        justifyContent: 'center',
       }}
       >
         <NBADropdown type='Player' callback={setPlayer} />
+        {isLoading && (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          left: '10%',
+        }}
+        >
+          <CircularProgress style={{ marginTop: 5 }} />
+        </div>
+        )}
       </div>
-      <h2 style={{
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'center',
-        margin: 0,
-        paddingTop: 10,
-        height: 40,
-        alignItems: 'center',
-      }}
-      >
-        {player}
-        {isLoading && <CircularProgress style={{ marginLeft: 20 }} />}
-      </h2>
       <div style={{
         width: '95%',
         height: 650,
@@ -131,9 +144,9 @@ const Pred = () => {
             />
             <Tooltip cursor />
             <Legend />
-            <Line type='monotone' dataKey='Actual Percentage' stroke='#16ff05' strokeWidth={3} dot={false} />
-            <Line type='monotone' dataKey='Padded Percentage' stroke='#ef6c00' strokeWidth={3} dot={false} />
-            <Line type='monotone' dataKey='League Avg' stroke='red' strokeWidth={2} dot={false} />
+            <Line type='monotone' isAnimationActive={false} dataKey='Actual Percentage' stroke='#16ff05' strokeWidth={3} dot={false} />
+            <Line type='monotone' isAnimationActive={false} dataKey='Padded Percentage' stroke='#ef6c00' strokeWidth={3} dot={false} />
+            <Line type='monotone' isAnimationActive={false} dataKey='League Avg' stroke='red' strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>

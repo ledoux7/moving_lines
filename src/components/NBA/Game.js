@@ -135,7 +135,7 @@ const Game = () => {
       {!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup && (
         <h1>Game Timeline</h1>
       )}
-      {isLoading && isLoadingBS && (
+      {(isLoading || isLoadingBS) && (
         <div style={{
           display: 'flex',
           flex: 1,

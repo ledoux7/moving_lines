@@ -127,11 +127,12 @@ const Game = () => {
       overflow: 'scroll',
     }}
     >
-      <h1 style={{ fontSize: 45 }}>
-        {dateStr}
-        {' '}
+      <h1 style={{ fontSize: 45, margin: 0, padding: 0 }}>
         {boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup}
       </h1>
+      <h3 style={{ fontSize: 25, margin: 0, padding: 0 }}>
+        {dateStr}
+      </h3>
       {!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup && (
         <h1>Game Timeline</h1>
       )}
@@ -212,7 +213,7 @@ const Game = () => {
         </div>
         )
       }
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {
           isSuccess && !isLoadingBS && (
           <Button

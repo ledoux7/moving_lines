@@ -49,6 +49,7 @@ const Game = () => {
   const {
     data: boxscore,
     isSuccess: isSuccessBS,
+    isLoading: isLoadingBS,
   } = useGetBoxScoreGame(gameId);
 
   useEffect(() => {
@@ -114,6 +115,9 @@ const Game = () => {
   }
 
   // TODO: make slider 3min left 4q
+  const date = (boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.game_date);
+  const dateStr = date && new Date((date / 1000) / 1000).toISOString().substring(0, 10);
+
   return (
     <div style={{
       display: 'flex',
@@ -124,12 +128,14 @@ const Game = () => {
     }}
     >
       <h1 style={{ fontSize: 45 }}>
+        {dateStr}
+        {' '}
         {boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup}
       </h1>
       {!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup && (
         <h1>Game Timeline</h1>
       )}
-      {isLoading && (
+      {isLoading && isLoadingBS && (
         <div style={{
           display: 'flex',
           flex: 1,
@@ -206,60 +212,65 @@ const Game = () => {
         </div>
         )
       }
-      {
-        isSuccess && isSuccessBS && (
-        <Button
-          variant='contained'
-          style={{
-            textTransform: 'none',
-            width: 250,
-            fontSize: 26,
-            margin: '10px 10px',
-          }}
-          color='primary'
-          onClick={() => gotoList(value)}
-        >
-          View Highlights
-        </Button>
+      <div style={{ display: 'flex' }}>
+        {
+          isSuccess && !isLoadingBS && (
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 250,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => gotoList(value)}
+          >
+            View Highlights
+          </Button>
 
-        )
+          )
       }
-      {
-        isSuccess && (
-        <Button
-          variant='contained'
-          style={{
-            textTransform: 'none',
-            width: 250,
-            fontSize: 26,
-            margin: '10px 10px',
-          }}
-          color='primary'
-          onClick={() => setShowPlays(prev => !prev)}
-        >
-          {(auth && auth.auth) ? showPlays ? 'Show Slider' : 'View PBP' : ''}
-          {(auth && auth.unauth) ? showPlays ? 'Hide PBP' : 'View PBP' : ''}
-        </Button>
+        {
+          isSuccess && !isLoadingBS && (
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 250,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => setShowPlays(prev => !prev)}
+          >
+            {(auth && auth.auth) ? showPlays ? 'Show Slider' : 'View PBP' : ''}
+            {(auth && auth.unauth) ? showPlays ? 'Hide PBP' : 'View PBP' : ''}
+          </Button>
 
-        )
+          )
       }
-      {
-        isSuccess && isSuccessBS && (
-        <Button
-          variant='contained'
-          style={{
-            textTransform: 'none',
-            width: 250,
-            fontSize: 26,
-            margin: '10px 10px',
-          }}
-          color='primary'
-          onClick={() => setShowBoxScore(prev => !prev)}
-        >
-          {'Box Score'}
-        </Button>
+        {
+          isSuccess && isSuccessBS && (
+          <Button
+            variant='contained'
+            style={{
+              textTransform: 'none',
+              width: 250,
+              fontSize: 26,
+              margin: '10px 10px',
+            }}
+            color='primary'
+            onClick={() => setShowBoxScore(prev => !prev)}
+          >
+            {'Box Score'}
+          </Button>
 
-        )
+          )
+        }
+      </div>
+      {
+        showBoxScore && tableData && <TableWrap data={tableData} rows={rows} />
       }
       {
         isSuccess && showPlays && (
@@ -271,10 +282,6 @@ const Game = () => {
             isFetchingNextPage={isFetchingNextPage}
           />
         )
-      }
-
-      {
-        showBoxScore && tableData && <TableWrap data={tableData} rows={rows} />
       }
       <div />
     </div>

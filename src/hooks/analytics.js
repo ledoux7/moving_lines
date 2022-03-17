@@ -243,6 +243,7 @@ export const useGetBoxScoreGame = gameId => {
     fetchBoxScore,
     {
       enabled: !!gameId,
+      retry: 1,
     },
   );
 

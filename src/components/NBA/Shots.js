@@ -127,7 +127,7 @@ const Shots = () => {
         display: 'flex',
         width: '100%',
         flexWrap: 'wrap',
-        paddingTop: 15,
+        paddingTop: 10,
         justifyContent: 'space-evenly',
       }}
       >
@@ -153,7 +153,7 @@ const Shots = () => {
         width: '100%',
         justifyContent: 'center',
         margin: 0,
-        paddingTop: 10,
+        paddingTop: 5,
         height: 40,
         alignItems: 'center',
       }}
@@ -192,7 +192,6 @@ const Shots = () => {
             textTransform: 'none',
             width: 300,
             fontSize: 26,
-            marginTop: 10,
           }}
           color='primary'
           onClick={() => fetchNextPage()}

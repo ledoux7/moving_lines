@@ -201,7 +201,7 @@ const Shots = () => {
           {isFetchingNextPage
             ? 'Loading more...'
             : hasNextPage
-              ? 'Add 100 Shots More'
+              ? 'Add 500 Shots More'
               : 'Nothing more to load'}
         </Button>
       </div>

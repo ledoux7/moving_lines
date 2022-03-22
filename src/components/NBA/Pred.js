@@ -139,8 +139,9 @@ const Pred = () => {
               label={{
                 value: '3PT%', angle: -90, position: 'insideLeft', fill: 'white', offset: -10,
               }}
-              tickCount={10}
+              tickCount={15}
               tick={{ fill: 'white', fontSize: '15px' }}
+              tickFormatter={tick => `${Math.round(tick * 100)}%`}
             />
             <Tooltip cursor />
             <Legend />

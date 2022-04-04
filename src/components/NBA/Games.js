@@ -75,7 +75,7 @@ const Games = () => {
         overflow: 'scroll',
         flexWrap: 'wrap',
         justifyContent: 'center',
-          height: '76vh',
+        height: '76vh',
       }}
       >
         {isLoading && <CircularProgress />}

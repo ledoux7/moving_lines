@@ -75,7 +75,7 @@ const Games = () => {
         overflow: 'scroll',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        height: '80vh',
+          height: '76vh',
       }}
       >
         {isLoading && <CircularProgress />}
@@ -144,12 +144,18 @@ const Games = () => {
         )}
       </div>
 
-      <div>
+      <div style={{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+      }}
+      >
         <Button
           variant='contained'
           style={{
             textTransform: 'none',
             width: 300,
+            height: 55,
             fontSize: 26,
           }}
           color='primary'

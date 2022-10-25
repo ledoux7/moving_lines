@@ -63,7 +63,7 @@ const PlayRange = ({ cached }) => {
     (num = 1) => {
       for (let i = curPlay + num; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
-          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+          if (skipRebounds === true && pbpRange[i].event_type === 'Rebound') {
             console.log('skipped reb', pbpRange[i]);
             // eslint-disable-next-line no-continue
             continue;
@@ -84,7 +84,7 @@ const PlayRange = ({ cached }) => {
     (num = 1) => {
       for (let i = curPlay - num; i < pbpRange.length && i >= 0; i--) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
-          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+          if (skipRebounds === true && pbpRange[i].event_type === 'Rebound') {
             console.log('skipped reb', pbpRange[i]);
             // eslint-disable-next-line no-continue
             continue;
@@ -112,7 +112,7 @@ const PlayRange = ({ cached }) => {
     async () => {
       for (let i = curPlay + 1; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
-          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+          if (skipRebounds === true && pbpRange[i].event_type === 'Rebound') {
             // eslint-disable-next-line no-continue
             continue;
           }

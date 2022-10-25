@@ -92,6 +92,7 @@
       ],
       "react/default-props-match-prop-types": ["error", { "allowRequiredDefaults": true}],
       "react/require-default-props": ["error", { "forbidDefaultForRequired": false }],
+      "react/function-component-definition": "off",
       "template-curly-spacing" : "off",
       // copied from https://github.com/airbnb/javascript/blob/master/packages/eslint-config-airbnb-base/rules/style.js#L125
       // added TemplateLiteral to ignoredNodes, rest was already used

@@ -22,6 +22,7 @@ const PlayRange = ({ cached }) => {
   const [curEventNum, setCurEventNum] = useState();
   const [curEventType, setCurEventType] = useState();
   const [dsc, setDsc] = useState(null);
+  const [skipRebounds, setSkipRebounds] = useState(true);
 
   const queryClient = useQueryClient();
   const { search } = useLocation();
@@ -62,6 +63,11 @@ const PlayRange = ({ cached }) => {
     (num = 1) => {
       for (let i = curPlay + num; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
+          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+            console.log('skipped reb', pbpRange[i]);
+            // eslint-disable-next-line no-continue
+            continue;
+          }
           setCurEventNum(pbpRange[i].eventnum);
           setCurEventType(pbpRange[i].event_type_id);
           setCurPlay(i);
@@ -71,13 +77,18 @@ const PlayRange = ({ cached }) => {
         console.log('skipped', pbpRange[i]);
       }
     },
-    [curPlay, pbpRange],
+    [curPlay, pbpRange, skipRebounds],
   );
 
   const tryPrev = useCallback(
     (num = 1) => {
       for (let i = curPlay - num; i < pbpRange.length && i >= 0; i--) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
+          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+            console.log('skipped reb', pbpRange[i]);
+            // eslint-disable-next-line no-continue
+            continue;
+          }
           setCurEventNum(pbpRange[i].eventnum);
           setCurEventType(pbpRange[i].event_type_id);
           setCurPlay(i);
@@ -101,6 +112,10 @@ const PlayRange = ({ cached }) => {
     async () => {
       for (let i = curPlay + 1; i < pbpRange.length; i++) {
         if (pbpRange[i] && pbpRange[i].video !== '0') {
+          if (skipRebounds === true && pbpRange[i].eventType === 'Rebound') {
+            // eslint-disable-next-line no-continue
+            continue;
+          }
           // eslint-disable-next-line no-await-in-loop
           await queryClient.prefetchQuery(
             {

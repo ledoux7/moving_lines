@@ -22,7 +22,7 @@ const PlayRange = ({ cached }) => {
   const [curEventNum, setCurEventNum] = useState();
   const [curEventType, setCurEventType] = useState();
   const [dsc, setDsc] = useState(null);
-  const [skipRebounds, setSkipRebounds] = useState(true);
+  const [skipRebounds] = useState(true);
 
   const queryClient = useQueryClient();
   const { search } = useLocation();
@@ -98,7 +98,7 @@ const PlayRange = ({ cached }) => {
         console.log('skipped', pbpRange[i]);
       }
     },
-    [curPlay, pbpRange],
+    [curPlay, pbpRange, skipRebounds],
   );
 
   const ended = useCallback(
@@ -136,7 +136,7 @@ const PlayRange = ({ cached }) => {
         }
       }
     },
-    [cached, curPlay, gameId, pbpRange, queryClient],
+    [cached, curPlay, gameId, pbpRange, queryClient, skipRebounds],
   );
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/display-name */
 import React, { useCallback, useEffect } from 'react';
 import clsx from 'clsx';
@@ -18,7 +19,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import ClearIcon from '@material-ui/icons/Clear';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import FlagIcon from '@material-ui/icons/Flag';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';

@@ -1,9 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {
@@ -11,8 +10,6 @@ import {
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
-// import Slide from '@material-ui/core/Slide';
-// import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import useStyles from '../styles';
 import { StoreContext } from '../store';
 import MyDrawer from './DrawerLayout';
@@ -150,6 +147,7 @@ export default function MiniDrawer({ children }) {
           <IconButton
             color='inherit'
             aria-label='open drawer'
+            // eslint-disable-next-line react/jsx-no-bind
             onClick={handleDrawerOpen}
             edge='start'
             className={clsx(classes.menuButton, {

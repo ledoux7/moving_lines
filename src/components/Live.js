@@ -2,8 +2,6 @@
 import React, {
   useState, useEffect, useCallback, useMemo, useRef,
 } from 'react';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
-import { a, Hub, Storage } from 'aws-amplify';
 import { Button, TextField, Typography } from '@material-ui/core';
 import CachedIcon from '@material-ui/icons/Cached';
 import IconButton from '@material-ui/core/IconButton';

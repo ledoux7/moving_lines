@@ -12,19 +12,21 @@ function Table({ columns, data }) {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps, headerGroups, rows, prepareRow,
-  } = useTable({
-    columns,
-    data,
-    initialState: {
-      sortBy: [
-        {
-          id: 'pts',
-          desc: true,
-        },
-      ],
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        sortBy: [
+          {
+            id: 'pts',
+            desc: true,
+          },
+        ],
+      },
     },
-  },
-  useSortBy);
+    useSortBy,
+  );
 
   // Render the UI for your table
   return (

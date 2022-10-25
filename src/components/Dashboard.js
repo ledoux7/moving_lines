@@ -2,15 +2,7 @@
 import React, {
   useState, useEffect, useCallback, useMemo, useRef,
 } from 'react';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
-import { a, Hub, Storage } from 'aws-amplify';
 import { Button, TextField, Typography } from '@material-ui/core';
-import CachedIcon from '@material-ui/icons/Cached';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SendIcon from '@material-ui/icons/Send';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import ClearIcon from '@material-ui/icons/Clear';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 // import { useLocation } from 'react-router';
 import { useQuery } from 'react-query';
@@ -56,7 +48,8 @@ const Dashboard = ({ stage }) => {
     isLoading, error, data, refetch,
   } = useQuery(
     'repoData',
-    () => fetch(stepUrl).then(res => res.json()), {
+    () => fetch(stepUrl).then(res => res.json()),
+    {
       refetchOnWindowFocus: false,
       enabled: false, // needed to handle refetchs manually
     },

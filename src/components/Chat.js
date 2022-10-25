@@ -1,6 +1,5 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect, useCallback } from 'react';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import { a, Hub, Storage } from 'aws-amplify';
 import { Button, TextField } from '@material-ui/core';
 import CachedIcon from '@material-ui/icons/Cached';

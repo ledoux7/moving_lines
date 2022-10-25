@@ -1,12 +1,11 @@
-/* eslint-disable import/prefer-default-export */
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 import {
   useState, useCallback, useEffect, useRef,
 } from 'react';
 import themeObject from '../themes';
 
 export const useDarkMode = () => {
-  const [theme, setTheme] = useState(createMuiTheme(themeObject));
+  const [theme, setTheme] = useState(createTheme(themeObject));
   const [themeO, setThemeO] = useState(themeObject);
   const [darkModeState, setDarkModeState] = useState(true);
 
@@ -28,7 +27,7 @@ export const useDarkMode = () => {
   );
 
   useEffect(() => {
-    setTheme(createMuiTheme(themeO));
+    setTheme(createTheme(themeO));
   }, [themeO]);
 
   return [theme, darkModeState, toggleDarkMode];

@@ -1,7 +1,5 @@
-import { createMuiTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../hooks';
-import themeObject from '../themes';
 
 export const StoreContext = React.createContext(null);
 

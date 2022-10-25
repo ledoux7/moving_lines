@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable-loop */
 /* eslint-disable react/jsx-key */
 import {
   CircularProgress, IconButton, Tooltip,

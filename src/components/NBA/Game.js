@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 import { Button } from '@material-ui/core';
 import React, {

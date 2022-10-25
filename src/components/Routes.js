@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import { CircularProgress } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../utils/ErrorBoundary';
@@ -125,7 +125,7 @@ function MyRoute({ children, ...rest }) {
   );
 }
 
-const themeConfig = createMuiTheme(themeObject);
+const themeConfig = createTheme(themeObject);
 
 const Routes = ({ buster }) => {
   const store = React.useContext(StoreContext);

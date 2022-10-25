@@ -48,7 +48,7 @@ const My = ({ title, path, content }) => {
   );
 };
 
-function App() {
+const App = () => {
   const shotchart = useImportImage('shotchart.png');
   // const court = useImportImage('court.png');
   useGetGames(); // prefetch games
@@ -121,6 +121,6 @@ function App() {
       </Grid>
     </div>
   );
-}
+};
 
 export default App;

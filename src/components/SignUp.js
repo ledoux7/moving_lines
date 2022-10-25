@@ -9,7 +9,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import {
   Link, useHistory, useParams, useLocation,
 } from 'react-router-dom';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import useStyles from '../styles';
 import { useAuthDispatch } from '../context/context';
 

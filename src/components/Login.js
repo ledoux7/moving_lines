@@ -5,7 +5,7 @@ import {
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import { Link, useHistory } from 'react-router-dom';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import useStyles from '../styles';
 import { useAuthDispatch } from '../context/context';
 

@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
 import { Button } from '@material-ui/core';

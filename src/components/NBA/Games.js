@@ -105,6 +105,7 @@ const Games = () => {
 
               { dateGroup[1].map(game => (
                 <Button
+                  key={'button' + game.game_id}
                   component={Link}
                   to={'/game?gameId=' + game.game_id}
                   variant='contained'

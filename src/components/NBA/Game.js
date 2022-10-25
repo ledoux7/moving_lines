@@ -55,7 +55,7 @@ const Game = () => {
 
   useEffect(() => {
     if (data) {
-      setValue([data.pages[0].Items.length * 0.92, data.pages[0].Items.length - 1]);
+      setValue([data.pages[0].Items.length * 0.90, data.pages[0].Items.length - 1]);
     }
   }, [data]);
 
@@ -149,7 +149,7 @@ const Game = () => {
         </div>
       )}
       {
-        !showPlays && auth && auth.auth && (
+        !(isLoading || isLoadingBS) && !showPlays && auth && auth.auth && (
         <div style={{
           display: 'flex',
           // flex: 1,

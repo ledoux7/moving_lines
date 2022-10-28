@@ -109,6 +109,7 @@ const App = () => {
             alignItems: 'center',
             width: '100%',
             margin: 0,
+            alignContent: 'center',
           }}
           container
           spacing={4}

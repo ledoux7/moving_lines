@@ -14,6 +14,7 @@ import {
   fetchBoxScore,
   fetchShots3,
   fetchLeagueAvg3,
+  fetchSchedule,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -57,6 +58,22 @@ export const useGetGames = () => {
         }
         return undefined;
       },
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetSchedule = () => {
+  const query = useQuery(
+    ['schedule'],
+    fetchSchedule,
+    {
+      retry: 2,
+      staleTime: Infinity, // 2 * 60 * 60 * 1000,
+      // cacheTime: 2 * 60 * 60 * 1000,
     },
   );
 

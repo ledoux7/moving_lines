@@ -54,6 +54,10 @@ const getUrlTeamNames = () => (
   `${baseUrl}ml/teams`
 );
 
+const getUrlSchedule = () => (
+  'https://4bdhxfsfapyjyvcuktxgcbr4jy0feprb.lambda-url.eu-west-1.on.aws/'
+);
+
 const getUrlIsItFoulPlayer = (playerName, gameId) => (
   `${baseUrl}ml/isit/foul?playerName=${playerName}${gameId ? '&gameId=' + gameId : ''}`
 );
@@ -195,6 +199,11 @@ export const fetchPlayerNames = async () => {
 };
 export const fetchTeamNames = async () => {
   const res = await axios.get(getUrlTeamNames());
+  return res?.data;
+};
+
+export const fetchSchedule = async () => {
+  const res = await axios.get(getUrlSchedule());
   return res?.data;
 };
 

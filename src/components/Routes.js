@@ -27,6 +27,8 @@ import IsIt from './NBA/IsIt';
 import Shots from './NBA/Shots';
 import PlayListWrapper from './NBA/PlayListWrapper';
 import Pred from './NBA/Pred';
+import Schedule from './NBA/Schedule';
+import ScheduleNext from './NBA/ScheduleNext';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
@@ -182,6 +184,16 @@ const Routes = ({ buster }) => {
                 <MyRoute path='/games'>
                   <MiniDrawer>
                     <Games stage={'dev'} />
+                  </MiniDrawer>
+                </MyRoute>
+                <MyRoute path='/schedule'>
+                  <MiniDrawer>
+                    <Schedule />
+                  </MiniDrawer>
+                </MyRoute>
+                <MyRoute path='/schedulenext'>
+                  <MiniDrawer>
+                    <ScheduleNext />
                   </MiniDrawer>
                 </MyRoute>
                 <MyRoute path='/game'>

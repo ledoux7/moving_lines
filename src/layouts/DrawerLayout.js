@@ -24,7 +24,7 @@ import { Button, SwipeableDrawer } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
 import BubbleChart from '@material-ui/icons/BubbleChart';
-import { Shuffle } from '@material-ui/icons';
+import { CalendarToday, Shuffle, Today } from '@material-ui/icons';
 import useStyles from '../styles';
 import ListItemLink from '../components/ListItemLink';
 import { loginUser, useAuthState, useAuthDispatch } from '../context/context';
@@ -82,6 +82,16 @@ const createArr = [
     to: '/games',
     name: 'Games',
     icon: <OndemandVideoIcon />,
+  },
+  {
+    to: '/schedule',
+    name: 'Schedule',
+    icon: <CalendarToday />,
+  },
+  {
+    to: '/schedulenext',
+    name: 'ScheduleNext',
+    icon: <Today />,
   },
   {
     to: '/random',

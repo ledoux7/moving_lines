@@ -15,6 +15,7 @@ import {
   fetchShots3,
   fetchLeagueAvg3,
   fetchSchedule,
+  fetchNBAProxy,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -261,6 +262,26 @@ export const useGetBoxScoreGame = gameId => {
     {
       enabled: !!gameId,
       retry: 1,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useProxyNBA = (path, queryParams) => {
+  const query = useQuery(
+    {
+      queryKey: ['proxy_nba', { path, queryParams }],
+      queryFn: ({ queryKey }) => fetchNBAProxy({ queryKey }),
+      refetchOnWindowFocus: false,
+      retry: 0,
+      enabled: !!path,
+      staleTime: 300 * 1000,
+      cacheTime: 300 * 1000,
+
+      refetchOnMount: false,
     },
   );
 

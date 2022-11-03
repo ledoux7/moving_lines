@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { transform } from './TransformNBA';
 
 const createPBPUrl = (gameId, eventNum, eventType) => (
   `https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/pbp?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
@@ -9,6 +10,8 @@ const createPBPUrlDynamoDB = (gameId, eventNum, eventType) => (
 );
 
 const baseUrl = 'https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/';
+
+const baseUrlProxyNBA = 'https://0yvi455nmk.execute-api.eu-west-1.amazonaws.com/prod/';
 
 const getUrlPBP = (gameId, NextToken, QueryExecutionId) => (
     `${baseUrl}ml/pbp?gameId=${gameId}&NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
@@ -60,6 +63,10 @@ const getUrlSchedule = () => (
 
 const getUrlIsItFoulPlayer = (playerName, gameId) => (
   `${baseUrl}ml/isit/foul?playerName=${playerName}${gameId ? '&gameId=' + gameId : ''}`
+);
+
+const getUrlProxyNBA = (path, queryStr) => (
+  `${baseUrlProxyNBA}${path}?${queryStr}`
 );
 
 export const fetchViaProxy = async ({ queryKey }) => {
@@ -220,4 +227,17 @@ export const fetchPlayUrl = async ({
   const res = await axios.post();
 
   return res?.data;
+};
+
+export const fetchNBAProxy = async ({ queryKey }) => {
+  const [_key, { path, queryParams }] = queryKey;
+  if (path === undefined) {
+    throw new Error('bad params');
+  }
+  const queryStr = Object.keys(queryParams).map(k => `${encodeURIComponent(k)}=${queryParams[k] !== null ? encodeURIComponent(queryParams[k]) : ''}`).join('&');
+  const res = await axios.get(getUrlProxyNBA(path, queryStr));
+  return {
+    server: res?.data,
+    transformed: transform(res?.data),
+  };
 };

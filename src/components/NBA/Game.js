@@ -9,7 +9,7 @@ import Slider from '@material-ui/core/Slider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useGetBoxScoreGame, useGetPBPForGame } from '../../hooks/analytics';
 import PlaySelector from './PlaySelecter';
-import TableWrap from '../Table';
+import BoxScoreTable from './BoxScoreTable';
 import { useAuthState } from '../../context/context';
 
 const Game = () => {
@@ -272,7 +272,7 @@ const Game = () => {
         }
       </div>
       {
-        showBoxScore && tableData && <TableWrap data={tableData} rows={rows} />
+        showBoxScore && tableData && <BoxScoreTable data={tableData} />
       }
       {
         isSuccess && showPlays && (

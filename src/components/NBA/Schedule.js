@@ -98,7 +98,7 @@ const Schedule = () => {
                 <Button
                   key={'button' + game.GAME_ID}
                   component={Link}
-                  to={'/game?gameId=' + game.GAME_ID}
+                  to={'/betting?gameId=' + game.GAME_ID}
                   variant='contained'
                   style={{
                     textTransform: 'none',
@@ -108,7 +108,7 @@ const Schedule = () => {
                     margin: '10px 10px',
                   }}
                   color='primary'
-                  onClick={() => handleSubmit(game.GAME_ID)}
+                  // onClick={() => handleSubmit(game.GAME_ID)}
                 >
                   {game.MATCHUP}
                 </Button>

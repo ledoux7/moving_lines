@@ -28,6 +28,8 @@ const ScheduleNext = () => {
   const [todayString] = React.useState(today.toISOString().slice(0, 10));
   const [tomorrow] = React.useState(today.setDate(today.getDate() + 1));
   const [tomorrowString] = React.useState(today.toISOString().slice(0, 10));
+  const [prevDay] = React.useState(today.setDate(today.getDate() - 2));
+  const [prevDayString] = React.useState(today.toISOString().slice(0, 10));
 
   const history = useHistory();
   const handleSubmit = gameId => {
@@ -76,7 +78,11 @@ const ScheduleNext = () => {
         {isLoading && <CircularProgress />}
 
         {(grouped) && Object.entries(grouped)
-          .filter(dateGroup => dateGroup[0] === todayString || dateGroup[0] === tomorrowString)
+          .filter(
+            dateGroup => dateGroup[0] === todayString
+            || dateGroup[0] === tomorrowString
+            || dateGroup[0] === prevDayString,
+          )
           .map((dateGroup, i) => (
             <div
               key={i}
@@ -104,7 +110,7 @@ const ScheduleNext = () => {
                   <Button
                     key={'button' + game.GAME_ID}
                     component={Link}
-                    to={'/game?gameId=' + game.GAME_ID}
+                    to={'/betting?gameId=' + game.GAME_ID}
                     variant='contained'
                     style={{
                       textTransform: 'none',
@@ -114,7 +120,7 @@ const ScheduleNext = () => {
                       margin: '10px 10px',
                     }}
                     color='primary'
-                    onClick={() => handleSubmit(game.GAME_ID)}
+                    // onClick={() => handleSubmit(game.GAME_ID)}
                   >
                     {game.MATCHUP}
                   </Button>

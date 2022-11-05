@@ -59,6 +59,7 @@ const getUrlTeamNames = () => (
 
 const getUrlSchedule = () => (
   'https://4bdhxfsfapyjyvcuktxgcbr4jy0feprb.lambda-url.eu-west-1.on.aws/'
+  // 'https://0yvi455nmk.execute-api.eu-west-1.amazonaws.com/prod/schedule'
 );
 
 const getUrlIsItFoulPlayer = (playerName, gameId) => (

@@ -233,7 +233,11 @@ const Betting = () => {
         </div>
       )}
       {isSuccess && data && (
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        <div style={{
+          display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+          //  overflow: 'scroll', maxWidth: '100%',
+        }}
+        >
           <BettingAdv
             period={0}
             homeTeamId={homeTeamId}

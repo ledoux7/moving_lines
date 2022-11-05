@@ -27,6 +27,8 @@ function BettingTable({ data, columns }) {
       width: '100%',
       justifyContent: 'space-around',
       flexWrap: 'wrap',
+      overflow: 'scroll',
+      maxWidth: '95vw',
     }}
     >
       <CssBaseline />

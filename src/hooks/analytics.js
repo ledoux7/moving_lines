@@ -270,14 +270,14 @@ export const useGetBoxScoreGame = gameId => {
   };
 };
 
-export const useProxyNBA = (path, queryParams) => {
+export const useProxyNBA = (path, queryParams, enabled = true) => {
   const query = useQuery(
     {
       queryKey: ['proxy_nba', { path, queryParams }],
       queryFn: ({ queryKey }) => fetchNBAProxy({ queryKey }),
       refetchOnWindowFocus: false,
       retry: 0,
-      enabled: !!path,
+      enabled,
       staleTime: 300 * 1000,
       cacheTime: 300 * 1000,
 

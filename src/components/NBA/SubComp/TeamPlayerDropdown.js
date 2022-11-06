@@ -33,7 +33,7 @@ const TeamPlayerDropdown = ({ teamId, type, callback }) => {
 
   const autoCompleteCmp = null;
 
-  if (playerNames?.length) {
+  if (!playerNames?.length) {
     return null;
   }
 

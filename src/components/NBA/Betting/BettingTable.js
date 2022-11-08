@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useTable, useSortBy } from 'react-table';
-import Table from '../Table';
+import Table from '../../Table';
 
 const state = {};
 
@@ -34,7 +34,7 @@ function BettingTable({ data, columns }) {
       <CssBaseline />
       <div style={{
         margin: 30,
-        maxWidth: '90%',
+        maxWidth: '100%',
         overflow: 'scroll',
       }}
       >

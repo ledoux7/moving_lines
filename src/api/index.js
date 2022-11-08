@@ -240,5 +240,6 @@ export const fetchNBAProxy = async ({ queryKey }) => {
   return {
     server: res?.data,
     transformed: transform(res?.data),
+    endpoint: res?.data?.resource,
   };
 };

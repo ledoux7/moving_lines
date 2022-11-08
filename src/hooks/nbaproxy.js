@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { TEAMS } from '../data/nba';
 import { useGetBoxScoreGame, useGetPBPForGame, useProxyNBA } from './analytics';
 
-export const useTeamStats = (period = 0, half = 0) => {
+export const useTeamStats = (period = 0, half = 0, measureType = 'Advanced') => {
   const dash = {
-    'MeasureType': 'Advanced',
+    'MeasureType': measureType,
     'PerMode': 'PerGame',
     'PlusMinus': 'N',
     'PaceAdjust': 'N',

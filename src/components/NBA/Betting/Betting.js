@@ -3,17 +3,23 @@
 /* eslint-disable max-len */
 import { Button } from '@material-ui/core';
 import React, {
-  useState, useEffect, useCallback, useRef,
+  useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { BOXSCORE_COLS, TEAMS } from '../../data/nba';
-import { useGetSchedule, useProxyNBA } from '../../hooks/analytics';
-import { useAuthState } from '../../context/context';
-import { useTeamStats } from '../../hooks/nbaproxy';
-import BettingAdv from './BettingAdv';
-import TeamPlayerDropdown from './SubComp/TeamPlayerDropdown';
-import PlayerGameLogs from './SubComp/TableFromApi';
+import {
+  BOXSCORE_COLS, playerGamelogsParams, reboundingParams, REBOUNDING_COLS, TEAMS,
+} from '../../../data/nba';
+import { useGetSchedule, useProxyNBA } from '../../../hooks/analytics';
+import { useAuthState } from '../../../context/context';
+import { useTeamStats } from '../../../hooks/nbaproxy';
+import BettingAdv from '../BettingAdv';
+import TeamPlayerDropdown from '../SubComp/TeamPlayerDropdown';
+import TableFromApi from '../SubComp/TableFromApi';
+import Rebounding from './Rebounding';
+import Adv from './Adv';
+import Opp from './Opp';
+import Base from './Base';
 
 const betCols = [
   // 'TEAM_ID',
@@ -36,6 +42,7 @@ const Betting = () => {
   const query = new URLSearchParams(search);
   const gameId = query.get('gameId');
   const auth = useAuthState();
+  const history = useHistory();
 
   const [value, setValue] = useState([0, 0]);
   const [tableData, setTableData] = useState([]);
@@ -50,11 +57,22 @@ const Betting = () => {
   const [homePlayer, setHomePlayer] = useState(null);
   const [awayPlayer, setAwayPlayer] = useState(null);
 
+  const homePlayerParams = useMemo(() => playerGamelogsParams(homePlayer), [homePlayer]);
+  const awayPlayerParams = useMemo(() => playerGamelogsParams(awayPlayer), [awayPlayer]);
+  const bothReboundingParams = useMemo(() => reboundingParams(), []);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const history = useHistory();
+  const reboundingFilter = useCallback(
+    // eslint-disable-next-line arrow-body-style
+    transformed => {
+      // return transformed.filter(t => t.TEAM_ID === homeTeamId || t.TEAM_ID === awayTeamId);
+      return transformed;
+    },
+    [],
+  );
 
   const gotoList = rangeArr => {
     history.push(`/playlist?gameId=${gameId}`);
@@ -79,7 +97,7 @@ const Betting = () => {
       setAwayTeam(TEAMS[away][0]);
       setAwayTeamId(away);
 
-      setGameDate(match.GAME_DATE);
+      setGameDate(match.GAME_DATE_NO);
     }
   }, [gameId, schedule]);
 
@@ -114,16 +132,57 @@ const Betting = () => {
           <CircularProgress />
         </div>
       )}
+
+      {/* <TableFromApi
+        endpoint={'leaguedashptstats'}
+        enabled={1}
+        columns={REBOUNDING_COLS}
+        queryParams={bothReboundingParams}
+        transformFunc={reboundingFilter}
+      /> */}
+
       <div style={{
-        display: 'flex', flexDirection: 'row', width: '75%', justifyContent: 'space-between',
+        display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
       }}
       >
-        <TeamPlayerDropdown teamId={homeTeamId} callback={setHomePlayer} />
-        <TeamPlayerDropdown teamId={awayTeamId} callback={setAwayPlayer} />
+        <Rebounding teamId={homeTeamId} />
+        <Rebounding teamId={awayTeamId} />
       </div>
 
-      <PlayerGameLogs playerId={homePlayer} teamId={homeTeamId} columns={BOXSCORE_COLS} />
-      <PlayerGameLogs playerId={awayPlayer} teamId={awayTeamId} columns={BOXSCORE_COLS} />
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
+      }}
+      >
+        <Base teamId={homeTeamId} />
+        <Base teamId={awayTeamId} />
+      </div>
+
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
+      }}
+      >
+        <Adv teamId={homeTeamId} />
+        <Adv teamId={awayTeamId} />
+      </div>
+
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
+      }}
+      >
+        <Opp teamId={homeTeamId} />
+        <Opp teamId={awayTeamId} />
+      </div>
+
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '75%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
+      }}
+      >
+        <TeamPlayerDropdown teamId={homeTeamId} team={homeTeam} callback={setHomePlayer} />
+        <TeamPlayerDropdown teamId={awayTeamId} team={awayTeam} callback={setAwayPlayer} />
+      </div>
+
+      <TableFromApi endpoint={'playergamelogs'} enabled={homePlayer} columns={BOXSCORE_COLS} queryParams={homePlayerParams} />
+      <TableFromApi endpoint={'playergamelogs'} enabled={awayPlayer} columns={BOXSCORE_COLS} queryParams={awayPlayerParams} />
 
       { isSuccess && (
       <Button

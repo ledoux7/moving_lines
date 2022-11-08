@@ -12,7 +12,7 @@ import { useGetBoxScoreGame, useGetPBPForGame, useProxyNBA } from '../../hooks/a
 import PlaySelector from './PlaySelecter';
 import BoxScoreTable from '../Table';
 import { useAuthState } from '../../context/context';
-import BettingTable from './BettingTable';
+import BettingTable from './Betting/BettingTable';
 import { useTeamStats, useTranspose } from '../../hooks/nbaproxy';
 import { TEAMS } from '../../data/nba';
 

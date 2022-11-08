@@ -29,7 +29,7 @@ import PlayListWrapper from './NBA/PlayListWrapper';
 import Pred from './NBA/Pred';
 import Schedule from './NBA/Schedule';
 import ScheduleNext from './NBA/ScheduleNext';
-import Betting from './NBA/Betting';
+import Betting from './NBA/Betting/Betting';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));

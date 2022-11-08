@@ -8,7 +8,9 @@ import {
   useProxyNBA,
 } from '../../../hooks/analytics';
 
-const TeamPlayerDropdown = ({ teamId, type, callback }) => {
+const TeamPlayerDropdown = ({
+  teamId, type, team = '', callback,
+}) => {
   const homeParams = {
     'LeagueID': '00',
     'TeamID': teamId,
@@ -42,6 +44,7 @@ const TeamPlayerDropdown = ({ teamId, type, callback }) => {
       // fullWidth
       style={{
         width: 350,
+        padding: 20,
       }}
       id='tags-standard'
       options={playerNames}
@@ -55,7 +58,7 @@ const TeamPlayerDropdown = ({ teamId, type, callback }) => {
         <TextField
           {...params}
           variant='standard'
-          label='Player Name'
+          label={team + ' Player'}
           placeholder='Player name'
         />
       )}

@@ -16,6 +16,7 @@ import {
   fetchLeagueAvg3,
   fetchSchedule,
   fetchNBAProxy,
+  fetchKick,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -290,6 +291,22 @@ export const useProxyNBA = (path, queryParams, enabled = true) => {
   };
 };
 
+export const useKickNBA = () => {
+  const query = useQuery(
+    ['kick'],
+    fetchKick,
+    {
+      retry: 2,
+      staleTime: Infinity, // 2 * 60 * 60 * 1000,
+      // cacheTime: 2 * 60 * 60 * 1000,
+      enabled: false,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
 // export const useGetPlayUrl = (gameId, eventNum, eventType) => {
 //   const [page, setPage] = React.useState(0);
 //   // const [gameId, setGameId] = React.useState('0022100078');

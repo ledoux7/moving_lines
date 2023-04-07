@@ -62,6 +62,10 @@ const getUrlSchedule = () => (
   // 'https://0yvi455nmk.execute-api.eu-west-1.amazonaws.com/prod/schedule'
 );
 
+const getUrlKick = () => (
+  'https://d3xvs6p3k3.execute-api.eu-west-1.amazonaws.com/prod/kick'
+);
+
 const getUrlIsItFoulPlayer = (playerName, gameId) => (
   `${baseUrl}ml/isit/foul?playerName=${playerName}${gameId ? '&gameId=' + gameId : ''}`
 );
@@ -212,6 +216,11 @@ export const fetchTeamNames = async () => {
 
 export const fetchSchedule = async () => {
   const res = await axios.get(getUrlSchedule());
+  return res?.data;
+};
+
+export const fetchKick = async () => {
+  const res = await axios.get(getUrlKick());
   return res?.data;
 };
 

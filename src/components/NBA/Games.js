@@ -1,11 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/button-has-type */
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button, CircularProgress, IconButton } from '@material-ui/core';
+import Cached from '@material-ui/icons/Cached';
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useGetGames, useGetPBPForGame } from '../../hooks/analytics';
+import { useGetGames, useGetPBPForGame, useKickNBA } from '../../hooks/analytics';
 
 function groupBy(list, keyGetter) {
   const map = new Map();
@@ -42,6 +43,10 @@ const Games = () => {
     isSuccess,
   } = useGetGames();
 
+  const {
+    refetch,
+  } = useKickNBA();
+
   useEffect(() => {
     if (data) {
       const biggie = data.pages.reduce((acc, cur) => acc.concat([...cur.Items]), []);
@@ -68,8 +73,12 @@ const Games = () => {
       // overflow: 'scroll',
     }}
     >
-      <h1>Recent Games</h1>
-
+      <h1>
+        Recent Games
+        <IconButton aria-label='refresh' onClick={() => refetch()}>
+          <Cached fontSize='large' />
+        </IconButton>
+      </h1>
       <div style={{
         display: 'flex',
         overflow: 'scroll',
@@ -97,13 +106,12 @@ const Games = () => {
               <h3 style={{
                 textAlign: 'center',
                 margin: 0,
-
               }}
               >
                 {dateGroup[0]}
               </h3>
 
-              { dateGroup[1].map(game => (
+              {dateGroup[1].map(game => (
                 <Button
                   key={'button' + game.game_id}
                   component={Link}
@@ -127,7 +135,7 @@ const Games = () => {
           </div>
         ))}
 
-        { isError && (
+        {isError && (
           <Button
             variant='contained'
             style={{

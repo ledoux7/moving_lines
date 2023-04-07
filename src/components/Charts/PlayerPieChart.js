@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  PieChart, Pie, Label, Cell, ResponsiveContainer,
+  PieChart, Pie, Label, Cell, ResponsiveContainer, Tooltip,
 } from 'recharts';
 
 const testData = [
@@ -65,7 +65,7 @@ const CustomLabel = ({
   );
 };
 
-const BettingPieChart = ({ data }) => {
+const PlayerPieChart = ({ data }) => {
   console.log('chart', data);
   return (
     <ResponsiveContainer width={'100%'} height={300} height1='80%'>
@@ -87,16 +87,20 @@ const BettingPieChart = ({ data }) => {
           cx='50%'
           cy='50%'
           dataKey='value'
+          // stroke='#424242'
           innerRadius={100}
           outerRadius={140}
-          startAngle={90}
-          endAngle={90 + 360}
+          // startAngle={90}
+          // endAngle={90 + 360}
+          startAngle={180}
+          endAngle={0}
           isAnimationActive={false}
-          // label
+          label
+
         >
           {testData.map((entry, index) => {
             if (index === 1) {
-              return <Cell key={`cell-${index}`} fill='#f3f6f9' />;
+              return <Cell key={`cell-${index}`} fill='#424242' />;
             }
             return <Cell key={`cell-${index}`} fill='#ef6c00' />;
           })}
@@ -105,9 +109,10 @@ const BettingPieChart = ({ data }) => {
             position='center'
           />
         </Pie>
+        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );
 };
 
-export default BettingPieChart;
+export default PlayerPieChart;

@@ -58,8 +58,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   flexContainer: {
-    width: '100%',
-    justifyContent: 'center',
+    // width: '100%',
+    // justifyContent: 'center',
   },
   textColorInherit: {
     color: 'inherit',
@@ -76,8 +76,29 @@ const MyTabs = ({ labels, tabContents, title }) => {
   };
 
   return (
-    <div className={classes.root} style={{ width: 800 }}>
-      <AppBar position='static'>
+    <div
+      className={classes.root}
+      style={{
+        // width: 800,
+        // width: ' 80vw',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // flex: 1,
+        // maxWidth: 600,
+        // width: 600,
+      }}
+    >
+      <AppBar
+        position='static'
+        style={{
+          width: 800,
+          // width: ' 80vw',
+          // display: 'flex',
+          // flexDirection: 'column',
+          // flex: 1,
+          maxWidth: '85vw',
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}

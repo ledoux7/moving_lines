@@ -20,6 +20,8 @@ import Rebounding from './Rebounding';
 import Adv from './Adv';
 import Opp from './Opp';
 import Base from './Base';
+import TeamCard from './TeamCard';
+import PlayerCard from './PlayerCard';
 
 const betCols = [
   // 'TEAM_ID',
@@ -145,32 +147,62 @@ const Betting = () => {
         display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
       }}
       >
-        <Rebounding teamId={homeTeamId} />
-        <Rebounding teamId={awayTeamId} />
+        {/* <Rebounding teamId={homeTeamId} />
+        <Rebounding teamId={awayTeamId} /> */}
+
       </div>
 
       <div style={{
         display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
       }}
       >
-        <Base teamId={homeTeamId} />
-        <Base teamId={awayTeamId} />
+        <TeamCard
+          teamId={homeTeamId}
+          measureType={'Base'}
+          // cols={['FGA', 'FG3A']}
+          cols={['FGA', 'FG3A', 'FG3_PCT', 'FG_MISS']}
+
+        />
+        <TeamCard
+          teamId={awayTeamId}
+          measureType={'Base'}
+          cols={['FGA', 'FG3A', 'FG3_PCT', 'FG_MISS']}
+          // cols={['FGA', 'FG3A']}
+        />
       </div>
 
       <div style={{
         display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
       }}
       >
-        <Adv teamId={homeTeamId} />
-        <Adv teamId={awayTeamId} />
+        <TeamCard
+          teamId={homeTeamId}
+          measureType={'Advanced'}
+          cols={['REB_PCT', 'OREB_PCT', 'DREB_PCT', 'PACE', 'OFF_RATING', 'DEF_RATING', 'NET_RATING']}
+        />
+        <TeamCard
+          teamId={awayTeamId}
+          measureType={'Advanced'}
+          cols={['REB_PCT', 'OREB_PCT', 'DREB_PCT', 'PACE', 'OFF_RATING', 'DEF_RATING', 'NET_RATING']}
+        />
       </div>
 
       <div style={{
         display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
       }}
       >
-        <Opp teamId={homeTeamId} />
-        <Opp teamId={awayTeamId} />
+        <TeamCard
+          teamId={homeTeamId}
+          measureType={'Opponent'}
+          cols={['OPP_REB', 'OPP_FGA', 'OPP_FG3A', 'OPP_FG3_PCT', 'OPP_FG_MISS',
+          ]}
+        />
+        <TeamCard
+          teamId={awayTeamId}
+          measureType={'Opponent'}
+          cols={['OPP_REB', 'OPP_FGA', 'OPP_FG3A', 'OPP_FG3_PCT', 'OPP_FG_MISS',
+          ]}
+        />
       </div>
 
       <div style={{
@@ -179,6 +211,28 @@ const Betting = () => {
       >
         <TeamPlayerDropdown teamId={homeTeamId} team={homeTeam} callback={setHomePlayer} />
         <TeamPlayerDropdown teamId={awayTeamId} team={awayTeam} callback={setAwayPlayer} />
+      </div>
+
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', alignContent: 'center',
+      }}
+      >
+        {homePlayer && (
+          <PlayerCard
+            playerId={homePlayer}
+            measureType={'Base'}
+            cols={['REB', 'PTS', 'AST']}
+            key={homePlayer}
+          />
+        )}
+        {awayPlayer && (
+        <PlayerCard
+          playerId={awayPlayer}
+          measureType={'Base'}
+          cols={['REB', 'PTS', 'AST']}
+          key={awayPlayer}
+        />
+        )}
       </div>
 
       <TableFromApi endpoint={'playergamelogs'} enabled={homePlayer} columns={BOXSCORE_COLS} queryParams={homePlayerParams} />

@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/display-name */
 
+import { TextField } from '@material-ui/core';
 import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
@@ -12,6 +14,10 @@ const TableFromApi = ({
   endpoint, enabled, queryParams, columns, callback, transformFunc,
 }) => {
   const [fixed, setFixed] = useState(null);
+  const [targetValue, setTargetValue] = useState(0);
+  const [targetCat, setTargetCat] = useState('REB');
+
+  const [outOf, setOutOf] = useState('');
 
   const {
     data: gamelogs,
@@ -44,12 +50,49 @@ const TableFromApi = ({
     }
   }, [gamelogs, transformFunc]);
 
+  useEffect(() => {
+    if (targetValue > 0 && fixed) {
+      const above = fixed?.filter(game => game[targetCat] > targetValue).length || 0;
+      const total = fixed?.length || 1;
+      setOutOf(above + ' / ' + total + ' (' + ((Math.round((above / total) * 100) / 100) * 100) + '%)');
+    }
+  }, [fixed, targetCat, targetValue]);
+
   return (
-    <BettingTable
-    // data={tableData.filter(t => (t.TEAM_ID === homeTeamId) || (t.TEAM_ID === awayTeamId))}
-      data={fixed}
-      columns={columns}
-    />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      { fixed && ([<TextField
+        id='standard-number'
+        label='Category'
+        value={targetCat}
+        // type='number'
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={e => {
+          setTargetCat(e.target.value);
+        }}
+      />,
+        <TextField
+          id='standard-number'
+          label='Number'
+          type='number'
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={e => {
+            setTargetValue(e.target.value);
+          }}
+        />,
+        <div style={{ fontSize: 20 }}>
+          Out of: {outOf}
+        </div>]
+      )}
+      <BettingTable
+        // data={tableData.filter(t => (t.TEAM_ID === homeTeamId) || (t.TEAM_ID === awayTeamId))}
+        data={fixed}
+        columns={columns}
+      />
+    </div>
   );
 };
 

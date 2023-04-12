@@ -19,6 +19,7 @@ const Game = () => {
   const auth = useAuthState();
 
   const [value, setValue] = useState([0, 0]);
+  const [nonOtPBP, setNonOtPBP] = useState([]);
   const [cols, setCols] = useState([]);
   const [rows, setRows] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -55,7 +56,10 @@ const Game = () => {
 
   useEffect(() => {
     if (data) {
-      setValue([data.pages[0].Items.length * 0.90, data.pages[0].Items.length - 1]);
+      const nonOt = data.pages[0].Items.filter(p => p.ot === false);
+      setNonOtPBP(nonOt);
+      setValue([nonOt.length * 0.90, nonOt.length - 1]);
+      // setValue([data.pages[0].Items.length * 0.90, data.pages[0].Items.length - 1]);
     }
   }, [data]);
 
@@ -109,10 +113,10 @@ const Game = () => {
   }, [boxscore]);
 
   function valuetext(value1) {
-    if (!(data && data.pages && data.pages.length && data.pages[0].Items.length)) {
+    if (!(data && data.pages && data.pages.length && data.pages[0].Items.length && nonOtPBP.length)) {
       return '0%';
     }
-    return `${Math.round((value1 / data.pages[0].Items.length) * 100)}%`;
+    return `${Math.round((value1 / nonOtPBP.length) * 100)}%`;
   }
 
   // TODO: make slider 3min left 4q
@@ -191,9 +195,9 @@ const Game = () => {
                   valueLabelDisplay='on'
                   getAriaValueText={valuetext}
                   valueLabelFormat={valuetext}
-                  disabled={data.pages[0].Items.length < 1}
+                  disabled={nonOtPBP.length < 1}
                   min={0}
-                  max={data.pages[0].Items.length - 1}
+                  max={nonOtPBP.length - 1}
                 />
                 <Button
                   variant='contained'

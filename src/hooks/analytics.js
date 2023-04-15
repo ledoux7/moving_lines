@@ -17,6 +17,7 @@ import {
   fetchSchedule,
   fetchNBAProxy,
   fetchKick,
+  fetchNextSchedule,
 } from '../api';
 
 export const useGetPBPForGame = gameId => {
@@ -72,6 +73,22 @@ export const useGetSchedule = () => {
   const query = useQuery(
     ['schedule'],
     fetchSchedule,
+    {
+      retry: 2,
+      staleTime: Infinity, // 2 * 60 * 60 * 1000,
+      // cacheTime: 2 * 60 * 60 * 1000,
+    },
+  );
+
+  return {
+    ...query,
+  };
+};
+
+export const useGetNextSchedule = () => {
+  const query = useQuery(
+    ['nextschedule'],
+    fetchNextSchedule,
     {
       retry: 2,
       staleTime: Infinity, // 2 * 60 * 60 * 1000,

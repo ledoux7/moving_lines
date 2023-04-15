@@ -5,7 +5,7 @@ import { Button, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useGetGames, useGetPBPForGame, useGetSchedule } from '../../hooks/analytics';
+import { useGetGames, useGetNextSchedule, useGetSchedule } from '../../hooks/analytics';
 
 function groupBy(list, keyGetter) {
   const map = new Map();
@@ -46,7 +46,7 @@ const ScheduleNext = () => {
     isLoading,
     isError,
     isSuccess,
-  } = useGetSchedule();
+  } = useGetNextSchedule();
 
   useEffect(() => {
     if (data) {

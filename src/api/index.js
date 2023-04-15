@@ -11,7 +11,8 @@ const createPBPUrlDynamoDB = (gameId, eventNum, eventType) => (
 
 const baseUrl = 'https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/';
 
-const baseUrlProxyNBA = 'https://0yvi455nmk.execute-api.eu-west-1.amazonaws.com/prod/';
+const baseUrlProxyNBA = 'https://nba.api.movinglines.io/nba/proxy/';
+const baseApiUrl = 'https://nba.api.movinglines.io';
 
 const getUrlPBP = (gameId, NextToken, QueryExecutionId) => (
     `${baseUrl}ml/pbp?gameId=${gameId}&NextToken=${NextToken}&QueryExecutionId=${QueryExecutionId}`
@@ -58,8 +59,11 @@ const getUrlTeamNames = () => (
 );
 
 const getUrlSchedule = () => (
-  'https://4bdhxfsfapyjyvcuktxgcbr4jy0feprb.lambda-url.eu-west-1.on.aws/'
-  // 'https://0yvi455nmk.execute-api.eu-west-1.amazonaws.com/prod/schedule'
+  `${baseApiUrl}/nba/schedule`
+);
+
+const getUrlNextSchedule = () => (
+  `${baseApiUrl}/nba/schedule/next`
 );
 
 const getUrlKick = () => (
@@ -216,6 +220,11 @@ export const fetchTeamNames = async () => {
 
 export const fetchSchedule = async () => {
   const res = await axios.get(getUrlSchedule());
+  return res?.data;
+};
+
+export const fetchNextSchedule = async () => {
+  const res = await axios.get(getUrlNextSchedule(), { timeout: 18000 });
   return res?.data;
 };
 

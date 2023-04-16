@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import ExploreIcon from '@material-ui/icons/Explore';
+import { CalendarToday, InsertChart, Today } from '@material-ui/icons';
 import { useGetGames } from '../hooks/analytics';
 
 function useImportImage(filePath) {
@@ -27,7 +28,11 @@ const My = ({ title, path, content }) => {
   const a = 123;
 
   return (
-    <Grid item>
+    <Grid
+      item
+      style={{
+      }}
+    >
       <ButtonBase component={Link} to={path}>
         <Card style={{ width: 350, minHeight: 300 }}>
           <CardContent style={{
@@ -69,6 +74,30 @@ const App = () => {
     />
   );
 
+  const schedule = (
+    <CalendarToday style={{
+      width: 150,
+      height: 150,
+    }}
+    />
+  );
+
+  const nextschedule = (
+    <Today style={{
+      width: 150,
+      height: 150,
+    }}
+    />
+  );
+
+  const chart = (
+    <InsertChart style={{
+      width: 150,
+      height: 150,
+    }}
+    />
+  );
+
   const sc = (
     <div style={{
       backgroundImage: `url(${shotchart})`,
@@ -82,45 +111,57 @@ const App = () => {
 
   return (
     <div style={{
-      fontSize: 60,
-      height: '100%',
       display: 'flex',
-      width: '100%',
-      flexDirection: 'column',
-      position: 'relative',
-      alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: 50,
+      alignItems: 'center',
     }}
     >
-      <Grid
-        style={{
-          flexGrow: 1,
-          width: '100%',
-          margin: 0,
-        }}
-        container
-        spacing={2}
+      <div style={{
+        fontSize: 60,
+        height: '100%',
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 50,
+        maxWidth: 1300,
+      }}
       >
         <Grid
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            flexGrow: 1,
             width: '100%',
             margin: 0,
-            alignContent: 'center',
           }}
           container
-          spacing={4}
-          columns={3}
+          spacing={2}
         >
-          <My title='Recent Games' path='/games' content={games} />
-          <My title='Explore' path='/random' content={explore} />
-          <My title='Shot Chart' path='/shots' content={sc} />
+          <Grid
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              margin: 0,
+              alignContent: 'center',
+            }}
+            container
+            spacing={4}
+            columns={3}
+          >
+            <My title='Recent Games' path='/games' content={games} />
+            <My title='Explore' path='/random' content={explore} />
+            <My title='Matchup' path='/matchup' content={chart} />
+            <My title='Schedule' path='/schedule' content={schedule} />
+            <My title='Next Games' path='/schedulenext' content={nextschedule} />
+            <My title='Shot Chart' path='/shots' content={sc} />
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
+
   );
 };
 

@@ -30,6 +30,7 @@ import Pred from './NBA/Pred';
 import Schedule from './NBA/Schedule';
 import ScheduleNext from './NBA/ScheduleNext';
 import Betting from './NBA/Betting/Betting';
+import Matchup from './NBA/Matchup/Matchup';
 
 const Home = lazy(() => import('../views/Home'));
 const Login = lazy(() => import('./Login'));
@@ -205,6 +206,11 @@ const Routes = ({ buster }) => {
                 <MyRoute path='/betting'>
                   <MiniDrawer>
                     <Betting />
+                  </MiniDrawer>
+                </MyRoute>
+                <MyRoute path='/matchup'>
+                  <MiniDrawer>
+                    <Matchup />
                   </MiniDrawer>
                 </MyRoute>
                 <PrivateRoute path='/playrange' auth={auth}>

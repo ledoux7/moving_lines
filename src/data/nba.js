@@ -32,6 +32,12 @@ export const TEAMS = {
   1610612766: ['CHA', 'Hornets', 1988, 'Charlotte', 'Charlotte Hornets', 'North Carolina', []],
 };
 
+export const TEAMS_ABBR = Object.entries(TEAMS).reduce((acc, cur) => {
+  const [key, value] = cur;
+  acc[value[0]] = key;
+  return acc;
+}, {});
+
 export const BOXSCORE_COLS_ALL = [
   'SEASON_YEAR', 'PLAYER_ID', 'PLAYER_NAME', 'NICKNAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'TEAM_NAME', 'GAME_ID', 'GAME_DATE', 'MATCHUP', 'WL', 'MIN', 'FGM', 'FGA', 'FG_PCT', 'FG3M', 'FG3A', 'FG3_PCT', 'FTM', 'FTA', 'FT_PCT', 'OREB', 'DREB', 'REB', 'AST',
   'TOV', 'STL', 'BLK', 'BLKA', 'PF', 'PFD', 'PTS', 'PLUS_MINUS', 'NBA_FANTASY_PTS', 'DD2', 'TD3',

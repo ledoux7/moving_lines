@@ -135,8 +135,8 @@ const TeamCard = ({
           return t;
         });
       }
-
-      const one = rankAll(calc, cols).find(t => t.TEAM_ID === teamId);
+      // eslint-disable-next-line eqeqeq
+      const one = rankAll(calc, cols).find(t => t.TEAM_ID == teamId);
 
       const select = cols.reduce((acc, cur, i) => {
         if (i === 0) {
@@ -182,7 +182,6 @@ const TeamCard = ({
 
   const theme = useTheme();
   const classes = useStyles();
-  console.log(oneTeamStat);
 
   if (oneTeamStat) {
     return (

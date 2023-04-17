@@ -11,9 +11,10 @@ import {
 import BettingTable from '../Betting/BettingTable';
 
 const TableFromApi = ({
-  endpoint, enabled, queryParams, columns, callback, transformFunc,
+  endpoint, enabled, queryParams,queryParams2, columns, callback, transformFunc,
 }) => {
   const [fixed, setFixed] = useState(null);
+  const [both, setBoth] = useState([]);
   const [targetValue, setTargetValue] = useState(0);
   const [targetCat, setTargetCat] = useState('REB');
 
@@ -25,9 +26,20 @@ const TableFromApi = ({
     // isLoading,
   } = useProxyNBA(endpoint, queryParams, !!enabled);
 
+  const {
+    data: gamelogs2,
+  } = useProxyNBA(endpoint, queryParams2, !!enabled);
+
   useEffect(() => {
-    if (gamelogs && gamelogs?.transformed && gamelogs?.endpoint === 'gamelogs') {
-      const hmm = gamelogs.transformed.map(g => {
+    if (gamelogs && gamelogs2) {
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      setBoth([...gamelogs2?.transformed, ...gamelogs?.transformed]);
+    }
+  }, [gamelogs, gamelogs2]);
+
+  useEffect(() => {
+    if (both.length && gamelogs?.endpoint === 'gamelogs') {
+      const hmm = both.map(g => {
         // eslint-disable-next-line prefer-destructuring, no-param-reassign
         const cpy = {
           ...g,
@@ -41,14 +53,14 @@ const TableFromApi = ({
       setFixed(hmm);
       // console.log({ gamelogs });
     }
-    else if (gamelogs && gamelogs?.transformed && gamelogs?.endpoint === 'leaguedashptstats') {
-      const res = transformFunc(gamelogs?.transformed);
+    else if (both.length && gamelogs?.endpoint === 'leaguedashptstats') {
+      const res = transformFunc(both);
       setFixed(res);
     }
     else {
-      setFixed(gamelogs?.transformed);
+      setFixed(both?.transformed);
     }
-  }, [gamelogs, transformFunc]);
+  }, [gamelogs, transformFunc, both]);
 
   useEffect(() => {
     if (targetValue > 0 && fixed) {

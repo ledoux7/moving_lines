@@ -106,12 +106,13 @@ export const REBOUNDING_COLS = [
   'AVG_REB_DIST',
 ].map(c => ({ Header: c, accessor: c }));
 
-export const playerGamelogsParams = playerId => ({
+export const playerGamelogsParams = (playerId, seasonType = 'Regular Season') => ({
   'MeasureType': 'Base',
   'PerMode': 'Totals',
   'LeagueID': '00',
   'Season': '2022-23',
-  'SeasonType': 'Regular Season',
+  // 'SeasonType': 'Regular Season',
+  'SeasonType': seasonType,
   'PORound': 0,
   // 'TeamID': teamId,
   'TeamID': null,

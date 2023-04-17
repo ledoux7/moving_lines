@@ -81,7 +81,8 @@ export const useTranspose = (homeTeamId, awayTeamId, isSuccessDash, teamStats, p
       //   return newObj;
       // });
 
-      const rows1 = teamStats?.transformed.filter(t => (t.TEAM_ID === homeTeamId) || (t.TEAM_ID === awayTeamId));
+      // eslint-disable-next-line eqeqeq
+      const rows1 = teamStats?.transformed.filter(t => (t.TEAM_ID == homeTeamId) || (t.TEAM_ID == awayTeamId));
 
       if (rows1.length) {
         const average = (arrAll, stat) => Math.round((arrAll.reduce((acc, cur) => acc + cur[stat], 0) / arrAll.length) * 100) / 100;

@@ -68,6 +68,8 @@ const MatchupStats = () => {
 
   const homePlayerParams = useMemo(() => playerGamelogsParams(homePlayer), [homePlayer]);
   const awayPlayerParams = useMemo(() => playerGamelogsParams(awayPlayer), [awayPlayer]);
+  const homePlayerParams2 = useMemo(() => playerGamelogsParams(homePlayer, 'Playoffs'), [homePlayer]);
+  const awayPlayerParams2 = useMemo(() => playerGamelogsParams(awayPlayer, 'Playoffs'), [awayPlayer]);
   const bothReboundingParams = useMemo(() => reboundingParams(), []);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -219,8 +221,8 @@ const MatchupStats = () => {
         )}
       </div>
 
-      <TableFromApi endpoint={'playergamelogs'} enabled={homePlayer} columns={BOXSCORE_COLS} queryParams={homePlayerParams} />
-      <TableFromApi endpoint={'playergamelogs'} enabled={awayPlayer} columns={BOXSCORE_COLS} queryParams={awayPlayerParams} />
+      <TableFromApi endpoint={'playergamelogs'} enabled={homePlayer} columns={BOXSCORE_COLS} queryParams={homePlayerParams} queryParams2={homePlayerParams2} />
+      <TableFromApi endpoint={'playergamelogs'} enabled={awayPlayer} columns={BOXSCORE_COLS} queryParams={awayPlayerParams} queryParams2={awayPlayerParams2} />
 
       { isSuccess && (
       <Button

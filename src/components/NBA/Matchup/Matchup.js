@@ -4,13 +4,17 @@ import React, {
   useCallback, useEffect, useMemo,
   useState,
 } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { useGetTeamNames } from '../../../hooks/analytics';
 import MatchupStats from './MatchupStats';
 
 const Matchup = () => {
-  const [homeTeam, setHomeTeam] = useState(null);
-  const [awayTeam, setAwayTeam] = useState(null);
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const homeQ = query.get('home');
+  const awayQ = query.get('away');
+  const [homeTeam, setHomeTeam] = useState(homeQ);
+  const [awayTeam, setAwayTeam] = useState(awayQ);
   const history = useHistory();
 
   const handleSubmit = useCallback((home, away) => {
@@ -20,9 +24,7 @@ const Matchup = () => {
   const { data: teamNamesData } = useGetTeamNames();
 
   useEffect(() => {
-    if (homeTeam || awayTeam) {
-      handleSubmit(homeTeam, awayTeam);
-    }
+    handleSubmit(homeTeam, awayTeam);
   }, [awayTeam, handleSubmit, homeTeam]);
 
   const teamNames = useMemo(() => {
@@ -58,6 +60,7 @@ const Matchup = () => {
             console.log('nw', newValue);
             setHomeTeam(newValue);
           }}
+          defaultValue={homeTeam}
           renderInput={params => (
             <TextField
               {...params}
@@ -78,6 +81,7 @@ const Matchup = () => {
             console.log('nw', newValue);
             setAwayTeam(newValue);
           }}
+          defaultValue={awayTeam}
           renderInput={params => (
             <TextField
               {...params}

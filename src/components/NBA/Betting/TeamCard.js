@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/display-name */
 
 import React, {
@@ -125,6 +126,9 @@ const TeamCard = ({
         calc = calc.map(t => {
           // eslint-disable-next-line no-param-reassign
           t.FG_MISS = Math.round((t.FGA - t.FGM) * 100) / 100;
+          t.FG2A = Math.round((t.FGA - t.FG3A) * 10) / 10;
+          t.FG2M = Math.round((t.FGM - t.FG3M) * 10) / 10;
+          t.FG2_PCT = Math.round((t.FG2M / t.FG2A) * 100) / 100;
           return t;
         });
       }
@@ -132,6 +136,9 @@ const TeamCard = ({
         calc = calc.map(t => {
           // eslint-disable-next-line no-param-reassign
           t.OPP_FG_MISS = Math.round((t.OPP_FGA - t.OPP_FGM) * 100) / 100;
+          t.OPP_FG2A = Math.round((t.OPP_FGA - t.OPP_FG3A) * 10) / 10;
+          t.OPP_FG2M = Math.round((t.OPP_FGM - t.OPP_FG3M) * 10) / 10;
+          t.OPP_FG2_PCT = Math.round((t.OPP_FG2M / t.OPP_FG2A) * 100) / 100;
           return t;
         });
       }
@@ -168,6 +175,8 @@ const TeamCard = ({
         // '_CHANCE_PCT',
         // '_CONTEST_PCT',
       ];
+      setTabLabels([]);
+      setTabContents([]);
       for (let i = 0; i < types.length; i++) {
         for (let j = 0; j < cat.length; j++) {
           const label = (types[i] + cat[j]);

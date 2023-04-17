@@ -40,9 +40,9 @@ const betCols = [
 ].map(c => ({ Header: c, accessor: c }));
 
 const shootingCols = ['EFG_PCT', 'TS_PCT', 'AST_PCT'];
-const oppCols = ['OPP_REB', 'OPP_FGA', 'OPP_FG3A', 'OPP_FG3_PCT', 'OPP_FG_MISS'];
-const fgCols = ['FGA', 'FG3A', 'FG3_PCT', 'FG_MISS'];
-const advCols = ['REB_PCT', 'OREB_PCT', 'DREB_PCT', 'PACE', 'OFF_RATING', 'DEF_RATING', 'NET_RATING'];
+const fgCols = ['FGA', 'FG_MISS', 'FG3A', 'FG3_PCT', 'FG2A', 'FG2_PCT'];
+const oppCols = ['OPP_REB', 'OPP_FGA', 'OPP_FG2A', 'OPP_FG2_PCT', 'OPP_FG3A', 'OPP_FG3_PCT', 'OPP_FG_MISS'];
+const advCols = ['OFF_RATING', 'DEF_RATING', 'NET_RATING', 'REB_PCT', 'OREB_PCT', 'DREB_PCT', 'PACE'];
 
 const MatchupStats = () => {
   const { search } = useLocation();
@@ -98,13 +98,15 @@ const MatchupStats = () => {
   }
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      flex: 1,
-      alignItems: 'center',
-      overflow: 'scroll',
-    }}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        alignItems: 'center',
+        overflow: 'scroll',
+      }}
+      // key={home + away}
     >
       <h1 style={{ fontSize: 45, margin: 0, padding: 0 }}>
         {/* {boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup} */}

@@ -11,7 +11,7 @@ import {
 import BettingTable from '../Betting/BettingTable';
 
 const TableFromApi = ({
-  endpoint, enabled, queryParams,queryParams2, columns, callback, transformFunc,
+  endpoint, enabled, queryParams, queryParams2, columns, callback, transformFunc,
 }) => {
   const [fixed, setFixed] = useState(null);
   const [both, setBoth] = useState([]);
@@ -51,7 +51,6 @@ const TableFromApi = ({
         return cpy;
       });
       setFixed(hmm);
-      // console.log({ gamelogs });
     }
     else if (both.length && gamelogs?.endpoint === 'leaguedashptstats') {
       const res = transformFunc(both);

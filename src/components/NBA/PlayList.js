@@ -185,7 +185,7 @@ const PlayList = ({ cached, arr }) => {
             muted
             style={{
               width: '100%',
-              maxHeight: 'min(calc(100vh - 220px), calc((100vw - 65px) * 0.5625))',
+              maxHeight: 'min(calc(100vh - 220px), calc((100vw - 0px) * 0.5625))',
             }}
             controls
             src={sourceUrl}

@@ -5,7 +5,6 @@ import {
 import { Cached, SkipNext, SkipPrevious } from '@material-ui/icons';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-
 import React, {
   useState, useEffect, useCallback, useRef, useMemo,
 } from 'react';
@@ -13,6 +12,7 @@ import {
   useQuery, useQueryClient,
 } from 'react-query';
 import { useLocation } from 'react-router';
+import { StoreContext } from '../../store';
 import { fetchViaProxy } from '../../api';
 import { useGetPBPForGame } from '../../hooks/analytics';
 
@@ -30,6 +30,10 @@ const PlayRange = ({ cached }) => {
   const gameId = query.get('gameId');
   const startRange = query.get('start');
   const endRange = query.get('end');
+
+  const {
+    videoMenuPostion,
+  } = React.useContext(StoreContext);
 
   const {
     data,
@@ -155,7 +159,7 @@ const PlayRange = ({ cached }) => {
   return (
     <div style={{
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: videoMenuPostion ? 'column' : 'row',
       flex: 1,
       overflow: 'scroll',
     }}
@@ -172,6 +176,7 @@ const PlayRange = ({ cached }) => {
       <div style={{
         display: 'flex',
         justifyContent: 'center',
+        flexDirection: videoMenuPostion ? 'row' : 'column',
         paddingTop: 10,
         paddingBottom: 10,
       }}
@@ -226,7 +231,7 @@ const PlayRange = ({ cached }) => {
             style={{
               width: '100%',
               // maxHeight: 'calc(100vh - 132px)',
-              maxHeight: 'min(calc(100vh - 220px), calc((100vw - 65px) * 0.5625))',
+              maxHeight: 'min(calc(100vh - 0px), calc((100vw - 0px) * 0.5625))',
             }}
             controls
             src={sourceUrl}

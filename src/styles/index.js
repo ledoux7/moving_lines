@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => {
     },
     drawerOpen: {
       width: drawerWidth,
-      overflow: 'hidden',
+      // overflow: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      overflow: 'hidden',
+      // overflow: 'hidden',
       width: theme.spacing(7) + 1,
       [theme.breakpoints.up('md')]: {
         width: theme.spacing(8) + 1,

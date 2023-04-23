@@ -65,11 +65,14 @@ export default function MiniDrawer({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const [appBarVisibilty, toggleAppBar] = React.useState(true);
   const history = useHistory();
 
   const [modalStyle] = React.useState(getModalStyle);
   const auth = useAuthState();
-  const { darkModeState, toggleDarkMode } = React.useContext(StoreContext);
+  const {
+    darkModeState, toggleDarkMode, toggleVideoMenuPosition, videoMenuPostion,
+  } = React.useContext(StoreContext);
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -87,7 +90,7 @@ export default function MiniDrawer({ children }) {
     setOpen(false);
   }
 
-  const m = (
+  const switch1 = (
     <FormControlLabel
       value='start'
           // control={<Switch color='primary' />}
@@ -99,13 +102,36 @@ export default function MiniDrawer({ children }) {
     />
   );
 
+  const switch2 = (
+    <FormControlLabel
+      value='start'
+      label='Toggle App Bar'
+      labelPlacement='start'
+      control={(
+        <Switch checked={appBarVisibilty} onClick={() => toggleAppBar(c => !c)} label={'Toggle App Bar'} />
+          )}
+    />
+  );
+
+  const switch3 = (
+    <FormControlLabel
+      value='start'
+      label='Toggle Video Menu Position'
+      labelPlacement='start'
+      control={(
+        <Switch checked={videoMenuPostion} onClick={() => toggleVideoMenuPosition(c => !c)} label={'Toggle Video Menu Position'} />
+          )}
+    />
+  );
+
   const body = (
     <div
       // style={modalStyle}
       style={{
         ...modalStyle,
         position: 'absolute',
-        width: 300,
+        width: 340,
+        height: 210,
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
@@ -113,7 +139,9 @@ export default function MiniDrawer({ children }) {
         borderRadius: 25,
       }}
     >
-      {m}
+      {switch1}
+      {switch2}
+      {switch3}
     </div>
   );
 
@@ -134,34 +162,37 @@ export default function MiniDrawer({ children }) {
   return (
     <div className={classes.root}>
       {/* <CssBaseline /> */}
-      <AppBar
-        position='sticky'
-        style={{
-          height: 64,
-        }}
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            // eslint-disable-next-line react/jsx-no-bind
-            onClick={handleDrawerOpen}
-            edge='start'
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
+      {
+        (appBarVisibilty) && (
+          <AppBar
+            position='sticky'
+            style={{
+              height: 64,
+            }}
+            className={clsx(classes.appBar, {
+              [classes.appBarShift]: open,
             })}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography component='h1' variant='h5' noWrap className={classes.title}>
-            Moving Lines
-          </Typography>
-
-        </Toolbar>
-      </AppBar>
+            <Toolbar>
+              <IconButton
+                color='inherit'
+                aria-label='open drawer'
+                // eslint-disable-next-line react/jsx-no-bind
+                onClick={handleDrawerOpen}
+                edge='start'
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography component='h1' variant='h5' noWrap className={classes.title}>
+                Moving Lines
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        )
+      }
       <MyDrawer
         setOpenModal={setOpenModal}
         setOpen={setOpen}

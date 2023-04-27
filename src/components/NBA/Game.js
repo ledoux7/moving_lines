@@ -18,8 +18,9 @@ const Game = () => {
   const gameId = query.get('gameId');
   const auth = useAuthState();
 
-  const [value, setValue] = useState([0, 0]);
+  const [valueArr, setValue] = useState([0, 0]);
   const [nonOtPBP, setNonOtPBP] = useState([]);
+  const [fullPBPLength, setFullPBPLength] = useState(0);
   const [cols, setCols] = useState([]);
   const [rows, setRows] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -32,7 +33,11 @@ const Game = () => {
 
   const history = useHistory();
   const handleSubmit = rangeArr => {
-    history.push(`/playrange?gameId=${gameId}&start=${Math.round(rangeArr[0])}&end=${Math.round(rangeArr[1])}`);
+    let last = Math.ceil(rangeArr[1]);
+    if (last >= nonOtPBP.length - 2) {
+      last = fullPBPLength;
+    }
+    history.push(`/playrange?gameId=${gameId}&start=${Math.round(rangeArr[0])}&end=${last}`);
   };
 
   const gotoList = rangeArr => {
@@ -59,7 +64,7 @@ const Game = () => {
       const nonOt = data.pages[0].Items.filter(p => p.ot === false);
       setNonOtPBP(nonOt);
       setValue([nonOt.length * 0.90, nonOt.length - 1]);
-      // setValue([data.pages[0].Items.length * 0.90, data.pages[0].Items.length - 1]);
+      setFullPBPLength([data.pages[0].Items.length]);
     }
   }, [data]);
 
@@ -181,7 +186,7 @@ const Game = () => {
               }}
               >
                 <Slider
-                  value={value}
+                  value={valueArr}
                   onChange={handleChange}
                   style={{
                     margin: '0px 20px',
@@ -208,7 +213,7 @@ const Game = () => {
                     margin: '10px 10px',
                   }}
                   color='primary'
-                  onClick={() => handleSubmit(value)}
+                  onClick={() => handleSubmit(valueArr)}
                 >
                   Play Range
                 </Button>
@@ -230,7 +235,7 @@ const Game = () => {
               margin: '10px 10px',
             }}
             color='primary'
-            onClick={() => gotoList(value)}
+            onClick={() => gotoList(valueArr)}
           >
             View Highlights
           </Button>

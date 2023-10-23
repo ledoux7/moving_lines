@@ -181,7 +181,7 @@ const PlayerCard = ({
   );
 
   useEffect(() => {
-    if (data?.transformed && adv?.transformed && playerId) {
+    if (data?.transformed && adv?.transformed && adv?.transformed.length > 0 && playerId) {
       console.log({ data, adv });
       const oneBase = data?.transformed.find(t => t.PLAYER_ID === playerId);
       const oneAdv = adv?.transformed.find(t => t.PLAYER_ID === playerId);

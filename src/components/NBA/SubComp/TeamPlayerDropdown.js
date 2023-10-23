@@ -14,7 +14,7 @@ const TeamPlayerDropdown = ({
   const homeParams = {
     'LeagueID': '00',
     'TeamID': teamId,
-    'Season': '2022-23',
+    'Season': '2023-24',
     'cache': 1,
     'from': new Date(Date.now() - (2 * 86400 * 1000)).toISOString().split('T')[0],
   };

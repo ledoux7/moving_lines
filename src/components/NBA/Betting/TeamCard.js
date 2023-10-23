@@ -119,7 +119,7 @@ const TeamCard = ({
   );
 
   useEffect(() => {
-    if (data && data?.transformed && data?.endpoint === 'leaguedashteamstats' && teamId
+    if (data && data?.transformed && data?.transformed.length > 0 && data?.endpoint === 'leaguedashteamstats' && teamId
     ) {
       let calc = JSON.parse(JSON.stringify(data?.transformed));
       if (measureType === 'Base') {

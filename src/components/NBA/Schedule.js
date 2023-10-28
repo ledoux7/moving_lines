@@ -105,8 +105,8 @@ const Schedule = () => {
                   variant='contained'
                   style={{
                     textTransform: 'none',
-                    width: 280,
-                    height: 100,
+                    width: 275,
+                    height: 65,
                     fontSize: 28,
                     margin: '10px 10px',
                     display: 'flex',

@@ -138,12 +138,12 @@ const Game = () => {
     }}
     >
       <h1 style={{ fontSize: 45, margin: 0, padding: 0 }}>
-        {boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup}
+        {(boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup) || '-'}
       </h1>
       <h3 style={{ fontSize: 25, margin: 0, padding: 0 }}>
-        {dateStr}
+        {dateStr || '-'}
       </h3>
-      {!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup && (
+      {!!(!showPlays && auth && auth.auth && boxscore?.pages[0]?.Items?.length && boxscore?.pages[0]?.Items[0]?.matchup) && (
         <h1>Game Timeline</h1>
       )}
       {(isLoading || isLoadingBS) && (

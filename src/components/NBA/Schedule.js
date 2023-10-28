@@ -44,7 +44,10 @@ const Schedule = () => {
 
   useEffect(() => {
     if (data) {
-      const grp = groupBy(data, g => g.GAME_DATE);
+      const date = new Date();
+      date.setDate(date.getDate() - 2);
+      const filteredData = data.filter(d => d.GAME_DATE > date.toISOString().slice(0, 10));
+      const grp = groupBy(filteredData, g => g.GAME_DATE);
       const obj = Object.fromEntries(grp);
 
       setGrouped(obj);
@@ -102,15 +105,16 @@ const Schedule = () => {
                   variant='contained'
                   style={{
                     textTransform: 'none',
-                    width: 180,
-                    height: 55,
-                    fontSize: 26,
+                    width: 280,
+                    height: 100,
+                    fontSize: 28,
                     margin: '10px 10px',
+                    display: 'flex',
+                    flexDirection: 'row',
                   }}
                   color='primary'
-                  // onClick={() => handleSubmit(game.GAME_ID)}
                 >
-                  {game.MATCHUP}
+                  {game.MATCHUP} {' | '} {game.GAME_DATE_NO?.split('T')[1].split('+')[0].substring(0, 5)}
                 </Button>
               ))}
             </div>

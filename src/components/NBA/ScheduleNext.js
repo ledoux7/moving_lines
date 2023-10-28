@@ -80,8 +80,8 @@ const ScheduleNext = () => {
         {(grouped) && Object.entries(grouped)
           .filter(
             dateGroup => dateGroup[0] === todayString
-            || dateGroup[0] === tomorrowString
-            || dateGroup[0] === prevDayString,
+              || dateGroup[0] === tomorrowString
+              || dateGroup[0] === prevDayString,
           )
           .map((dateGroup, i) => (
             <div
@@ -114,15 +114,16 @@ const ScheduleNext = () => {
                     variant='contained'
                     style={{
                       textTransform: 'none',
-                      width: 180,
-                      height: 55,
-                      fontSize: 26,
+                      width: 280,
+                      height: 100,
+                      fontSize: 28,
                       margin: '10px 10px',
+                      display: 'flex',
+                      flexDirection: 'row',
                     }}
                     color='primary'
-                    // onClick={() => handleSubmit(game.GAME_ID)}
                   >
-                    {game.MATCHUP}
+                    {game.MATCHUP} {' | '} {game.GAME_DATE_NO?.split('T')[1].split('+')[0].substring(0, 5)}
                   </Button>
                 ))}
               </div>

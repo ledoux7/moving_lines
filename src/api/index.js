@@ -2,14 +2,14 @@ import axios from 'axios';
 import { transform } from './TransformNBA';
 
 const createPBPUrl = (gameId, eventNum, eventType) => (
-  `https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/pbp?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
+  `https://nba.api.movinglines.io/pbp?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
 );
 
 const createPBPUrlDynamoDB = (gameId, eventNum, eventType) => (
-  `https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/pbp_url?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
+  `https://nba.api.movinglines.io/pbp_url?eventType=${eventType}&eventNum=${eventNum}&gameId=${gameId}`
 );
 
-const baseUrl = 'https://24dm4ps6a8.execute-api.eu-west-1.amazonaws.com/prod/';
+const baseUrl = 'https://nba.api.movinglines.io/';
 
 const baseUrlProxyNBA = 'https://nba.api.movinglines.io/nba/proxy/';
 const baseApiUrl = 'https://nba.api.movinglines.io';
